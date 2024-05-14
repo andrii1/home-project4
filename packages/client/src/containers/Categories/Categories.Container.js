@@ -106,7 +106,7 @@ export const Categories = () => {
   return (
     <main>
       <Helmet>
-        <title>Apps with AI - discover best AI apps</title>
+        <title>Deals - discover best deals</title>
         <meta
           name="description"
           content="Find best Chat GPT prompts for free"

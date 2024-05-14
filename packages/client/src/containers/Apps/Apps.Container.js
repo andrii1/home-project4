@@ -495,13 +495,13 @@ export const Apps = () => {
   if (topicIdParam) {
     pageTitle = `${topics
       .filter((topic) => topic.id === parseInt(topicIdParam, 10))
-      .map((item) => item.title)} - AI apps`;
+      .map((item) => item.title)} - app deals`;
   } else if (categoryIdParam) {
     pageTitle = `${categories
       .filter((category) => category.id === parseInt(categoryIdParam, 10))
-      .map((item) => item.title)} - AI apps`;
+      .map((item) => item.title)} - app deals`;
   } else {
-    pageTitle = 'Apps With AI - browse 200+ AI apps';
+    pageTitle = 'Deals - browse all apps deals';
   }
 
   const sortOptions = ['Recent', 'A-Z', 'Z-A'];
@@ -590,7 +590,7 @@ export const Apps = () => {
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
-        <h1 className="hero-header">Browse 200+ AI apps</h1>
+        <h1 className="hero-header">Browse best app deals</h1>
         <form className="home">
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
