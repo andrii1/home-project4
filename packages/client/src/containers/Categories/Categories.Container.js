@@ -115,7 +115,7 @@ export const Categories = () => {
       {/* <div className="hero"></div> */}
       <div className="hero">
         <h1 className="hero-header">Categories</h1>
-        <p className="subheading">200+ AI apps among 30+ topics</p>
+        <p className="subheading">Search deals by categories and topics</p>
         <form>
           <label>
             <FontAwesomeIcon

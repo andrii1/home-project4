@@ -355,6 +355,7 @@ const getAppsBy = async ({
   direction,
   filteredTopics,
   filteredCategories,
+  filteredApps,
   filteredPricing,
   filteredDetails,
 }) => {
@@ -381,6 +382,9 @@ const getAppsBy = async ({
           }
           if (filteredCategories !== undefined) {
             queryBuilder.where('topics.category_id', filteredCategories);
+          }
+          if (filteredApps !== undefined) {
+            queryBuilder.where('app_id', filteredApps);
           }
           if (filteredPricing !== undefined) {
             queryBuilder.whereIn('apps.pricing_type', filteredPricing);

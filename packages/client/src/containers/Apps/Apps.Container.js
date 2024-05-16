@@ -25,7 +25,7 @@ import {
 export const Apps = () => {
   const { user } = useUserContext();
   const location = useLocation();
-  const { topicIdParam, categoryIdParam } = useParams();
+  const { topicIdParam, categoryIdParam, appIdParam } = useParams();
   const [searchTerms, setSearchTerms] = useState();
   const [sortOrder, setSortOrder] = useState();
   const [resultsHome, setResultsHome] = useState([]);
@@ -34,6 +34,7 @@ export const Apps = () => {
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [categories, setCategories] = useState([]);
+  const [appTitles, setAppTitles] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState([]);
   const [filteredPricingPreview, setFilteredPricingPreview] = useState([]);
   const [filteredDetailsPreview, setFilteredDetailsPreview] = useState([]);
@@ -81,7 +82,7 @@ export const Apps = () => {
       categoryIdParam !== undefined
         ? `&filteredCategories=${categoryIdParam}`
         : ''
-    }${
+    }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
       filtersSubmitted && filteredPricing.length > 0
         ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
         : ''
@@ -126,6 +127,7 @@ export const Apps = () => {
   }, [
     categoryIdParam,
     topicIdParam,
+    appIdParam,
     orderBy.column,
     orderBy.direction,
     filteredDetails,
@@ -145,7 +147,7 @@ export const Apps = () => {
       categoryIdParam !== undefined
         ? `&filteredCategories=${categoryIdParam}`
         : ''
-    }${
+    }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
       filtersSubmitted && filteredPricing.length > 0
         ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
         : ''
@@ -354,9 +356,16 @@ export const Apps = () => {
       setCategories(categoriesResponse);
     }
 
+    async function fetchAppTitles() {
+      const response = await fetch(`${apiURL()}/apps/`);
+      const appTitlesResponse = await response.json();
+      setAppTitles(appTitlesResponse);
+    }
+
     // fetchApps();
     fetchTopics();
     fetchCategories();
+    fetchAppTitles();
   }, []);
 
   const handleSearch = (event) => {
@@ -449,27 +458,20 @@ export const Apps = () => {
     </Link>
   ));
 
-  const topicsList = topics.map((topic) => {
-    if (topicIdParam) {
+  const topicsList = appTitles.map((topic) => {
+    if (appIdParam) {
       return (
-        <Link to={`/deals/topic/${topic.id}`}>
+        <Link to={`/deals/app/${topic.id}`}>
           <Button
-            primary={topic.id.toString() === topicIdParam.toString() && true}
-            secondary={topic.id !== topicIdParam && true}
+            primary={topic.id.toString() === appIdParam.toString() && true}
+            secondary={topic.id !== appIdParam && true}
             label={topic.title}
           />
         </Link>
       );
     }
-    if (categoryIdParam) {
-      return (
-        <Link to={`/deals/topic/${topic.id}`}>
-          <Button secondary label={topic.title} />
-        </Link>
-      );
-    }
     return (
-      <Link to={`/deals/topic/${topic.id}`}>
+      <Link to={`/deals/app/${topic.id}`}>
         <Button secondary label={topic.title} />
       </Link>
     );
@@ -500,6 +502,10 @@ export const Apps = () => {
     pageTitle = `${categories
       .filter((category) => category.id === parseInt(categoryIdParam, 10))
       .map((item) => item.title)} - app deals`;
+  } else if (appIdParam) {
+    pageTitle = `${appTitles
+      .filter((category) => category.id === parseInt(appIdParam, 10))
+      .map((item) => item.title)} app deals`;
   } else {
     pageTitle = 'Deals - browse all apps deals';
   }
@@ -582,6 +588,13 @@ export const Apps = () => {
     deleteFavorites();
   };
 
+  const findAppTitleByAppIdParam = (param) => {
+    const appTitle = appTitles
+      .filter((category) => category.id === parseInt(param, 10))
+      .map((item) => item.title);
+    return appTitle;
+  };
+
   return (
     <main>
       <Helmet>
@@ -590,7 +603,11 @@ export const Apps = () => {
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
-        <h1 className="hero-header">Browse best app deals</h1>
+        <h1 className="hero-header">
+          Browse {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} `}
+          {!appIdParam && 'best '}
+          app deals
+        </h1>
         <form className="home">
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
@@ -599,7 +616,7 @@ export const Apps = () => {
               className="input-search-home"
               onChange={handleSearch}
               /* onFocus={handleClick} */
-              placeholder="I want to build..."
+              placeholder="Search best deals..."
             />
           </label>
         </form>
@@ -618,6 +635,13 @@ export const Apps = () => {
         )}
       </div>
       <section className={`container-topics ${showTopicsContainer && 'show'}`}>
+        <Link to="/">
+          <Button
+            primary={!appIdParam}
+            secondary={appIdParam}
+            label="All apps"
+          />
+        </Link>
         {topicsList}
       </section>
       <section className="container-filters">

@@ -349,7 +349,7 @@ export const Navigation = () => {
               {dropDownResultsApps.length > 0 ? (
                 dropDownResultsApps
               ) : (
-                <li>No apps found :(</li>
+                <li>No deals found :(</li>
               )}
             </ul>
             <h3>Topics & categories</h3>

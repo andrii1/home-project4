@@ -390,7 +390,7 @@ export const AppView = () => {
                   label="Get this deal!"
                 />
               </Link>
-              {!app.appUrl && (
+              {app.appUrl && (
                 <Link to={app.appUrl} target="_blank">
                   <Button
                     secondary

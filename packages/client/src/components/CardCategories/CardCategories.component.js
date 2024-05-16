@@ -8,12 +8,12 @@ import './CardCategories.styles.css';
 export const CardCategories = ({ title, url, topics }) => {
   return (
     <div className="card-category-new">
-      <Link to={`/apps/category/${url}`}>
+      <Link to={`/deals/category/${url}`}>
         <h2>{title}</h2>
       </Link>
       <div className="topics-div">
         {topics.map((topic) => (
-          <Link to={`/apps/topic/${topic.id}`}>
+          <Link to={`/deals/topic/${topic.id}`}>
             <Button secondary label={topic.title} />
           </Link>
         ))}

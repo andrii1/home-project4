@@ -41,6 +41,7 @@ router.get('/', (req, res, next) => {
   } else if (
     req.query.filteredTopics ||
     req.query.filteredCategories ||
+    req.query.filteredApps ||
     req.query.filteredPricing ||
     req.query.filteredDetails
   ) {
@@ -62,6 +63,7 @@ router.get('/', (req, res, next) => {
         direction: req.query.direction,
         filteredTopics: req.query.filteredTopics,
         filteredCategories: req.query.filteredCategories,
+        filteredApps: req.query.filteredApps,
         filteredPricing: arrayPricing,
         filteredDetails: arrayDetails,
       })
