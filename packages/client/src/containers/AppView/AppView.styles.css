@@ -35,6 +35,11 @@
 .container-appview p {
   line-height: 1.5rem;
 }
+
+.container-appview-buttons {
+  gap: 1rem;
+  display: flex;
+}
 .prompt-title-view {
   font-size: 1.4rem;
 }

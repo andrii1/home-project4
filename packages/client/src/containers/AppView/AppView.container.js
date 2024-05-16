@@ -365,7 +365,11 @@ export const AppView = () => {
       </Helmet>
       <main>
         <section className="container-appview">
-          <h1 className="hero-header">{app.title}</h1>
+          <div className="header">
+            <h1 className="hero-header">{app.title}</h1>
+            <h2>{app.appTitle} deal</h2>
+          </div>
+
           <img
             className="appview-image"
             alt={`${app.title} screenshot`}
@@ -373,15 +377,34 @@ export const AppView = () => {
           />
 
           <div className="container-bookmark">
-            <Link to={app.url} target="_blank">
-              <Button
-                primary
-                icon={
-                  <FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" />
-                }
-                label={`Visit ${app.title}'s website`}
-              />
-            </Link>
+            <div className="container-appview-buttons">
+              <Link to={app.url} target="_blank">
+                <Button
+                  primary
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faArrowUpRightFromSquare}
+                      size="sm"
+                    />
+                  }
+                  label="Get this deal!"
+                />
+              </Link>
+              {!app.appUrl && (
+                <Link to={app.appUrl} target="_blank">
+                  <Button
+                    secondary
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faArrowUpRightFromSquare}
+                        size="sm"
+                      />
+                    }
+                    label={`Visit ${app.appTitle} website`}
+                  />
+                </Link>
+              )}
+            </div>
             <div>
               {user && favorites.some((x) => x.id === app.id) ? (
                 <button
@@ -419,7 +442,9 @@ export const AppView = () => {
           </div>
           <div className="container-description">
             <div className="container-title">
-              <h3>What is {app.title}?</h3>
+              <h3>
+                What is {app.title} in {app.appTitle} app?
+              </h3>
               <div className="container-rating">
                 Rating
                 {user &&
@@ -471,16 +496,22 @@ export const AppView = () => {
               </div>
             </div>
             <p>{app.description}</p>
+
+            {app.description_long && (
+              <>
+                <h3>Deal details</h3>
+                <p>{app.description_long}</p>
+              </>
+            )}
           </div>
           <div className="container-details">
             <div className="container-tags">
               <div className="badges">
-                <p>Pricing: </p>{' '}
+                <p>App: </p>
                 <div>
-                  <Badge label={app.pricing_type} size="small" />
+                  <Badge label={app.appTitle} size="small" />
                 </div>
               </div>
-              <p>Edit app</p>
             </div>
             <div className="container-tags">
               <div className="badges">
@@ -614,7 +645,7 @@ export const AppView = () => {
           <div className="container-details cta">
             <div>
               <h2>🔥 Create a free account</h2>
-              <p>Bookmark you favorite AI apps</p>
+              <p>And bookmark you favorite deals</p>
             </div>
             <div>
               <Link to="/signup">
