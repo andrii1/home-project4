@@ -26,7 +26,7 @@ const getCommentsByAppId = async (id) => {
   try {
     const comments = await knex('comments')
       .join('users', 'comments.user_id', '=', 'users.id')
-      .where('comments.app_id', '=', `${id}`);
+      .where('comments.deal_id', '=', `${id}`);
 
     return comments;
   } catch (error) {
@@ -44,7 +44,7 @@ const createComments = async (token, body) => {
     }
     await knex('comments').insert({
       user_id: user.id,
-      app_id: body.app_id,
+      app_id: body.deal_id,
       content: body.content,
     });
     return {

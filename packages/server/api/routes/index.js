@@ -4,6 +4,7 @@ const router = express.Router();
 
 const exampleResources = require('./exampleResources.router');
 const apps = require('./apps.router');
+const deals = require('./deals.router');
 const categories = require('./categories.router');
 const topics = require('./topics.router');
 const users = require('./users.router');
@@ -43,6 +44,7 @@ router.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 router.use('/exampleResources', exampleResources);
 router.use('/apps', apps);
+router.use('/deals', deals);
 router.use('/categories', categories);
 router.use('/topics', topics);
 router.use('/users', users);

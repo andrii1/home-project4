@@ -130,7 +130,7 @@ export const AppView = () => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
-      const response = await fetch(`${apiURL()}/apps/${appId}`);
+      const response = await fetch(`${apiURL()}/deals/${appId}`);
       const appResponse = await response.json();
       setApp(appResponse[0]);
     }
@@ -141,7 +141,7 @@ export const AppView = () => {
   useEffect(() => {
     async function fetchSimilarApps() {
       const response = await fetch(
-        `${apiURL()}/apps?page=0&column=id&direction=desc&filteredTopics=${
+        `${apiURL()}/deals?page=0&column=id&direction=desc&filteredTopics=${
           app.topic_id
         }`,
       );
@@ -228,7 +228,7 @@ export const AppView = () => {
         url={item.url}
         urlImage={item.url_image}
         topic={item.topicTitle}
-        pricingType={item.pricing_type}
+        appTitle={item.appTitle}
         smallCard
       />
     );
@@ -551,7 +551,7 @@ export const AppView = () => {
           <div className="container-comments">
             {comments.length === 0 && (
               <div>
-                <i>No comments for this App. </i>
+                <i>No comments for this Deal. </i>
                 {user && <i>Add first one below.</i>}
               </div>
             )}

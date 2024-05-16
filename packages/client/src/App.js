@@ -32,15 +32,15 @@ function App() {
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<Prompts />} />
             <Route path="/categories" element={<Categories />} />
-            <Route exact path="/apps/:id" element={<AppView />} />
-            <Route exact path="/apps/topic/:topicIdParam" element={<Apps />} />
+            <Route exact path="/deals/:id" element={<AppView />} />
+            <Route exact path="/deals/topic/:topicIdParam" element={<Apps />} />
             <Route
               exact
-              path="/apps/category/:categoryIdParam"
+              path="/deals/category/:categoryIdParam"
               element={<Apps />}
             />
             <Route exact path="/faq" element={<Faq />} />
-            <Route exact path="/apps/new" element={<Submit />} />
+            <Route exact path="/deals/new" element={<Submit />} />
             <Route exact path="/success" element={<StripeSuccess />} />
             <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />

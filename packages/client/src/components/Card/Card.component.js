@@ -22,7 +22,7 @@ export const Card = ({
   description,
   topic,
   topicId,
-  pricingType,
+  appTitle,
   url,
   urlImage,
   id,
@@ -46,13 +46,13 @@ export const Card = ({
         }}
       >
         <div className="card-header">
-          <Link to={`/apps/${id}`} target="_blank">
+          <Link to={`/deals/${id}`} target="_blank">
             <h2>{title}</h2>
           </Link>
         </div>
         <div className="topics-bookmark--small">
           <Badge secondary label={topic} size="small" />
-          <Badge label={pricingType} size="small" />
+          <Badge label={appTitle} size="small" />
         </div>
       </Link>
     );
@@ -61,7 +61,7 @@ export const Card = ({
   return (
     <div className={listCard ? 'card-list' : 'card-category'}>
       <Link
-        to={`/apps/${id}`}
+        to={`/deals/${id}`}
         target="_blank"
         className={`card-image ${listCard ? 'list' : ''}`}
         style={{
@@ -75,10 +75,10 @@ export const Card = ({
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
           <div className="card-title">
-            <Link to={`/apps/${id}`} target="_blank">
+            <Link to={`/deals/${id}`} target="_blank">
               <h2>{title}</h2>
             </Link>
-            <Link to={`/apps/${id}`} target="_blank">
+            <Link to={`/deals/${id}`} target="_blank">
               <FontAwesomeIcon
                 className="icon-card"
                 icon={faArrowUpRightFromSquare}
@@ -87,13 +87,13 @@ export const Card = ({
               />
             </Link>
           </div>
-          <Badge label={pricingType} size="small" />
+          <Badge label={appTitle} size="small" />
         </div>
         <div className="card-description">
           {`${description.split(' ').slice(0, 15).join(' ')}...`}
         </div>
         <div className="topics-bookmark">
-          <Link to={`/apps/topic/${topicId}`}>
+          <Link to={`/deals/topic/${topicId}`}>
             <Button label={topic} size="small" />
           </Link>
 
@@ -178,7 +178,7 @@ Card.propTypes = {
   description: PropTypes.string,
   topic: PropTypes.string,
   topicId: PropTypes.string,
-  pricingType: PropTypes.string,
+  appTitle: PropTypes.string,
   id: PropTypes.string,
   url: PropTypes.shape,
   urlImage: PropTypes.string,
@@ -194,7 +194,7 @@ Card.propTypes = {
 Card.defaultProps = {
   title: null,
   description: null,
-  pricingType: null,
+  appTitle: null,
   topicId: null,
   topic: null,
   url: null,
