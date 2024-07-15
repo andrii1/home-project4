@@ -626,7 +626,7 @@ export const Apps = () => {
               {resultsHome.length > 0 ? (
                 dropdownList
               ) : (
-                <span className="search-no-apps">No apps found :(</span>
+                <span className="search-no-apps">No deals found :(</span>
               )}
             </ul>
           </div>
@@ -725,7 +725,7 @@ export const Apps = () => {
                   title={app.title}
                   description={app.description}
                   url={app.url}
-                  urlImage={app.url_image}
+                  urlImage={app.url_image === null ? 'deal' : app.url_image}
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   appTitle={app.appTitle}

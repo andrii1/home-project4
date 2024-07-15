@@ -40,7 +40,7 @@ export const Card = ({
       <Link
         className="card-category--small card-image--small"
         style={{
-          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_500,q_auto,f_auto/apps_ai/${urlImage}.png )`,
+          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_500,q_auto,f_auto/deals/${urlImage}.png )`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}
@@ -67,9 +67,11 @@ export const Card = ({
         style={{
           backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_${
             listCard ? '500' : '700'
-          },q_auto,f_auto/apps_ai/${urlImage}.png )`,
+          },q_auto,f_auto/deals/${urlImage}.${
+            urlImage === 'deal' ? 'svg' : 'png'
+          } )`,
           backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundSize: 'contain',
         }}
       />
       <div className={`card-body ${listCard ? 'list' : ''}`}>
