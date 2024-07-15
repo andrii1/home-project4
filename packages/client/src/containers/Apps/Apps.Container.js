@@ -604,8 +604,8 @@ export const Apps = () => {
       {/* <div className="hero"></div> */}
       <div className="hero">
         <h1 className="hero-header">
-          Browse {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} `}
-          {!appIdParam && 'best '}
+          {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} `}
+          {!appIdParam && 'Browse best '}
           app deals
         </h1>
         <form className="home">
