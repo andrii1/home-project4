@@ -65,7 +65,7 @@ export const Navigation = () => {
     }
 
     async function fetchApps() {
-      const responseApps = await fetch(`${apiURL()}/apps/`);
+      const responseApps = await fetch(`${apiURL()}/deals/`);
 
       const responseAppsJson = await responseApps.json();
       if (searchTerms) {
