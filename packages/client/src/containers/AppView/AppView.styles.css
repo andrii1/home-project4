@@ -131,6 +131,14 @@
   gap: 20rem;
 }
 
+@media only screen and (max-width: 768px) {
+  .cta {
+    flex-direction: column;
+
+    gap: 0rem;
+  }
+}
+
 .badges {
   display: flex;
   align-items: center;

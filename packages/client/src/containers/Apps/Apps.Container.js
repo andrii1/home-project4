@@ -507,7 +507,7 @@ export const Apps = () => {
       .filter((category) => category.id === parseInt(appIdParam, 10))
       .map((item) => item.title)} app deals`;
   } else {
-    pageTitle = 'Deals - browse all apps deals';
+    pageTitle = 'Top App Deals - best app deals';
   }
 
   const sortOptions = ['Recent', 'A-Z', 'Z-A'];
@@ -599,7 +599,7 @@ export const Apps = () => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        <meta name="description" content="Find best AI apps for free" />
+        <meta name="description" content="Find best app deals" />
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
@@ -650,7 +650,7 @@ export const Apps = () => {
           className="button-topics"
           onClick={(event) => setShowTopicsContainer(!showTopicsContainer)}
           backgroundColor="#ffe5d9"
-          label="Topics"
+          label="Apps"
           icon={<FontAwesomeIcon className="filter-icon" icon={faBookOpen} />}
         />
         <DropDownView
@@ -660,13 +660,13 @@ export const Apps = () => {
           showFilterIcon={false}
         />
 
-        <Button
+        {/* <Button
           secondary
           onClick={(event) => setShowFiltersContainer(!showFiltersContainer)}
           backgroundColor="#ffe5d9"
           label="Filters"
           icon={<FontAwesomeIcon className="filter-icon" icon={faFilter} />}
-        />
+        /> */}
         <Button
           secondary
           onClick={() => setListView(!listView)}

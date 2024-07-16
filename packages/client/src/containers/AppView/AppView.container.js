@@ -650,7 +650,7 @@ export const AppView = () => {
               <p>And bookmark you favorite deals</p>
             </div>
             <div>
-              <Link to="/signup">
+              <Link target="_blank" to="/signup">
                 <Button primary label="Create my account 👌" />
               </Link>
             </div>
