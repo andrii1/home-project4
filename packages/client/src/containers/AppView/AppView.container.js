@@ -497,7 +497,7 @@ export const AppView = () => {
                 </button> */}
               </div>
             </div>
-            <p>{app.description}</p>
+            <p className="app-description">{app.description}</p>
 
             {app.description_long && (
               <>
