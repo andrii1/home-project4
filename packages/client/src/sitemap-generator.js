@@ -8,8 +8,8 @@ const Sitemap = require('react-router-sitemap').default;
 
 async function generateSitemap() {
   try {
-    /* Prompts */
-    const response = await fetch(`http://localhost:5001/api/apps/`);
+    /* Deals */
+    const response = await fetch(`http://localhost:5001/api/deals/`);
     const promptsResult = await response.json();
     const prompts = promptsResult.sort((a, b) => a.id - b.id);
     const idMap = [];
@@ -41,14 +41,14 @@ async function generateSitemap() {
     });
 
     const paramsConfig = {
-      '/apps/:id': idMap,
-      '/apps/topic/:topicIdParam': idMapTopics,
-      '/apps/category/:categoryIdParam': idMapCategories,
+      '/deals/:id': idMap,
+      '/deals/topic/:topicIdParam': idMapTopics,
+      '/deals/category/:categoryIdParam': idMapCategories,
     };
 
     return new Sitemap(router)
       .applyParams(paramsConfig)
-      .build('https://www.appswithai.xyz')
+      .build('https://www.topappdeals.com')
       .save('./public/sitemap.xml');
   } catch (e) {
     console.log(e);

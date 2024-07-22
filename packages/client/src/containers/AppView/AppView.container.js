@@ -8,6 +8,8 @@ import { Card } from '../../components/Card/Card.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
+import appStoreLogo from '../../assets/images/download-on-the-app-store-apple-logo.svg';
+import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg';
 import {
   faEnvelope,
   faLink,
@@ -380,18 +382,20 @@ export const AppView = () => {
 
           <div className="container-bookmark">
             <div className="container-appview-buttons">
-              <Link to={app.url} target="_blank">
-                <Button
-                  primary
-                  icon={
-                    <FontAwesomeIcon
-                      icon={faArrowUpRightFromSquare}
-                      size="sm"
-                    />
-                  }
-                  label="Get this deal!"
-                />
-              </Link>
+              {app.url && (
+                <Link to={app.url} target="_blank">
+                  <Button
+                    primary
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faArrowUpRightFromSquare}
+                        size="sm"
+                      />
+                    }
+                    label="Get this deal!"
+                  />
+                </Link>
+              )}
               {app.appUrl && (
                 <Link to={app.appUrl} target="_blank">
                   <Button
@@ -504,6 +508,41 @@ export const AppView = () => {
                 <h3>Deal details</h3>
                 <p>{app.description_long}</p>
               </>
+            )}
+            {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
+              <>
+                <h3>Download {app.appTitle} app</h3>
+                <div className="container-store-logos">
+                  {app.appUrlAppStore && (
+                    <Link
+                      target="_blank"
+                      to={app.appUrlAppStore}
+                      className="simple-link"
+                    >
+                      <img
+                        src={appStoreLogo}
+                        alt="App Store logo"
+                        className="logo-store"
+                      />
+                    </Link>
+                  )}
+                  {app.appUrlGooglePlayStore && (
+                    <Link
+                      target="_blank"
+                      to={app.appUrlGooglePlayStore}
+                      className="simple-link"
+                    >
+                      <img
+                        src={googlePlayStoreLogo}
+                        alt="Google Play store logo"
+                        className="logo-store"
+                      />
+                    </Link>
+                  )}
+                </div>
+              </>
+            ) : (
+              ''
             )}
           </div>
           <div className="container-details">

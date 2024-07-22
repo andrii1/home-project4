@@ -447,6 +447,8 @@ const getAppById = async (id) => {
         'apps.description as appDescription',
         'apps.url as appUrl',
         'apps.url_image as appUrlImage',
+        'apps.url_app_store as appUrlAppStore',
+        'apps.url_google_play_store as appUrlGooglePlayStore',
         'topics.title as topicTitle',
         'topics.category_id as category_id',
         'categories.title as categoryTitle',

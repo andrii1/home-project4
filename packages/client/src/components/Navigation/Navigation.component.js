@@ -113,7 +113,7 @@ export const Navigation = () => {
     if (Object.keys(result).length > 2) {
       finalResult = (
         <Link
-          to={`/apps/topic/${result.id}`}
+          to={`/deals/topic/${result.id}`}
           /* state={{ frontPageItem: [result.id] }} */
           onClick={() => toggleSearchModal()}
         >
@@ -123,7 +123,7 @@ export const Navigation = () => {
     } else {
       finalResult = (
         <Link
-          to={`/apps/category/${result.id}`}
+          to={`/deals/category/${result.id}`}
           /* state={{ frontPageItem: relatedTopics }} */
           onClick={() => toggleSearchModal()}
         >
@@ -135,7 +135,7 @@ export const Navigation = () => {
   });
   const dropDownResultsApps = resultsHomeApps.map((result) => (
     <Link
-      to={`/apps/${result.id}`}
+      to={`/deals/${result.id}`}
       /* state={{ frontPageItem: relatedTopics }} */
       onClick={() => toggleSearchModal()}
     >
