@@ -38,9 +38,12 @@ export const Card = ({
   if (smallCard) {
     return (
       <Link
+        to={`/deals/${id}`}
         className="card-category--small card-image--small"
         style={{
-          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_500,q_auto,f_auto/deals/${urlImage}.png )`,
+          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_500,q_auto,f_auto/deals/${urlImage}.${
+            urlImage === 'deal' ? 'svg' : 'png'
+          } )`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
         }}

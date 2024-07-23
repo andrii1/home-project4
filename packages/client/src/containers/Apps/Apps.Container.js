@@ -563,7 +563,7 @@ export const Apps = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        app_id: appId,
+        deal_id: appId,
       }),
     });
     if (response.ok) {

@@ -180,7 +180,7 @@ export const AppView = () => {
       },
       body: JSON.stringify({
         content: commentContent,
-        app_id: id,
+        deal_id: id,
       }),
     });
     if (response.ok) {
@@ -228,7 +228,7 @@ export const AppView = () => {
         title={item.title}
         description={item.description}
         url={item.url}
-        urlImage={item.url_image}
+        urlImage={item.url_image === null ? 'deal' : item.url_image}
         topic={item.topicTitle}
         appTitle={item.appTitle}
         smallCard
@@ -264,7 +264,7 @@ export const AppView = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        app_id: appId,
+        deal_id: appId,
       }),
     });
     if (response.ok) {
@@ -333,7 +333,7 @@ export const AppView = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        app_id: appId,
+        deal_id: appId,
       }),
     });
     if (response.ok) {
@@ -454,7 +454,7 @@ export const AppView = () => {
               <div className="container-rating">
                 Rating
                 {user &&
-                allRatings.some((rating) => rating.app_id === app.id) &&
+                allRatings.some((rating) => rating.deal_id === app.id) &&
                 ratings.some((rating) => rating.id === app.id) ? (
                   <button
                     type="button"
@@ -463,7 +463,7 @@ export const AppView = () => {
                   >
                     <FontAwesomeIcon icon={faCaretUp} />
                     {
-                      allRatings.filter((rating) => rating.app_id === app.id)
+                      allRatings.filter((rating) => rating.deal_id === app.id)
                         .length
                     }
                   </button>
@@ -475,7 +475,7 @@ export const AppView = () => {
                   >
                     <FontAwesomeIcon icon={faCaretUp} />
                     {
-                      allRatings.filter((rating) => rating.app_id === app.id)
+                      allRatings.filter((rating) => rating.deal_id === app.id)
                         .length
                     }
                   </button>
@@ -490,7 +490,7 @@ export const AppView = () => {
                   >
                     <FontAwesomeIcon icon={faCaretUp} />
                     {
-                      allRatings.filter((rating) => rating.app_id === app.id)
+                      allRatings.filter((rating) => rating.deal_id === app.id)
                         .length
                     }
                   </button>
@@ -696,7 +696,7 @@ export const AppView = () => {
           </div>
           {similarApps.length > 0 && (
             <div className="container-alternatives">
-              <h3>🔎 Similar to {app.title}</h3>
+              <h3>🔎 Similar deals to {app.title}</h3>
               <div className="container-cards small-cards">{cardItems}</div>
             </div>
           )}

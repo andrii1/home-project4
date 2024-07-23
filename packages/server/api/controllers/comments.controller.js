@@ -44,7 +44,7 @@ const createComments = async (token, body) => {
     }
     await knex('comments').insert({
       user_id: user.id,
-      app_id: body.deal_id,
+      deal_id: body.deal_id,
       content: body.content,
     });
     return {
