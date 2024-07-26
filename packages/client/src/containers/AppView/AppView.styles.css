@@ -176,6 +176,17 @@
   .appview-image {
     margin: 0 auto;
   }
+
+  .submit-box {
+    width: 100% !important;
+  }
+  .comment-box {
+    padding: 0.5rem 1rem;
+  }
+
+  .container-cards.small-cards {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width: 992px) {

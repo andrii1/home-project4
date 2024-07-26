@@ -506,7 +506,7 @@ export const AppView = () => {
             {app.description_long && (
               <>
                 <h3>Deal details</h3>
-                <p>{app.description_long}</p>
+                <p className="app-description">{app.description_long}</p>
               </>
             )}
             {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
@@ -595,7 +595,7 @@ export const AppView = () => {
               className="button-copy"
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `https://www.Apphunt.me/Apps/${app.id}`,
+                  `https://www.topappdeals.com/deals/${app.id}`,
                 );
               }}
             />
@@ -603,19 +603,21 @@ export const AppView = () => {
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
             <TwitterShareButton
-              url={`https://www.Apphunt.me/Apps/${app.id}`}
+              url={`https://www.topappdeals.com/deals/${app.id}`}
               title={`Check out this GPT App: '${app.title}'`}
               hashtags={['Apps']}
             >
               <FontAwesomeIcon className="share-icon" icon={faTwitter} />
             </TwitterShareButton>
-            <LinkedinShareButton url={`https://www.Apphunt.me/Apps/${app.id}`}>
+            <LinkedinShareButton
+              url={`https://www.topappdeals.com/deals/${app.id}`}
+            >
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
               subject="Check out this GPT App!"
               body={`This GPT App is great: '${app.title}'`}
-              url={`https://www.Apphunt.me/Apps/${app.id}`}
+              url={`https://www.topappdeals.com/deals/${app.id}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
