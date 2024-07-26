@@ -83,6 +83,14 @@
     flex-wrap: wrap;
     gap: 0.5rem;
   }
+
+  .card-image {
+    flex: 0 0 40%;
+  }
+
+  .card-body {
+    flex: 0 0 60%;
+  }
 }
 
 .card-list h2 {
