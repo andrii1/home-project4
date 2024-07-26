@@ -147,46 +147,61 @@ export const Navigation = () => {
       <div className="navigation-mobile">
         <div className="menu">
           <ul>
-            <li>
-              <Button
-                secondary
-                className="hamburger-menu-button"
-                onClick={toggleHamburger}
-              >
-                <FontAwesomeIcon icon={hamburgerOpen ? faXmark : faBars} />
-              </Button>
-              <ul
-                className={`hamburger-menu ${
-                  hamburgerOpen ? 'menu-open' : 'menu-closed'
-                }`}
-              >
-                <li>
-                  <NavLink to="/categories" className="nav-link">
-                    Categories
-                  </NavLink>
-                </li>
-                <li>
-                  {user ? (
-                    <NavLink to="/apps/new" className="login submit">
-                      Submit
+            <div className="container-mobile-menu-search">
+              <li>
+                <Button
+                  secondary
+                  className="hamburger-menu-button"
+                  onClick={toggleHamburger}
+                >
+                  <FontAwesomeIcon icon={hamburgerOpen ? faXmark : faBars} />
+                </Button>
+                <ul
+                  className={`hamburger-menu ${
+                    hamburgerOpen ? 'menu-open' : 'menu-closed'
+                  }`}
+                >
+                  <li>
+                    <NavLink to="/categories" className="nav-link">
+                      Categories
                     </NavLink>
-                  ) : (
-                    <NavLink
-                      onClick={() => {
-                        setOpenModal(true);
-                        setModalTitle('Do you want to add your prompts?');
-                      }}
-                      className="login submit"
-                    >
-                      Submit an app
-                    </NavLink>
-                  )}
-                </li>
-              </ul>
-            </li>
-            {/* <li>
+                  </li>
+                  <li>
+                    {user ? (
+                      <NavLink to="/apps/new" className="login submit">
+                        Submit
+                      </NavLink>
+                    ) : (
+                      <NavLink
+                        onClick={() => {
+                          setOpenModal(true);
+                          setModalTitle('Do you want to add your deals?');
+                        }}
+                        className="login submit"
+                      >
+                        Submit an app
+                      </NavLink>
+                    )}
+                  </li>
+                </ul>
+              </li>
+              {/* <li>
               <FontAwesomeIcon className="search-icon" icon={faSearch} />
             </li> */}
+              <li>
+                <form>
+                  <label>
+                    <FontAwesomeIcon
+                      className="search-icon mobile"
+                      icon={faSearch}
+                      onClick={() => {
+                        setOpenSearchModal(true);
+                      }}
+                    />
+                  </label>
+                </form>
+              </li>
+            </div>
             <li>
               <NavLink to="/" className="nav-link">
                 <img src={logo} alt="logo" className="img-logo" />
@@ -335,7 +350,7 @@ export const Navigation = () => {
               // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
               type="text"
-              className="input-search-modal"
+              className="input-search-modal mobile"
               onChange={handleSearch}
               /* onFocus={handleClick} */
               placeholder="Search"
@@ -344,7 +359,7 @@ export const Navigation = () => {
         </form>
         {searchTerms ? (
           <div className="dropdown-search-modal">
-            <h3>Apps</h3>
+            <h3>Deals</h3>
             <ul>
               {dropDownResultsApps.length > 0 ? (
                 dropDownResultsApps
