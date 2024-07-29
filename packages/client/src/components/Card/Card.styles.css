@@ -93,6 +93,10 @@
   }
 }
 
+.card-category--small h2 {
+  margin-top: 0rem;
+}
+
 .card-list h2 {
   margin: 0 !important;
 }
@@ -133,7 +137,7 @@
   /* height: 8.5rem; */
   width: 100%;
   justify-content: space-between;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 

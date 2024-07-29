@@ -47,7 +47,7 @@
 }
 
 .container-details {
-  padding: 1rem;
+  padding: 1.5rem;
   background-color: #ffe5d9;
   border-radius: 5px;
   border: 1px solid #efefef;
@@ -60,12 +60,12 @@
   flex-direction: column;
 }
 
-.container-details p {
-  margin: 0.5rem;
+.container-details p:not(.container-details.cta p) {
+  margin: 0.5rem 0;
 }
 
 .container-details h2 {
-  margin-left: 0.5rem;
+  margin-top: 0rem;
 }
 
 .container-tags {
@@ -89,7 +89,7 @@
   display: flex;
   flex-direction: column;
   text-align: left;
-  padding: 2rem 2.5rem;
+  padding: 1.5rem;
   gap: 0.7rem;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
@@ -135,7 +135,7 @@
 .container-store-logos {
   display: flex;
   gap: 1rem;
-  margin: 1rem 0;
+  margin-top: 1rem;
 }
 
 .badges {
@@ -144,15 +144,30 @@
   gap: 0.3rem;
 }
 
+.container-badges {
+  gap: 1rem;
+}
+
+.container-alternatives h2 {
+  margin-top: 0rem;
+}
+
+.container-title h2 {
+  margin-top: 0rem;
+}
+
 @media only screen and (max-width: 768px) {
   .cta {
     flex-direction: column;
 
     gap: 0rem;
   }
+  .cta p {
+    text-align: center;
+  }
   .container-tags {
     flex-direction: column;
-    gap: 0rem;
+    gap: 1rem;
   }
   .container-store-logos {
     flex-direction: column;
@@ -178,7 +193,7 @@
     width: 100% !important;
   }
   .comment-box {
-    padding: 1rem 1rem;
+    padding: 1.5rem;
   }
 
   .container-cards.small-cards {
@@ -190,6 +205,10 @@
   }
 
   .container-appview-buttons {
+    gap: 2rem;
+  }
+
+  .container-store-logos {
     gap: 2rem;
   }
 }
@@ -213,4 +232,15 @@
   .container-appview .header h3 {
     margin-bottom: 0rem;
   }
+
+  .container-details.cta p {
+    margin-bottom: 0rem;
+  }
+}
+.container-appview > .container-details > .container-tags:nth-child(1) p {
+  margin: 0rem;
+}
+
+.container-appview > .container-details > .container-tags:nth-child(2) p {
+  margin: 0rem;
 }

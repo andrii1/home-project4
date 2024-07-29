@@ -13,6 +13,10 @@
     rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 
+.textarea-new-comment {
+  margin: 0rem;
+}
+
 .form-input::placeholder {
   padding-left: 0;
   font-size: 0.75rem;

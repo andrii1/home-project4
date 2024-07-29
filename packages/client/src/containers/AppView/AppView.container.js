@@ -355,7 +355,6 @@ export const AppView = () => {
       fetchAllRatings();
     }
   };
-  console.log('app', app);
 
   return (
     <>
@@ -552,7 +551,7 @@ export const AppView = () => {
             {app.contact && (
               <>
                 <h2>{app.title} support</h2>
-                <p>
+                <div>
                   <Link to={`mailto:${app.contact}`} target="_blank">
                     <Button
                       secondary
@@ -560,11 +559,11 @@ export const AppView = () => {
                       label={`Contact ${app.appTitle} support`}
                     />
                   </Link>
-                </p>
+                </div>
               </>
             )}
           </div>
-          <div className="container-details">
+          <div className="container-details container-badges">
             <div className="container-tags">
               <div className="badges">
                 <p>App: </p>
@@ -679,7 +678,7 @@ export const AppView = () => {
                 <div className="comment-box submit-box">
                   <form onSubmit={handleSubmit}>
                     <textarea
-                      className="form-input"
+                      className="form-input textarea-new-comment"
                       value={comment}
                       placeholder="Your comment"
                       onChange={commentHandler}

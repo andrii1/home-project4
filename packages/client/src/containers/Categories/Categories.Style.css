@@ -118,4 +118,7 @@ main {
   .input-search-home {
     width: 65%;
   }
+  .container-cards.small-cards {
+    width: 100%;
+  }
 }
