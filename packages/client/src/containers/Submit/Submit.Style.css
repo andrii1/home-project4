@@ -4,9 +4,13 @@
 }
 
 .submit-box {
+  margin-top: 2rem;
+}
+
+.submit-box-new-comment,
+.submit-box {
   width: 42rem;
   max-width: 42rem;
-  margin-top: 2rem;
 }
 
 .btn-add-prompt {

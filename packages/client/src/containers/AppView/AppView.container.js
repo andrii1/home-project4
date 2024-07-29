@@ -355,21 +355,22 @@ export const AppView = () => {
       fetchAllRatings();
     }
   };
+  console.log('app', app);
 
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 50)} - AI Apps`}</title>
+        <title>{`${String(app.title).substring(0, 50)} - Top App Deals`}</title>
         <meta
           name="description"
-          content={`Top AI Apps for ${app.topicTitle} and ${app.categoryTitle}`}
+          content={`${app.title} - best deals, referral codes, coupons for ${app.appTitle} app`}
         />
       </Helmet>
       <main>
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">{app.title}</h1>
-            <h2>{app.appTitle} deal</h2>
+            <h3>{app.appTitle} deal</h3>
           </div>
 
           <img
@@ -385,6 +386,7 @@ export const AppView = () => {
               {app.url && (
                 <Link to={app.url} target="_blank">
                   <Button
+                    size="large"
                     primary
                     icon={
                       <FontAwesomeIcon
@@ -399,6 +401,7 @@ export const AppView = () => {
               {app.appUrl && (
                 <Link to={app.appUrl} target="_blank">
                   <Button
+                    size="large"
                     secondary
                     icon={
                       <FontAwesomeIcon
@@ -448,9 +451,9 @@ export const AppView = () => {
           </div>
           <div className="container-description">
             <div className="container-title">
-              <h3>
-                What is {app.title} in {app.appTitle} app?
-              </h3>
+              <h2>
+                {app.title} in {app.appTitle} app
+              </h2>
               <div className="container-rating">
                 Rating
                 {user &&
@@ -501,7 +504,9 @@ export const AppView = () => {
                 </button> */}
               </div>
             </div>
-            <p className="app-description">{app.description}</p>
+            <p className="app-description main-description">
+              {app.description}
+            </p>
 
             {app.description_long && (
               <>
@@ -511,7 +516,7 @@ export const AppView = () => {
             )}
             {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
               <>
-                <h3>Download {app.appTitle} app</h3>
+                <h2>Download {app.appTitle} app</h2>
                 <div className="container-store-logos">
                   {app.appUrlAppStore && (
                     <Link
@@ -543,6 +548,20 @@ export const AppView = () => {
               </>
             ) : (
               ''
+            )}
+            {app.contact && (
+              <>
+                <h2>{app.title} support</h2>
+                <p>
+                  <Link to={`mailto:${app.contact}`} target="_blank">
+                    <Button
+                      secondary
+                      icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
+                      label={`Contact ${app.appTitle} support`}
+                    />
+                  </Link>
+                </p>
+              </>
             )}
           </div>
           <div className="container-details">
@@ -632,7 +651,7 @@ export const AppView = () => {
             {comments.length > 0 &&
               comments.map((item) => (
                 <div className="form-container">
-                  <div className="comment-box submit-box">
+                  <div className="comment-box submit-box-new-comment">
                     <div>{item.content}</div>
                     <div className="comment-author-date">{`by ${
                       item.full_name
@@ -698,7 +717,7 @@ export const AppView = () => {
           </div>
           {similarApps.length > 0 && (
             <div className="container-alternatives">
-              <h3>🔎 Similar deals to {app.title}</h3>
+              <h2>🔎 Similar deals to {app.title}</h2>
               <div className="container-cards small-cards">{cardItems}</div>
             </div>
           )}

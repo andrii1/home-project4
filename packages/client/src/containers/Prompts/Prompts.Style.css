@@ -1,6 +1,6 @@
-.hero-header {
-  margin-top: 0rem;
-}
+/* .hero-header {
+  margin-bottom: 0rem;
+} */
 
 .container-prompts {
   display: flex;
@@ -290,9 +290,10 @@ ul.topics-list {
     margin-right: 0rem;
     margin-bottom: 0.4rem;
   }
-  .hero-header {
+  /* .hero-header {
     display: none;
-  }
+  } */
+
   main {
     width: 100%;
   }
