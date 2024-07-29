@@ -513,56 +513,56 @@ export const AppView = () => {
                 <p className="app-description">{app.description_long}</p>
               </>
             )}
-            {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
-              <>
-                <h2>Download {app.appTitle} app</h2>
-                <div className="container-store-logos">
-                  {app.appUrlAppStore && (
-                    <Link
-                      target="_blank"
-                      to={app.appUrlAppStore}
-                      className="simple-link"
-                    >
-                      <img
-                        src={appStoreLogo}
-                        alt="App Store logo"
-                        className="logo-store"
-                      />
-                    </Link>
-                  )}
-                  {app.appUrlGooglePlayStore && (
-                    <Link
-                      target="_blank"
-                      to={app.appUrlGooglePlayStore}
-                      className="simple-link"
-                    >
-                      <img
-                        src={googlePlayStoreLogo}
-                        alt="Google Play store logo"
-                        className="logo-store"
-                      />
-                    </Link>
-                  )}
-                </div>
-              </>
-            ) : (
-              ''
-            )}
-            {app.contact && (
-              <>
-                <h2>{app.title} support</h2>
-                <div>
-                  <Link to={`mailto:${app.contact}`} target="_blank">
-                    <Button
-                      secondary
-                      icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
-                      label={`Contact ${app.appTitle} support`}
+          </div>
+          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
+            <div className="container-appview-box">
+              <h2>Download {app.appTitle} app</h2>
+              <div className="container-store-logos">
+                {app.appUrlAppStore && (
+                  <Link
+                    target="_blank"
+                    to={app.appUrlAppStore}
+                    className="simple-link"
+                  >
+                    <img
+                      src={appStoreLogo}
+                      alt="App Store logo"
+                      className="logo-store"
                     />
                   </Link>
-                </div>
-              </>
-            )}
-          </div>
+                )}
+                {app.appUrlGooglePlayStore && (
+                  <Link
+                    target="_blank"
+                    to={app.appUrlGooglePlayStore}
+                    className="simple-link"
+                  >
+                    <img
+                      src={googlePlayStoreLogo}
+                      alt="Google Play store logo"
+                      className="logo-store"
+                    />
+                  </Link>
+                )}
+              </div>
+            </div>
+          ) : (
+            ''
+          )}
+          {app.contact && (
+            <div className="container-appview-box">
+              <h2>{app.title} support</h2>
+              <div>
+                <Link to={`mailto:${app.contact}`} target="_blank">
+                  <Button
+                    secondary
+                    icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
+                    label={`Contact ${app.appTitle} support`}
+                  />
+                </Link>
+              </div>
+            </div>
+          )}
           <div className="container-details container-badges">
             <div className="container-tags">
               <div className="badges">

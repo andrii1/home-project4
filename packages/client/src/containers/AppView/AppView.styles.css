@@ -125,9 +125,7 @@
 .app-description {
   white-space: pre-line;
 }
-.container-appview .main-description {
-  margin-top: 0rem;
-}
+
 .logo-store {
   width: 8rem;
 }
@@ -156,7 +154,25 @@
   margin-top: 0rem;
 }
 
+@media only screen and (min-width: 769px) {
+  .container-title h2 {
+    margin-bottom: 0rem;
+  }
+}
+
+.container-appview-box h2 {
+  margin-top: 0rem;
+}
+
+.container-description p:last-child {
+  margin-bottom: 0rem;
+}
 @media only screen and (max-width: 768px) {
+  .container-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0rem;
+  }
   .cta {
     flex-direction: column;
 
