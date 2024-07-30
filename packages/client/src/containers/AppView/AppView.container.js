@@ -356,10 +356,14 @@ export const AppView = () => {
     }
   };
 
+  console.log('app', app);
+
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 50)} - Top App Deals`}</title>
+        <title>{`${String(app.title).substring(0, 50)} ${
+          app.referral_code && `(${app.referral_code})`
+        } - Top App Deals`}</title>
         <meta
           name="description"
           content={`${app.title} - best deals, referral codes, coupons for ${app.appTitle} app`}
@@ -368,7 +372,9 @@ export const AppView = () => {
       <main>
         <section className="container-appview">
           <div className="header">
-            <h1 className="hero-header">{app.title}</h1>
+            <h1 className="hero-header">
+              {app.title} {app.referral_code && `(${app.referral_code})`}
+            </h1>
             <h3>{app.appTitle} deal</h3>
           </div>
 
