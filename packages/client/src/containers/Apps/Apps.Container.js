@@ -722,7 +722,9 @@ export const Apps = () => {
                 <Card
                   listCard={listView}
                   id={app.id}
-                  title={app.title}
+                  title={`${app.title} ${
+                    app.referral_code !== null ? `(${app.referral_code})` : ''
+                  }`}
                   description={app.description}
                   url={app.url}
                   urlImage={app.url_image === null ? 'deal' : app.url_image}

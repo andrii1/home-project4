@@ -362,7 +362,7 @@ export const AppView = () => {
     <>
       <Helmet>
         <title>{`${String(app.title).substring(0, 50)} ${
-          app.referral_code && `(${app.referral_code})`
+          app.referral_code !== null ? `(${app.referral_code})` : ''
         } - Top App Deals`}</title>
         <meta
           name="description"
@@ -373,7 +373,8 @@ export const AppView = () => {
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">
-              {app.title} {app.referral_code && `(${app.referral_code})`}
+              {app.title}{' '}
+              {app.referral_code !== null ? `(${app.referral_code})` : ''}
             </h1>
             <h3>{app.appTitle} deal</h3>
           </div>
@@ -402,6 +403,25 @@ export const AppView = () => {
                     label="Get this deal!"
                   />
                 </Link>
+              )}
+              {app.referral_code !== null ? (
+                <Button
+                  size="large"
+                  secondary
+                  icon={
+                    <img
+                      src={iconCopy}
+                      alt="copy"
+                      className="icon-copy copy-referral-code"
+                    />
+                  }
+                  label={app.referral_code}
+                  onClick={() => {
+                    navigator.clipboard.writeText(app.referral_code);
+                  }}
+                />
+              ) : (
+                ''
               )}
               {app.appUrl && (
                 <Link to={app.appUrl} target="_blank">
