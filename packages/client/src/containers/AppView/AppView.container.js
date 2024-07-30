@@ -356,8 +356,6 @@ export const AppView = () => {
     }
   };
 
-  console.log('app', app);
-
   return (
     <>
       <Helmet>
