@@ -14,12 +14,14 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import appImage from '../../assets/images/app-placeholder.svg';
 // import appImage from '../../../public/assets/images/small-screenshot.png';
 import { useUserContext } from '../../userContext';
+import iconCopy from '../../assets/images/icons8-copy-24.png';
 
 import './Card.styles.css';
 
 export const Card = ({
   title,
   description,
+  referralCode,
   topic,
   topicId,
   appTitle,
@@ -92,15 +94,46 @@ export const Card = ({
               />
             </Link>
           </div>
-          <Badge label={appTitle} size="small" />
+          {referralCode !== null ? (
+            <div className="button-referral-code">
+              <Button
+                size="small"
+                secondary
+                icon={
+                  <img
+                    src={iconCopy}
+                    alt="copy"
+                    className="icon-copy copy-referral-code smaller-icon"
+                  />
+                }
+                label={referralCode}
+                onClick={() => {
+                  navigator.clipboard.writeText(referralCode);
+                }}
+              />
+            </div>
+          ) : (
+            ''
+          )}
+          {/* <Badge label={appTitle} size="small" /> */}
         </div>
+
         <div className="card-description">
-          {`${description.split(' ').slice(0, 15).join(' ')}...`}
+          {`${description
+            .split(' ')
+            .slice(
+              0,
+              `${referralCode !== null ? (title.length > 21 ? 8 : 15) : 17}`,
+            )
+            .join(' ')}...`}
         </div>
         <div className="topics-bookmark">
-          <Link to={`/deals/topic/${topicId}`}>
-            <Button label={topic} size="small" />
-          </Link>
+          <div className="container-topic-app">
+            <Badge label={appTitle} size="small" />
+            <Link to={`/deals/topic/${topicId}`}>
+              <Button label={topic} size="small" />
+            </Link>
+          </div>
 
           {user && isFavorite ? (
             <button
@@ -181,6 +214,7 @@ export const Card = ({
 Card.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
+  referralCode: PropTypes.string,
   topic: PropTypes.string,
   topicId: PropTypes.string,
   appTitle: PropTypes.string,
@@ -199,6 +233,7 @@ Card.propTypes = {
 Card.defaultProps = {
   title: null,
   description: null,
+  referralCode: null,
   appTitle: null,
   topicId: null,
   topic: null,

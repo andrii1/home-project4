@@ -158,6 +158,10 @@ img.copy-referral-code {
   margin-bottom: -0.2rem;
 }
 
+img.copy-referral-code.smaller-icon {
+  width: 1rem;
+}
+
 @media only screen and (min-width: 769px) {
   .container-title h2 {
     margin-bottom: 0rem;
