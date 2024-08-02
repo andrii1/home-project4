@@ -4,6 +4,7 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 const moment = require('moment-timezone');
+// const fetch = require('node-fetch');
 
 const getExampleResources = async () => {
   return knex('exampleResources').select(
@@ -11,6 +12,18 @@ const getExampleResources = async () => {
     'exampleResources.title',
   );
 };
+
+// const getExampleResources = async () => {
+//   try {
+//     const url = 'https://itunes.apple.com/lookup?id=297606951';
+//     const response = await fetch(url);
+//     const jsonResponse = await response.json();
+//     console.log(jsonResponse);
+//     return jsonResponse;
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
 
 const getExampleResourceById = async (id) => {
   if (!id) {

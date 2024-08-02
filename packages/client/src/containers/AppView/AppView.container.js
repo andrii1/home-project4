@@ -163,8 +163,6 @@ export const AppView = () => {
     fetchSimilarApps();
   }, [app.topic_id, app.id, app.app_id]);
 
-  console.log('similarapps', similarApps);
-
   const fetchCommentsByAppId = useCallback(async (appId) => {
     const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
     const commentResponse = await response.json();
@@ -391,7 +389,6 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
-  console.log('app', app);
   return (
     <>
       <Helmet>

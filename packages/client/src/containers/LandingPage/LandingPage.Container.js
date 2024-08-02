@@ -7,6 +7,7 @@ import './LandingPage.Style.css';
 export const LandingPage = () => {
   const [exampleResources, setExampleResources] = useState([]);
   const [images, setImages] = useState([]);
+
   useEffect(() => {
     async function fetchExampleResources() {
       const response = await fetch(`${apiURL()}/exampleResources`);
