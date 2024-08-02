@@ -11,6 +11,7 @@ import DropDownView from '../../components/CategoriesListDropDown/CategoriesList
 // eslint-disable-next-line import/no-extraneous-dependencies
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Modal from '../../components/Modal/Modal.Component';
+import Toast from '../../components/Toast/Toast.Component';
 import { useUserContext } from '../../userContext';
 
 import {
@@ -33,6 +34,8 @@ export const Apps = () => {
   const [topics, setTopics] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
+  const [openToast, setOpenToast] = useState(false);
+  const [animation, setAnimation] = useState('');
   const [categories, setCategories] = useState([]);
   const [appTitles, setAppTitles] = useState([]);
   const [filteredTopics, setFilteredTopics] = useState([]);
@@ -595,6 +598,19 @@ export const Apps = () => {
     return appTitle;
   };
 
+  const copyToClipboard = (item) => {
+    navigator.clipboard.writeText(item);
+    setOpenToast(true);
+    setAnimation('open-animation');
+
+    setTimeout(() => {
+      setAnimation('close-animation');
+    }, 2000);
+    setTimeout(() => {
+      setOpenToast(false);
+    }, 2500);
+  };
+
   return (
     <main>
       <Helmet>
@@ -725,6 +741,7 @@ export const Apps = () => {
                   title={app.title}
                   description={app.description}
                   referralCode={app.referral_code}
+                  referralCodeOnClick={() => copyToClipboard(app.referral_code)}
                   url={app.url}
                   urlImage={app.url_image === null ? 'deal' : app.url_image}
                   topic={app.topicTitle}
@@ -745,6 +762,9 @@ export const Apps = () => {
       ) : (
         <Loading />
       )}
+      <Toast open={openToast} overlayClass={`toast ${animation}`}>
+        <span>Copied to clipboard!</span>
+      </Toast>
       <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
         <Link to="/signup">
           <Button primary label="Create an account" />

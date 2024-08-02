@@ -10,6 +10,7 @@ import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import appStoreLogo from '../../assets/images/download-on-the-app-store-apple-logo.svg';
 import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg';
+import Toast from '../../components/Toast/Toast.Component';
 import {
   faEnvelope,
   faLink,
@@ -117,6 +118,8 @@ export const AppView = () => {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
+  const [openToast, setOpenToast] = useState(false);
+  const [animation, setAnimation] = useState('');
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
@@ -356,6 +359,19 @@ export const AppView = () => {
     }
   };
 
+  const copyToClipboard = (item) => {
+    navigator.clipboard.writeText(item);
+    setOpenToast(true);
+    setAnimation('open-animation');
+
+    setTimeout(() => {
+      setAnimation('close-animation');
+    }, 2000);
+    setTimeout(() => {
+      setOpenToast(false);
+    }, 2500);
+  };
+
   return (
     <>
       <Helmet>
@@ -403,21 +419,24 @@ export const AppView = () => {
                 </Link>
               )}
               {app.referral_code !== null ? (
-                <Button
-                  size="large"
-                  secondary
-                  icon={
-                    <img
-                      src={iconCopy}
-                      alt="copy"
-                      className="icon-copy copy-referral-code"
-                    />
-                  }
-                  label={app.referral_code}
-                  onClick={() => {
-                    navigator.clipboard.writeText(app.referral_code);
-                  }}
-                />
+                <>
+                  <Button
+                    size="large"
+                    secondary
+                    icon={
+                      <img
+                        src={iconCopy}
+                        alt="copy"
+                        className="icon-copy copy-referral-code"
+                      />
+                    }
+                    label={app.referral_code}
+                    onClick={() => copyToClipboard(app.referral_code)}
+                  />
+                  <Toast open={openToast} overlayClass={`toast ${animation}`}>
+                    <span>Copied to clipboard!</span>
+                  </Toast>
+                </>
               ) : (
                 ''
               )}
@@ -626,9 +645,7 @@ export const AppView = () => {
             <button
               type="button"
               className="button-copy"
-              onClick={() => {
-                navigator.clipboard.writeText(app.title);
-              }}
+              onClick={() => copyToClipboard(app.referral_code)}
             >
               <img src={iconCopy} alt="copy" className="icon-copy" />
             </button>

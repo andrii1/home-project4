@@ -22,6 +22,7 @@ export const Card = ({
   title,
   description,
   referralCode,
+  referralCodeOnClick,
   topic,
   topicId,
   appTitle,
@@ -107,9 +108,7 @@ export const Card = ({
                   />
                 }
                 label={referralCode}
-                onClick={() => {
-                  navigator.clipboard.writeText(referralCode);
-                }}
+                onClick={referralCodeOnClick}
               />
             </div>
           ) : (
@@ -215,6 +214,7 @@ Card.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   referralCode: PropTypes.string,
+  referralCodeOnClick: PropTypes.func,
   topic: PropTypes.string,
   topicId: PropTypes.string,
   appTitle: PropTypes.string,
@@ -247,4 +247,5 @@ Card.defaultProps = {
   addFavorite: undefined,
   deleteBookmark: undefined,
   bookmarkOnClick: undefined,
+  referralCodeOnClick: undefined,
 };
