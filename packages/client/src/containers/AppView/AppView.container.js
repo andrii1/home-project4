@@ -640,21 +640,12 @@ export const AppView = () => {
           </div> */}
           <div className="icons-apps-page">
             <span>Share it: </span>
-            <button
-              type="button"
-              className="button-copy"
-              onClick={() => copyToClipboard(app.referral_code)}
-            >
-              <img src={iconCopy} alt="copy" className="icon-copy" />
-            </button>
             <FontAwesomeIcon
               icon={faLink}
               className="button-copy"
-              onClick={() => {
-                navigator.clipboard.writeText(
-                  `https://www.topappdeals.com/deals/${app.id}`,
-                );
-              }}
+              onClick={() =>
+                copyToClipboard(`https://www.topappdeals.com/deals/${app.id}`)
+              }
             />
             <FacebookShareButton url={`/Apps/${app.id}`}>
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
