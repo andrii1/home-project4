@@ -124,6 +124,7 @@ export const AppView = () => {
   const navigate = useNavigate();
   const [app, setApp] = useState({});
   const [similarApps, setSimilarApps] = useState([]);
+  const [similarDealsFromApp, setSimilarDealsFromApp] = useState([]);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState('');
   const { user } = useUserContext();
@@ -149,12 +150,18 @@ export const AppView = () => {
       const appsResponse = await response.json();
       const similarAppsArray = appsResponse
         .filter((item) => item.appTopicId === app.topic_id)
+        .filter((item) => item.app_id !== app.app_id)
         .filter((item) => item.id !== app.id);
       setSimilarApps(similarAppsArray);
+
+      const similarDealsFromAppArray = appsResponse
+        .filter((item) => item.app_id === app.app_id)
+        .filter((item) => item.id !== app.id);
+      setSimilarDealsFromApp(similarDealsFromAppArray);
     }
 
     fetchSimilarApps();
-  }, [app.topic_id, app.id]);
+  }, [app.topic_id, app.id, app.app_id]);
 
   console.log('similarapps', similarApps);
 
@@ -223,6 +230,21 @@ export const AppView = () => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
     //   .map((item) => item.id);
+    return (
+      <Card
+        id={item.id}
+        title={item.title}
+        description={item.description}
+        url={item.url}
+        urlImage={item.url_image === null ? 'deal' : item.url_image}
+        topic={item.topicTitle}
+        appTitle={item.appTitle}
+        smallCard
+      />
+    );
+  });
+
+  const cardItemsSimilarDealsFromApp = similarDealsFromApp.map((item) => {
     return (
       <Card
         id={item.id}
@@ -744,6 +766,14 @@ export const AppView = () => {
               </Link>
             </div>
           </div>
+          {similarDealsFromApp.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Other deals from {app.appTitle} app</h2>
+              <div className="container-cards small-cards">
+                {cardItemsSimilarDealsFromApp}
+              </div>
+            </div>
+          )}
           {similarApps.length > 0 && (
             <div className="container-alternatives">
               <h2>🔎 Similar deals in {app.topicTitle}</h2>
