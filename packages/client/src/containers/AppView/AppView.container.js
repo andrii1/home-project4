@@ -145,20 +145,18 @@ export const AppView = () => {
 
   useEffect(() => {
     async function fetchSimilarApps() {
-      const response = await fetch(
-        `${apiURL()}/deals?page=0&column=id&direction=desc&filteredTopics=${
-          app.topic_id
-        }`,
-      );
+      const response = await fetch(`${apiURL()}/deals`);
       const appsResponse = await response.json();
-      const similarAppsArray = appsResponse.data.filter(
-        (item) => item.id !== app.id,
-      );
+      const similarAppsArray = appsResponse
+        .filter((item) => item.appTopicId === app.topic_id)
+        .filter((item) => item.id !== app.id);
       setSimilarApps(similarAppsArray);
     }
 
     fetchSimilarApps();
   }, [app.topic_id, app.id]);
+
+  console.log('similarapps', similarApps);
 
   const fetchCommentsByAppId = useCallback(async (appId) => {
     const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
@@ -371,7 +369,7 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
-
+  console.log('app', app);
   return (
     <>
       <Helmet>
@@ -757,7 +755,7 @@ export const AppView = () => {
           </div>
           {similarApps.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Similar deals to {app.title}</h2>
+              <h2>🔎 Similar deals in {app.topicTitle}</h2>
               <div className="container-cards small-cards">{cardItems}</div>
             </div>
           )}

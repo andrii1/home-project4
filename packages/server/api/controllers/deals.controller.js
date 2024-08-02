@@ -20,6 +20,7 @@ const getAppsAll = async () => {
       .select(
         'deals.*',
         'apps.title as appTitle',
+        'apps.topic_id as appTopicId',
         'apps.description as appDescription',
         'apps.url as appUrl',
         'apps.url_image as appUrlImage',
