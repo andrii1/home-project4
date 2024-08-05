@@ -387,8 +387,6 @@ export const AppView = () => {
     }
   };
 
-  console.log('appAppStore', appAppStore);
-
   const copyToClipboard = (item) => {
     navigator.clipboard.writeText(item);
     setOpenToast(true);
