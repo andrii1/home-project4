@@ -682,8 +682,8 @@ export const AppView = () => {
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
-              subject="Check out this GPT App!"
-              body={`This GPT App is great: '${app.title}'`}
+              subject="Check out this deal!"
+              body={`This app deal is great: '${app.title}'`}
               url={`https://www.topappdeals.com/deals/${app.id}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
@@ -692,8 +692,8 @@ export const AppView = () => {
           <div className="container-comments">
             {comments.length === 0 && (
               <div>
-                <i>No comments for this Deal. </i>
-                {user && <i>Add first one below.</i>}
+                <i>No reviews for {app.title}. </i>
+                {user && <i>Add a first one below.</i>}
               </div>
             )}
             {comments.length > 0 &&
@@ -718,7 +718,7 @@ export const AppView = () => {
                   <Link to="/login" className="simple-link">
                     log in
                   </Link>{' '}
-                  to add comments
+                  to add reviews
                 </i>
               </div>
             )}
@@ -729,7 +729,7 @@ export const AppView = () => {
                     <textarea
                       className="form-input textarea-new-comment"
                       value={comment}
-                      placeholder="Your comment"
+                      placeholder="Your review"
                       onChange={commentHandler}
                     />
 
@@ -737,11 +737,11 @@ export const AppView = () => {
                       primary
                       className="btn-add-prompt"
                       type="submit"
-                      label="Add comment"
+                      label="Add review"
                     />
                     {validForm && (
                       <Modal
-                        title="Your comment has been submitted!"
+                        title="Your review has been submitted!"
                         open={openConfirmationModal}
                         toggle={() => setOpenConfirmationModal(false)}
                       />
