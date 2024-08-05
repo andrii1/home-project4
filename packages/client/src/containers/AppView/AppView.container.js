@@ -123,6 +123,7 @@ export const AppView = () => {
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
+  const [appAppStore, setAppAppStore] = useState({});
   const [similarApps, setSimilarApps] = useState([]);
   const [similarDealsFromApp, setSimilarDealsFromApp] = useState([]);
   const [comments, setComments] = useState([]);
@@ -143,6 +144,15 @@ export const AppView = () => {
 
     fetchSingleApp(id);
   }, [id]);
+
+  useEffect(() => {
+    async function fetchAppAppStore(appleId) {
+      const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
+      const example = await response.json();
+      setAppAppStore(example.results[0]);
+    }
+    app.appAppleId && fetchAppAppStore(app.appAppleId);
+  }, [app.appAppleId]);
 
   useEffect(() => {
     async function fetchSimilarApps() {
@@ -377,6 +387,8 @@ export const AppView = () => {
     }
   };
 
+  console.log('appAppStore', appAppStore);
+
   const copyToClipboard = (item) => {
     navigator.clipboard.writeText(item);
     setOpenToast(true);
@@ -608,6 +620,13 @@ export const AppView = () => {
             </div>
           ) : (
             ''
+          )}
+
+          {app.appAppleId && (
+            <div className="container-appview-box">
+              <h2>{app.appTitle} app</h2>
+              <p className="app-description">{appAppStore.description}</p>
+            </div>
           )}
           {app.contact && (
             <div className="container-appview-box">

@@ -449,6 +449,7 @@ const getAppById = async (id) => {
         'apps.title as appTitle',
         'apps.description as appDescription',
         'apps.topic_id as topic_id',
+        'apps.apple_id as appAppleId',
         'apps.url as appUrl',
         'apps.url_image as appUrlImage',
         'apps.url_app_store as appUrlAppStore',
