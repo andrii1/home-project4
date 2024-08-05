@@ -48,6 +48,7 @@ const getApps = async (page, column, direction) => {
           'apps.description as appDescription',
           'apps.url as appUrl',
           'apps.url_image as appUrlImage',
+          'apps.topic_id as topic_id',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',

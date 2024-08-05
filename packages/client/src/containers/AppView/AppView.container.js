@@ -397,7 +397,7 @@ export const AppView = () => {
         } - Top App Deals`}</title>
         <meta
           name="description"
-          content={`${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} coupon code.`}
+          content={`${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`}
         />
       </Helmet>
       <main>

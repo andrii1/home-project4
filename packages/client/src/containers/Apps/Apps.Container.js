@@ -198,6 +198,8 @@ export const Apps = () => {
     setPage((prev) => prev + 1);
   };
 
+  console.log('apps', apps);
+
   // const fetchApps = useCallback(async () => {
   //   try {
   //     await setLoading(true);
