@@ -93,7 +93,17 @@ router.get('/', (req, res, next) => {
   //     .then((result) => res.json(result))
   //     .catch(next);
   // }
-  else if (req.query.page) {
+  else if (req.query.searchTerm) {
+    dealsController
+      .getAppsBySearchTerm(
+        req.query.page,
+        req.query.column,
+        req.query.direction,
+        req.query.searchTerm,
+      )
+      .then((result) => res.json(result))
+      .catch(next);
+  } else if (req.query.page) {
     dealsController
       .getApps(req.query.page, req.query.column, req.query.direction)
       .then((result) => res.json(result))

@@ -26,7 +26,8 @@ import {
 export const Apps = () => {
   const { user } = useUserContext();
   const location = useLocation();
-  const { topicIdParam, categoryIdParam, appIdParam } = useParams();
+  const { topicIdParam, categoryIdParam, appIdParam, searchTermIdParam } =
+    useParams();
   const [searchTerms, setSearchTerms] = useState();
   const [sortOrder, setSortOrder] = useState();
   const [resultsHome, setResultsHome] = useState([]);
@@ -85,6 +86,8 @@ export const Apps = () => {
       categoryIdParam !== undefined
         ? `&filteredCategories=${categoryIdParam}`
         : ''
+    }${
+      searchTermIdParam !== undefined ? `&searchTerm=${searchTermIdParam}` : ''
     }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
       filtersSubmitted && filteredPricing.length > 0
         ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
@@ -131,6 +134,7 @@ export const Apps = () => {
     categoryIdParam,
     topicIdParam,
     appIdParam,
+    searchTermIdParam,
     orderBy.column,
     orderBy.direction,
     filteredDetails,
@@ -151,6 +155,8 @@ export const Apps = () => {
         ? `&filteredCategories=${categoryIdParam}`
         : ''
     }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
+      searchTermIdParam !== undefined ? `&searchTerm=${searchTermIdParam}` : ''
+    }${
       filtersSubmitted && filteredPricing.length > 0
         ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
         : ''

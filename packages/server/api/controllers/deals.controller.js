@@ -351,6 +351,46 @@ const getAppsByTopic = async (topic, page, column, direction) => {
   }
 };
 
+const getAppsBySearchTerm = async (page, column, direction, searchTerm) => {
+  const lastItemDirection = getOppositeOrderDirection(direction);
+  try {
+    const getModel = () =>
+      knex('deals')
+        .select(
+          'deals.*',
+          'apps.title as appTitle',
+          'apps.description as appDescription',
+          'apps.url as appUrl',
+          'apps.url_image as appUrlImage',
+          'topics.title as topicTitle',
+          'topics.category_id as category_id',
+          'categories.title as categoryTitle',
+          'searches.id as searchId',
+          'searchTerms.title as searchTermTitle',
+        )
+        .join('apps', 'deals.app_id', '=', 'apps.id')
+        .join('topics', 'apps.topic_id', '=', 'topics.id')
+        .join('categories', 'topics.category_id', '=', 'categories.id')
+        .join('searches', 'searches.deal_id', '=', 'deals.id')
+        .join('searchTerms', 'searchTerms.id', '=', 'searches.search_term_id')
+        .where('searches.search_term_id', '=', `${searchTerm}`);
+    const lastItem = await getModel()
+      .orderBy(column, lastItemDirection)
+      .limit(1);
+    const data = await getModel()
+      .orderBy(column, direction)
+      .offset(page * 10)
+      .limit(10)
+      .select();
+    return {
+      lastItem: lastItem[0],
+      data,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const getAppsBy = async ({
   page,
   column,
@@ -507,4 +547,5 @@ module.exports = {
   getAppById,
   getAppsAll,
   createApps,
+  getAppsBySearchTerm,
 };

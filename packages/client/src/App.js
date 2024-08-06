@@ -39,6 +39,11 @@ function App() {
               path="/deals/category/:categoryIdParam"
               element={<Apps />}
             />
+            <Route
+              exact
+              path="/deals/search/:searchTermIdParam"
+              element={<Apps />}
+            />
             <Route exact path="/deals/app/:appIdParam" element={<Apps />} />
             <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/deals/new" element={<Submit />} />
