@@ -515,6 +515,8 @@ export const Apps = () => {
     pageTitle = `${appTitles
       .filter((category) => category.id === parseInt(appIdParam, 10))
       .map((item) => item.title)} app deals`;
+  } else if (searchTermIdParam && apps.data) {
+    pageTitle = `${apps.data[0].searchTermTitle} - Top App Deals`;
   } else {
     pageTitle = 'Top App Deals - best app deals';
   }
