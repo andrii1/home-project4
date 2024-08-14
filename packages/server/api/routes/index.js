@@ -14,6 +14,7 @@ const stripe = require('./stripe.router');
 const comments = require('./comments.router');
 const cloudinary = require('./cloudinary.router');
 const appsAppStore = require('./appsAppStore.router');
+const searchTerms = require('./searchTerms.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -55,5 +56,6 @@ router.use('/stripe', stripe);
 router.use('/cloudinary', cloudinary);
 router.use('/comments', comments);
 router.use('/appsAppStore', appsAppStore);
+router.use('/searchTerms', searchTerms);
 
 module.exports = router;

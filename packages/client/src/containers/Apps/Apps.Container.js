@@ -29,6 +29,7 @@ export const Apps = () => {
   const { topicIdParam, categoryIdParam, appIdParam, searchTermIdParam } =
     useParams();
   const [searchTerms, setSearchTerms] = useState();
+  const [searchTermsDb, setSearchTermsDb] = useState([]);
   const [sortOrder, setSortOrder] = useState();
   const [resultsHome, setResultsHome] = useState([]);
 
@@ -377,6 +378,18 @@ export const Apps = () => {
     fetchAppTitles();
   }, []);
 
+  useEffect(() => {
+    async function fetchSearchTermsDb() {
+      const response = await fetch(`${apiURL()}/searchTerms/`);
+      const searchTermsResponseDb = await response.json();
+      setSearchTermsDb(searchTermsResponseDb);
+    }
+
+    if (searchTermIdParam !== undefined) {
+      fetchSearchTermsDb();
+    }
+  }, [searchTermIdParam]);
+
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
@@ -515,8 +528,10 @@ export const Apps = () => {
     pageTitle = `${appTitles
       .filter((category) => category.id === parseInt(appIdParam, 10))
       .map((item) => item.title)} app deals`;
-  } else if (searchTermIdParam && apps.data) {
-    pageTitle = `${apps.data[0].searchTermTitle} - Top App Deals`;
+  } else if (searchTermIdParam) {
+    pageTitle = `${searchTermsDb
+      .filter((searchTerm) => searchTerm.id === parseInt(searchTermIdParam, 10))
+      .map((item) => item.title)} - Top App Deals`;
   } else {
     pageTitle = 'Top App Deals - best app deals';
   }
@@ -630,7 +645,13 @@ export const Apps = () => {
         <h1 className="hero-header">
           {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} app deals`}
           {!appIdParam && !searchTermIdParam && 'Browse best app deals'}
-          {searchTermIdParam && apps.data && `${apps.data[0].searchTermTitle}`}
+          {searchTermIdParam &&
+            `${searchTermsDb
+              .filter(
+                (searchTerm) =>
+                  searchTerm.id === parseInt(searchTermIdParam, 10),
+              )
+              .map((item) => item.title)}`}
         </h1>
         <form className="home">
           <label>
