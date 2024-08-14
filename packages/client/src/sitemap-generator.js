@@ -28,6 +28,14 @@ async function generateSitemap() {
     const categories = categoriesResult.sort((a, b) => a.id - b.id);
     const idMapCategories = [];
 
+    /* Searches */
+    const responseSearches = await fetch(
+      `http://localhost:5001/api/searchTerms`,
+    );
+    const searchesResult = await responseSearches.json();
+    const searches = searchesResult.sort((a, b) => a.id - b.id);
+    const idMapSearches = [];
+
     prompts.forEach((prompt) => {
       idMap.push({ id: prompt.id });
     });
@@ -40,10 +48,15 @@ async function generateSitemap() {
       idMapCategories.push({ categoryIdParam: category.id });
     });
 
+    searches.forEach((search) => {
+      idMapSearches.push({ searchIdParam: search.id });
+    });
+
     const paramsConfig = {
       '/deals/:id': idMap,
       '/deals/topic/:topicIdParam': idMapTopics,
       '/deals/category/:categoryIdParam': idMapCategories,
+      '/deals/search/:searchIdParam': idMapSearches,
     };
 
     return new Sitemap(router)
