@@ -640,8 +640,6 @@ export const Apps = () => {
     }, 2500);
   };
 
-  console.log('apps.data', apps?.data, apps);
-
   return (
     <main>
       <Helmet>

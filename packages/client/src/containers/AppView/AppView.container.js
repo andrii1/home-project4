@@ -620,10 +620,10 @@ export const AppView = () => {
             ''
           )}
 
-          {app.appAppleId && (
+          {app.appAppleId && appAppStore && (
             <div className="container-appview-box">
-              <h2>{app.appTitle} app</h2>
-              <p className="app-description">{appAppStore.description}</p>
+              <h2>{app?.appTitle} app</h2>
+              <p className="app-description">{appAppStore?.description}</p>
             </div>
           )}
           {app.contact && (
