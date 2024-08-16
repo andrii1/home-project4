@@ -117,7 +117,10 @@ export const Apps = () => {
       const json = await response.json();
 
       let hasMore = true;
-      if (json.data.some((item) => item.id === json.lastItem.id)) {
+      if (
+        json.data.some((item) => item.id === json.lastItem.id) ||
+        json.lastItem === undefined
+      ) {
         hasMore = false;
       }
 
@@ -190,7 +193,10 @@ export const Apps = () => {
 
     let hasMore = true;
 
-    if (json.data.some((item) => item.id === json.lastItem.id)) {
+    if (
+      json.data.some((item) => item.id === json.lastItem.id) ||
+      json.lastItem === undefined
+    ) {
       hasMore = false;
     }
 
@@ -633,6 +639,8 @@ export const Apps = () => {
       setOpenToast(false);
     }, 2500);
   };
+
+  console.log('apps.data', apps?.data, apps);
 
   return (
     <main>
