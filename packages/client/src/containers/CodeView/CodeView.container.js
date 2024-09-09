@@ -357,6 +357,19 @@ export const CodeView = () => {
                   />
                 </Link>
               )}
+              <Link to={`/deals/${code.deal_id}`} target="_blank">
+                <Button
+                  size="large"
+                  secondary
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faArrowUpRightFromSquare}
+                      size="sm"
+                    />
+                  }
+                  label={code.dealTitle}
+                />
+              </Link>
             </div>
             {/* <div>
               {user && favorites.some((x) => x.id === app.id) ? (
@@ -508,6 +521,14 @@ export const CodeView = () => {
           <div className="container-details container-badges">
             <div className="container-tags">
               <div className="badges">
+                <p>Deal: </p>
+                <div>
+                  <Link to={`/deals/${code.deal_id}`} target="_blank">
+                    <Button label={code.dealTitle} size="small" />
+                  </Link>
+                </div>
+              </div>
+              <div className="badges">
                 <p>App: </p>
                 <div>
                   <Badge label={code.appTitle} size="small" />
@@ -518,13 +539,13 @@ export const CodeView = () => {
               <div className="badges">
                 <p>Tagged: </p>
                 <div>
-                  <Badge secondary label={code.topicTitle} size="small" />
+                  <Badge label={code.topicTitle} size="small" />
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Badge secondary label={code.categoryTitle} size="small" />
+                  <Badge label={code.categoryTitle} size="small" />
                 </div>
               </div>
             </div>
