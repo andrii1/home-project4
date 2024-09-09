@@ -95,6 +95,11 @@ router.get('/', (req, res, next) => {
       .getApps(req.query.page, req.query.column, req.query.direction)
       .then((result) => res.json(result))
       .catch(next);
+  } else if (req.query.deal) {
+    codesController
+      .getCodesByDeal(req.query.deal)
+      .then((result) => res.json(result))
+      .catch(next);
   } else {
     codesController
       .getAppsAll()

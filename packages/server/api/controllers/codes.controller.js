@@ -40,6 +40,36 @@ const getAppsAll = async () => {
   }
 };
 
+const getCodesByDeal = async (deal) => {
+  try {
+    const apps = knex('codes')
+      .select(
+        'codes.*',
+        'deals.id as dealId',
+        'deals.title as dealTitle',
+        'apps.title as appTitle',
+        'apps.id as appId',
+        'apps.topic_id as appTopicId',
+        'apps.description as appDescription',
+        'apps.url as appUrl',
+        'apps.url_image as appUrlImage',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
+      .join('deals', 'codes.deal_id', '=', 'deals.id')
+      .join('apps', 'deals.app_id', '=', 'apps.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .where({
+        'deals.id': deal,
+      });
+    return apps;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const getApps = async (page, column, direction) => {
   const lastItemDirection = getOppositeOrderDirection(direction);
   try {
@@ -153,46 +183,6 @@ const getAppsSearch = async (search, column, direction, page, size) => {
   }
 };
 
-const getAppsByCategoriesSearch = async (
-  search,
-  categories,
-  column,
-  direction,
-  page,
-  size,
-) => {
-  try {
-    const getModel = () =>
-      knex('deals')
-        .select(
-          'deals.*',
-          'topics.title as topicTitle',
-          'topics.category_id as category_id',
-          'categories.title as categoryTitle',
-        )
-        .join('topics', 'apps.topic_id', '=', 'topics.id')
-        .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('category_id', categories)
-        .where('deals.title', 'like', `%${search}%`)
-        .orderBy(column, direction);
-    const totalCount = await getModel()
-      .count('deals.id', { as: 'rows' })
-      .groupBy('deals.id');
-    const data = await getModel()
-      .offset(page * size)
-      .limit(size)
-      .select();
-    const dataExport = await getModel().select();
-    return {
-      totalCount: totalCount.length,
-      data,
-      dataExport,
-    };
-  } catch (error) {
-    return error.message;
-  }
-};
-
 const getAppsByCategories = async (categories) => {
   try {
     const apps = await knex('deals')
@@ -212,46 +202,6 @@ const getAppsByCategories = async (categories) => {
       .whereIn('category_id', categories);
 
     return apps;
-  } catch (error) {
-    return error.message;
-  }
-};
-
-const getAppsByTopicsSearch = async (
-  search,
-  topics,
-  column,
-  direction,
-  page,
-  size,
-) => {
-  try {
-    const getModel = () =>
-      knex('deals')
-        .select(
-          'deals.*',
-          'topics.title as topicTitle',
-          'topics.category_id as category_id',
-          'categories.title as categoryTitle',
-        )
-        .join('topics', 'apps.topic_id', '=', 'topics.id')
-        .join('categories', 'topics.category_id', '=', 'categories.id')
-        .whereIn('topic_id', topics)
-        .where('deals.title', 'like', `%${search}%`)
-        .orderBy(column, direction);
-    const totalCount = await getModel()
-      .count('deals.id', { as: 'rows' })
-      .groupBy('deals.id');
-    const data = await getModel()
-      .offset(page * size)
-      .limit(size)
-      .select();
-    const dataExport = await getModel().select();
-    return {
-      totalCount: totalCount.length,
-      data,
-      dataExport,
-    };
   } catch (error) {
     return error.message;
   }
@@ -549,14 +499,13 @@ module.exports = {
   getAppsPagination,
   getAppsSearch,
   getAppsByCategories,
-  getAppsByCategoriesSearch,
   getAppsByTopics,
   getAppsByTopic,
   getAppsBy,
-  getAppsByTopicsSearch,
   getAppsByCategory,
   getAppById,
   getAppsAll,
   createApps,
   getAppsBySearchTerm,
+  getCodesByDeal,
 };

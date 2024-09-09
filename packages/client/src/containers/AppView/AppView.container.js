@@ -123,6 +123,7 @@ export const AppView = () => {
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
+  const [dealCodes, setDealCodes] = useState([]);
   const [appAppStore, setAppAppStore] = useState({});
   const [similarApps, setSimilarApps] = useState([]);
   const [similarDealsFromApp, setSimilarDealsFromApp] = useState([]);
@@ -142,8 +143,17 @@ export const AppView = () => {
       setApp(appResponse[0]);
     }
 
+    async function fetchCodesForASingleDeal(dealId) {
+      const response = await fetch(`${apiURL()}/codes/?deal=${dealId}`);
+      const appResponse = await response.json();
+      setDealCodes(appResponse);
+    }
+
     fetchSingleApp(id);
+    fetchCodesForASingleDeal(id);
   }, [id]);
+
+  console.log('codesForADeal', dealCodes);
 
   useEffect(() => {
     async function fetchAppAppStore(appleId) {
@@ -430,45 +440,42 @@ export const AppView = () => {
             }.${app.url_image === null ? 'svg' : 'png'}`}
           />
 
-          <div className="container-bookmark">
-            <div className="container-appview-buttons">
-              {app.url && (
-                <Link to={app.url} target="_blank">
-                  <Button
-                    size="large"
-                    primary
-                    icon={
-                      <FontAwesomeIcon
-                        icon={faArrowUpRightFromSquare}
-                        size="sm"
-                      />
-                    }
-                    label="Get this deal!"
-                  />
-                </Link>
-              )}
-              {app.referral_code !== null ? (
-                <>
-                  <Button
-                    size="large"
-                    secondary
-                    icon={
-                      <img
-                        src={iconCopy}
-                        alt="copy"
-                        className="icon-copy copy-referral-code"
-                      />
-                    }
-                    label={app.referral_code}
-                    onClick={() => copyToClipboard(app.referral_code)}
-                  />
-                  <Toast open={openToast} overlayClass={`toast ${animation}`}>
-                    <span>Copied to clipboard!</span>
-                  </Toast>
-                </>
+          <div className="container-deal-actions">
+            <div>
+              {user && favorites.some((x) => x.id === app.id) ? (
+                <button
+                  type="button"
+                  onClick={() => handleDeleteBookmarks(app.id)}
+                  onKeyDown={() => handleDeleteBookmarks(app.id)}
+                  className="button-bookmark"
+                >
+                  Remove deal from saved{' '}
+                  <FontAwesomeIcon icon={faHeartSolid} size="lg" />
+                </button>
+              ) : user ? (
+                <button
+                  type="button"
+                  onClick={() => addFavorite(app.id)}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save this deal <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
               ) : (
-                ''
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Sign up to add bookmarks');
+                  }}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
               )}
+            </div>
+            <div className="container-appview-buttons">
               {app.appUrl && (
                 <Link to={app.appUrl} target="_blank">
                   <Button
@@ -485,95 +492,102 @@ export const AppView = () => {
                 </Link>
               )}
             </div>
-            <div>
-              {user && favorites.some((x) => x.id === app.id) ? (
+            <div className="container-rating">
+              Rating
+              {user &&
+              allRatings.some((rating) => rating.deal_id === app.id) &&
+              ratings.some((rating) => rating.id === app.id) ? (
                 <button
                   type="button"
-                  onClick={() => handleDeleteBookmarks(app.id)}
-                  onKeyDown={() => handleDeleteBookmarks(app.id)}
-                  className="button-bookmark"
+                  className="button-rating"
+                  onClick={(event) => deleteRating(app.id)}
                 >
-                  Remove from saved{' '}
-                  <FontAwesomeIcon icon={faHeartSolid} size="lg" />
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {
+                    allRatings.filter((rating) => rating.deal_id === app.id)
+                      .length
+                  }
                 </button>
               ) : user ? (
                 <button
                   type="button"
-                  onClick={() => addFavorite(app.id)}
-                  onKeyDown={() => addFavorite(app.id)}
-                  className="button-bookmark"
+                  className="button-rating"
+                  onClick={(event) => addRating(app.id)}
                 >
-                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {
+                    allRatings.filter((rating) => rating.deal_id === app.id)
+                      .length
+                  }
                 </button>
               ) : (
                 <button
                   type="button"
+                  className="button-rating"
                   onClick={() => {
                     setOpenModal(true);
-                    setModalTitle('Sign up to add bookmarks');
+                    setModalTitle('Sign up to vote');
                   }}
-                  onKeyDown={() => addFavorite(app.id)}
-                  className="button-bookmark"
                 >
-                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {
+                    allRatings.filter((rating) => rating.deal_id === app.id)
+                      .length
+                  }
                 </button>
               )}
             </div>
           </div>
+
+          <div className="container-codes">
+            <div className="container-title">
+              <h2>{app.title}</h2>
+            </div>
+
+            <div className="container-appview-buttons">
+              {dealCodes.map((code) => {
+                return (
+                  <>
+                    <Link to={code.url} target="_blank">
+                      <Button
+                        size="large"
+                        primary
+                        icon={
+                          <FontAwesomeIcon
+                            icon={faArrowUpRightFromSquare}
+                            size="sm"
+                          />
+                        }
+                        label="Use this code!"
+                      />
+                    </Link>
+                    <Button
+                      size="large"
+                      secondary
+                      icon={
+                        <img
+                          src={iconCopy}
+                          alt="copy"
+                          className="icon-copy copy-referral-code"
+                        />
+                      }
+                      label={app.referral_code}
+                      onClick={() => copyToClipboard(app.referral_code)}
+                    />
+                    <Toast open={openToast} overlayClass={`toast ${animation}`}>
+                      <span>Copied to clipboard!</span>
+                    </Toast>
+                  </>
+                );
+              })}
+            </div>
+          </div>
+
           <div className="container-description">
             <div className="container-title">
               <h2>
                 {app.title} in {app.appTitle} app
               </h2>
-              <div className="container-rating">
-                Rating
-                {user &&
-                allRatings.some((rating) => rating.deal_id === app.id) &&
-                ratings.some((rating) => rating.id === app.id) ? (
-                  <button
-                    type="button"
-                    className="button-rating"
-                    onClick={(event) => deleteRating(app.id)}
-                  >
-                    <FontAwesomeIcon icon={faCaretUp} />
-                    {
-                      allRatings.filter((rating) => rating.deal_id === app.id)
-                        .length
-                    }
-                  </button>
-                ) : user ? (
-                  <button
-                    type="button"
-                    className="button-rating"
-                    onClick={(event) => addRating(app.id)}
-                  >
-                    <FontAwesomeIcon icon={faCaretUp} />
-                    {
-                      allRatings.filter((rating) => rating.deal_id === app.id)
-                        .length
-                    }
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="button-rating"
-                    onClick={() => {
-                      setOpenModal(true);
-                      setModalTitle('Sign up to vote');
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCaretUp} />
-                    {
-                      allRatings.filter((rating) => rating.deal_id === app.id)
-                        .length
-                    }
-                  </button>
-                )}
-                {/* <button type="button" className="button-rating">
-                  <FontAwesomeIcon icon={faCaretUp} />
-                  10
-                </button> */}
-              </div>
             </div>
             <p className="app-description main-description">
               {app.description}
@@ -586,6 +600,7 @@ export const AppView = () => {
               </>
             )}
           </div>
+
           {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {app.appTitle} app</h2>
