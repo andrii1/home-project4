@@ -539,49 +539,54 @@ export const AppView = () => {
             </div>
           </div>
 
-          <div className="container-codes">
-            <div className="container-title">
-              <h2>{app.title}</h2>
-            </div>
+          {dealCodes.length > 0 && (
+            <div className="container-codes">
+              <div className="container-title">
+                <h2>{app.title}</h2>
+              </div>
 
-            <div className="container-appview-buttons">
-              {dealCodes.map((code) => {
-                return (
-                  <>
-                    <Link to={code.url} target="_blank">
+              <div className="container-appview-buttons">
+                {dealCodes.map((code) => {
+                  return (
+                    <>
+                      <Link to={code.url} target="_blank">
+                        <Button
+                          size="large"
+                          primary
+                          icon={
+                            <FontAwesomeIcon
+                              icon={faArrowUpRightFromSquare}
+                              size="sm"
+                            />
+                          }
+                          label="Use this code!"
+                        />
+                      </Link>
                       <Button
                         size="large"
-                        primary
+                        secondary
                         icon={
-                          <FontAwesomeIcon
-                            icon={faArrowUpRightFromSquare}
-                            size="sm"
+                          <img
+                            src={iconCopy}
+                            alt="copy"
+                            className="icon-copy copy-referral-code"
                           />
                         }
-                        label="Use this code!"
+                        label={app.referral_code}
+                        onClick={() => copyToClipboard(app.referral_code)}
                       />
-                    </Link>
-                    <Button
-                      size="large"
-                      secondary
-                      icon={
-                        <img
-                          src={iconCopy}
-                          alt="copy"
-                          className="icon-copy copy-referral-code"
-                        />
-                      }
-                      label={app.referral_code}
-                      onClick={() => copyToClipboard(app.referral_code)}
-                    />
-                    <Toast open={openToast} overlayClass={`toast ${animation}`}>
-                      <span>Copied to clipboard!</span>
-                    </Toast>
-                  </>
-                );
-              })}
+                      <Toast
+                        open={openToast}
+                        overlayClass={`toast ${animation}`}
+                      >
+                        <span>Copied to clipboard!</span>
+                      </Toast>
+                    </>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="container-description">
             <div className="container-title">
