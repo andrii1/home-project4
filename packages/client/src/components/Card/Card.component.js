@@ -27,6 +27,7 @@ export const Card = ({
   topicId,
   appTitle,
   url,
+  cardUrl,
   urlImage,
   id,
   className,
@@ -41,7 +42,7 @@ export const Card = ({
   if (smallCard) {
     return (
       <Link
-        to={`/deals/${id}`}
+        to={cardUrl}
         className="card-category--small card-image--small"
         style={{
           backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_500,q_auto,f_auto/deals/${urlImage}.${
@@ -52,7 +53,7 @@ export const Card = ({
         }}
       >
         <div className="card-header">
-          <Link to={`/deals/${id}`} target="_blank">
+          <Link to={cardUrl} target="_blank">
             <h2>{title}</h2>
           </Link>
         </div>
@@ -67,7 +68,7 @@ export const Card = ({
   return (
     <div className={listCard ? 'card-list' : 'card-category'}>
       <Link
-        to={`/deals/${id}`}
+        to={cardUrl}
         target="_blank"
         className={`card-image ${listCard ? 'list' : ''}`}
         style={{
@@ -83,10 +84,10 @@ export const Card = ({
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
           <div className="card-title">
-            <Link to={`/deals/${id}`} target="_blank">
+            <Link to={cardUrl} target="_blank">
               <h2>{title}</h2>
             </Link>
-            <Link to={`/deals/${id}`} target="_blank">
+            <Link to={cardUrl} target="_blank">
               <FontAwesomeIcon
                 className="icon-card"
                 icon={faArrowUpRightFromSquare}
@@ -116,16 +117,17 @@ export const Card = ({
           )}
           {/* <Badge label={appTitle} size="small" /> */}
         </div>
-
-        <div className="card-description">
-          {`${description
-            .split(' ')
-            .slice(
-              0,
-              `${referralCode !== null ? (title.length > 21 ? 8 : 15) : 17}`,
-            )
-            .join(' ')}...`}
-        </div>
+        {description && (
+          <div className="card-description">
+            {`${description
+              .split(' ')
+              .slice(
+                0,
+                `${referralCode !== null ? (title.length > 21 ? 8 : 15) : 17}`,
+              )
+              .join(' ')}...`}
+          </div>
+        )}
         <div className="topics-bookmark">
           <div className="container-topic-app">
             <Badge label={appTitle} size="small" />
@@ -220,6 +222,7 @@ Card.propTypes = {
   appTitle: PropTypes.string,
   id: PropTypes.string,
   url: PropTypes.shape,
+  cardUrl: PropTypes.shape,
   urlImage: PropTypes.string,
   smallCard: PropTypes.bool,
   listCard: PropTypes.bool,
@@ -238,6 +241,7 @@ Card.defaultProps = {
   topicId: null,
   topic: null,
   url: null,
+  cardUrl: null,
   urlImage: null,
   id: null,
   smallCard: false,

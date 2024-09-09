@@ -7,6 +7,7 @@ import { LandingPage } from './containers/LandingPage/LandingPage.Container';
 import TestPage from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
 import { AppView } from './containers/AppView/AppView.container';
+import { CodeView } from './containers/CodeView/CodeView.container';
 import { Signup } from './containers/Signup/Signup.Container';
 import Login from './containers/Login/Login.Container';
 import Reset from './containers/Reset/Reset.Container';
@@ -29,6 +30,7 @@ function App() {
           <Navigation />
           <Routes>
             <Route path="/" element={<Apps />} />
+            <Route path="/codes" element={<Apps />} />
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<Prompts />} />
             <Route path="/categories" element={<Categories />} />
@@ -45,6 +47,7 @@ function App() {
               element={<Apps />}
             />
             <Route exact path="/deals/app/:appIdParam" element={<Apps />} />
+            <Route exact path="/codes/:id" element={<CodeView />} />
             <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/deals/new" element={<Submit />} />
             <Route exact path="/success" element={<StripeSuccess />} />

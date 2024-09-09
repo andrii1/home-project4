@@ -33,88 +33,10 @@ import appImage from '../../assets/images/app-placeholder.svg';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 import { apiURL } from '../../apiURL';
-import './AppView.styles.css';
+import './CodeView.styles.css';
 import { useUserContext } from '../../userContext';
 
-const searches = [
-  { id: 1, title: 'ai tool' },
-  { id: 2, title: 'avatar creator' },
-  {
-    id: 3,
-    title: 'ai music',
-  },
-];
-
-const alternativeApps = [
-  {
-    id: 1,
-    title: '10web',
-    description:
-      'Create a website using AI Website Builder,\nhost it on 10Web Hosting, and optimize it with\nPageSpeed Booster.',
-    rating: null,
-    topic_id: 6,
-    url: 'https://10web.io',
-    pricing_type: 'Paid with free trial',
-    url_x: 'https://twitter.com/10Web_io',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension: null,
-    url_small_screenshot: 'Free',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.072Z',
-    topicTitle: 'Website builders',
-    category_id: 4,
-    categoryTitle: 'Engineering & Development',
-  },
-  {
-    id: 2,
-    title: 'TLDV',
-    description:
-      'Short for "too long; didn\'t view."\n\nThis AI platform saves you time by taking meeting notes for you.\n\nSit back and relax as tl;dv transcribes and summarizes your calls automatically.',
-    rating: null,
-    topic_id: 17,
-    url: 'https://tldv.io',
-    pricing_type: 'Paid with free plan',
-    url_x: 'https://twitter.com/tldview?lang=en',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension:
-      'https://chrome.google.com/webstore/detail/record-transcribe-chatgpt/lknmjhcajhfbbglglccadlfdjbaiifig',
-    url_small_screenshot: 'Paid with a free plan',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.083Z',
-    topicTitle: 'Meetings',
-    category_id: 1,
-    categoryTitle: 'Work & Productivity',
-  },
-  {
-    id: 3,
-    title: 'Klap',
-    description:
-      'Turn videos into viral shorts\nGet ready-to-publish TikToks, Reels, Shorts from YouTube videos in a click',
-    rating: null,
-    topic_id: 7,
-    url: 'https://klap.app',
-    pricing_type: 'Paid',
-    url_x: 'https://twitter.com/tldview?lang=en',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension: null,
-    url_small_screenshot: 'Paid with a free trial',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.088Z',
-    topicTitle: 'Video',
-    category_id: 2,
-    categoryTitle: 'Marketing & Sales',
-  },
-];
-export const AppView = () => {
+export const CodeView = () => {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -122,10 +44,11 @@ export const AppView = () => {
   const [animation, setAnimation] = useState('');
   const [favorites, setFavorites] = useState([]);
   const navigate = useNavigate();
-  const [app, setApp] = useState({});
+  const [code, setCode] = useState({});
   const [appAppStore, setAppAppStore] = useState({});
-  const [similarApps, setSimilarApps] = useState([]);
-  const [similarDealsFromApp, setSimilarDealsFromApp] = useState([]);
+  const [similarCodes, setSimilarCodes] = useState([]);
+  const [similarCodesFromDeal, setSimilarCodesFromDeal] = useState([]);
+  const [similarCodesFromApp, setSimilarCodesFromApp] = useState([]);
   const [comments, setComments] = useState([]);
   const [error, setError] = useState('');
   const { user } = useUserContext();
@@ -136,42 +59,39 @@ export const AppView = () => {
   const [ratings, setRatings] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
-    async function fetchSingleApp(appId) {
-      const response = await fetch(`${apiURL()}/deals/${appId}`);
+    async function fetchSingleCode(codeId) {
+      const response = await fetch(`${apiURL()}/codes/${codeId}`);
       const appResponse = await response.json();
-      setApp(appResponse[0]);
+      setCode(appResponse[0]);
     }
 
-    fetchSingleApp(id);
+    fetchSingleCode(id);
   }, [id]);
 
   useEffect(() => {
-    async function fetchAppAppStore(appleId) {
-      const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
-      const example = await response.json();
-      setAppAppStore(example.results[0]);
-    }
-    app.appAppleId && fetchAppAppStore(app.appAppleId);
-  }, [app.appAppleId]);
-
-  useEffect(() => {
     async function fetchSimilarApps() {
-      const response = await fetch(`${apiURL()}/deals`);
+      const response = await fetch(`${apiURL()}/codes`);
       const appsResponse = await response.json();
-      const similarAppsArray = appsResponse
-        .filter((item) => item.appTopicId === app.topic_id)
-        .filter((item) => item.app_id !== app.app_id)
-        .filter((item) => item.id !== app.id);
-      setSimilarApps(similarAppsArray);
 
-      const similarDealsFromAppArray = appsResponse
-        .filter((item) => item.app_id === app.app_id)
-        .filter((item) => item.id !== app.id);
-      setSimilarDealsFromApp(similarDealsFromAppArray);
+      const similarCodesArray = appsResponse
+        .filter((item) => item.appTopicId === code.topic_id)
+        .filter((item) => item.appId !== code.appId)
+        .filter((item) => item.id !== code.id);
+      setSimilarCodes(similarCodesArray);
+
+      const similarCodesFromAppArray = appsResponse
+        .filter((item) => item.appId === code.appId)
+        .filter((item) => item.id !== code.id);
+      setSimilarCodesFromApp(similarCodesFromAppArray);
+
+      const similarCodesFromDealArray = appsResponse
+        .filter((item) => item.deal_id === code.deal_id)
+        .filter((item) => item.id !== code.id);
+      setSimilarCodesFromDeal(similarCodesFromDealArray);
     }
 
     fetchSimilarApps();
-  }, [app.topic_id, app.id, app.app_id]);
+  }, [code.topic_id, code.id, code.app_id, code.deal_id, code.appId]);
 
   const fetchCommentsByAppId = useCallback(async (appId) => {
     const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
@@ -234,160 +154,125 @@ export const AppView = () => {
     return date.toISOString().split('T')[0];
   };
 
-  const cardItems = similarApps.map((item) => {
-    // const relatedTopics = topics
-    //   .filter((topic) => topic.categoryId === category.id)
-    //   .map((item) => item.id);
-    return (
-      <Card
-        id={item.id}
-        cardUrl={`/deals/${item.id}`}
-        title={item.title}
-        description={item.description}
-        url={item.url}
-        urlImage={item.url_image === null ? 'deal' : item.url_image}
-        topic={item.topicTitle}
-        appTitle={item.appTitle}
-        smallCard
-      />
-    );
-  });
+  // const fetchFavorites = useCallback(async () => {
+  //   const url = `${apiURL()}/favorites`;
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //     },
+  //   });
+  //   const favoritesData = await response.json();
 
-  const cardItemsSimilarDealsFromApp = similarDealsFromApp.map((item) => {
-    return (
-      <Card
-        id={item.id}
-        cardUrl={`/deals/${item.id}`}
-        title={item.title}
-        description={item.description}
-        url={item.url}
-        urlImage={item.url_image === null ? 'deal' : item.url_image}
-        topic={item.topicTitle}
-        appTitle={item.appTitle}
-        smallCard
-      />
-    );
-  });
+  //   if (Array.isArray(favoritesData)) {
+  //     setFavorites(favoritesData);
+  //   } else {
+  //     setFavorites([]);
+  //   }
+  // }, [user]);
 
-  const fetchFavorites = useCallback(async () => {
-    const url = `${apiURL()}/favorites`;
-    const response = await fetch(url, {
-      headers: {
-        token: `token ${user?.uid}`,
-      },
-    });
-    const favoritesData = await response.json();
+  // useEffect(() => {
+  //   fetchFavorites();
+  // }, [fetchFavorites]);
 
-    if (Array.isArray(favoritesData)) {
-      setFavorites(favoritesData);
-    } else {
-      setFavorites([]);
-    }
-  }, [user]);
+  // const addFavorite = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/favorites`, {
+  //     method: 'POST',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       deal_id: appId,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     fetchFavorites();
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchFavorites();
-  }, [fetchFavorites]);
+  // const handleDeleteBookmarks = (favoritesId) => {
+  //   const deleteFavorites = async () => {
+  //     const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         token: `token ${user?.uid}`,
+  //       },
+  //     });
 
-  const addFavorite = async (appId) => {
-    const response = await fetch(`${apiURL()}/favorites`, {
-      method: 'POST',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        deal_id: appId,
-      }),
-    });
-    if (response.ok) {
-      fetchFavorites();
-    }
-  };
+  //     if (response.ok) {
+  //       fetchFavorites();
+  //     }
+  //   };
 
-  const handleDeleteBookmarks = (favoritesId) => {
-    const deleteFavorites = async () => {
-      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
-        method: 'DELETE',
-        headers: {
-          token: `token ${user?.uid}`,
-        },
-      });
-
-      if (response.ok) {
-        fetchFavorites();
-      }
-    };
-
-    deleteFavorites();
-  };
+  //   deleteFavorites();
+  // };
 
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
   };
 
-  const fetchAllRatings = useCallback(async () => {
-    const url = `${apiURL()}/ratings`;
-    const response = await fetch(url);
-    const ratingsData = await response.json();
-    setAllRatings(ratingsData);
-  }, []);
+  // const fetchAllRatings = useCallback(async () => {
+  //   const url = `${apiURL()}/ratings`;
+  //   const response = await fetch(url);
+  //   const ratingsData = await response.json();
+  //   setAllRatings(ratingsData);
+  // }, []);
 
-  useEffect(() => {
-    fetchAllRatings();
-  }, [fetchAllRatings]);
+  // useEffect(() => {
+  //   fetchAllRatings();
+  // }, [fetchAllRatings]);
 
-  const fetchRatings = useCallback(async () => {
-    const url = `${apiURL()}/ratings`;
-    const response = await fetch(url, {
-      headers: {
-        token: `token ${user?.uid}`,
-      },
-    });
-    const ratingsData = await response.json();
+  // const fetchRatings = useCallback(async () => {
+  //   const url = `${apiURL()}/ratings`;
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //     },
+  //   });
+  //   const ratingsData = await response.json();
 
-    if (Array.isArray(ratingsData)) {
-      setRatings(ratingsData);
-    } else {
-      setRatings([]);
-    }
-  }, [user]);
+  //   if (Array.isArray(ratingsData)) {
+  //     setRatings(ratingsData);
+  //   } else {
+  //     setRatings([]);
+  //   }
+  // }, [user]);
 
-  useEffect(() => {
-    fetchRatings();
-  }, [fetchRatings]);
+  // useEffect(() => {
+  //   fetchRatings();
+  // }, [fetchRatings]);
 
-  const addRating = async (appId) => {
-    const response = await fetch(`${apiURL()}/ratings`, {
-      method: 'POST',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        deal_id: appId,
-      }),
-    });
-    if (response.ok) {
-      fetchRatings();
-      fetchAllRatings();
-    }
-  };
+  // const addRating = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/ratings`, {
+  //     method: 'POST',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       deal_id: appId,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     fetchRatings();
+  //     fetchAllRatings();
+  //   }
+  // };
 
-  const deleteRating = async (appId) => {
-    const response = await fetch(`${apiURL()}/ratings/${appId}`, {
-      method: 'DELETE',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    if (response.ok) {
-      fetchRatings();
-      fetchAllRatings();
-    }
-  };
+  // const deleteRating = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/ratings/${appId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   if (response.ok) {
+  //     fetchRatings();
+  //     fetchAllRatings();
+  //   }
+  // };
 
   const copyToClipboard = (item) => {
     navigator.clipboard.writeText(item);
@@ -404,36 +289,28 @@ export const AppView = () => {
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 50)} ${
-          app.referral_code !== null ? `(${app.referral_code})` : ''
-        } - Top App Deals`}</title>
-        <meta
-          name="description"
-          content={`${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`}
-        />
+        <title>{`${code.dealTitle} (${code.title}) - Top App Deals`}</title>
+        <meta name="description" content={`${code.dealTitle} - use it now!`} />
       </Helmet>
       <main>
         <section className="container-appview">
           <div className="header">
-            <h1 className="hero-header">
-              {app.title}{' '}
-              {app.referral_code !== null ? `(${app.referral_code})` : ''}
-            </h1>
-            <h3>{app.appTitle} deal</h3>
+            <h1 className="hero-header">{`${code.dealTitle} (${code.title})`}</h1>
+            {/* <h3>{app.appTitle} code</h3> */}
           </div>
 
           <img
             className="appview-image"
-            alt={`${app.title}`}
+            alt={`${code.title}`}
             src={`http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
-              app.url_image === null ? 'deal' : app.url_image
-            }.${app.url_image === null ? 'svg' : 'png'}`}
+              code.url_image === null ? 'deal' : code.url_image
+            }.${code.url_image === null ? 'svg' : 'png'}`}
           />
 
           <div className="container-bookmark">
             <div className="container-appview-buttons">
-              {app.url && (
-                <Link to={app.url} target="_blank">
+              {code.url && (
+                <Link to={code.url} target="_blank">
                   <Button
                     size="large"
                     primary
@@ -443,34 +320,30 @@ export const AppView = () => {
                         size="sm"
                       />
                     }
-                    label="Get this deal!"
+                    label="Visit referral link"
                   />
                 </Link>
               )}
-              {app.referral_code !== null ? (
-                <>
-                  <Button
-                    size="large"
-                    secondary
-                    icon={
-                      <img
-                        src={iconCopy}
-                        alt="copy"
-                        className="icon-copy copy-referral-code"
-                      />
-                    }
-                    label={app.referral_code}
-                    onClick={() => copyToClipboard(app.referral_code)}
+
+              <Button
+                size="large"
+                secondary
+                icon={
+                  <img
+                    src={iconCopy}
+                    alt="copy"
+                    className="icon-copy copy-referral-code"
                   />
-                  <Toast open={openToast} overlayClass={`toast ${animation}`}>
-                    <span>Copied to clipboard!</span>
-                  </Toast>
-                </>
-              ) : (
-                ''
-              )}
-              {app.appUrl && (
-                <Link to={app.appUrl} target="_blank">
+                }
+                label={code.title}
+                onClick={() => copyToClipboard(code.title)}
+              />
+              <Toast open={openToast} overlayClass={`toast ${animation}`}>
+                <span>Copied to clipboard!</span>
+              </Toast>
+
+              {code.appUrl && (
+                <Link to={code.appUrl} target="_blank">
                   <Button
                     size="large"
                     secondary
@@ -480,12 +353,12 @@ export const AppView = () => {
                         size="sm"
                       />
                     }
-                    label={`Visit ${app.appTitle} website`}
+                    label={`Visit ${code.appTitle} website`}
                   />
                 </Link>
               )}
             </div>
-            <div>
+            {/* <div>
               {user && favorites.some((x) => x.id === app.id) ? (
                 <button
                   type="button"
@@ -518,14 +391,14 @@ export const AppView = () => {
                   Save <FontAwesomeIcon icon={faHeart} size="lg" />
                 </button>
               )}
-            </div>
+            </div> */}
           </div>
           <div className="container-description">
             <div className="container-title">
               <h2>
-                {app.title} in {app.appTitle} app
+                {code.title} code in {code.appTitle} app
               </h2>
-              <div className="container-rating">
+              {/* <div className="container-rating">
                 Rating
                 {user &&
                 allRatings.some((rating) => rating.deal_id === app.id) &&
@@ -569,31 +442,27 @@ export const AppView = () => {
                     }
                   </button>
                 )}
-                {/* <button type="button" className="button-rating">
-                  <FontAwesomeIcon icon={faCaretUp} />
-                  10
-                </button> */}
-              </div>
-            </div>
-            <p className="app-description main-description">
-              {app.description}
-            </p>
 
-            {app.description_long && (
+              </div> */}
+            </div>
+            {code.description && (
               <>
-                <h3>Deal details</h3>
-                <p className="app-description">{app.description_long}</p>
+                <h3>Code details</h3>
+                <p className="app-description">{code.description}</p>
               </>
             )}
+            <p className="app-description main-description">
+              {code.dealDescription}
+            </p>
           </div>
-          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
+          {code.appUrlAppStore || code.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
-              <h2>Download {app.appTitle} app</h2>
+              <h2>Download {code.appTitle} app</h2>
               <div className="container-store-logos">
-                {app.appUrlAppStore && (
+                {code.appUrlAppStore && (
                   <Link
                     target="_blank"
-                    to={app.appUrlAppStore}
+                    to={code.appUrlAppStore}
                     className="simple-link"
                   >
                     <img
@@ -603,10 +472,10 @@ export const AppView = () => {
                     />
                   </Link>
                 )}
-                {app.appUrlGooglePlayStore && (
+                {code.appUrlGooglePlayStore && (
                   <Link
                     target="_blank"
-                    to={app.appUrlGooglePlayStore}
+                    to={code.appUrlGooglePlayStore}
                     className="simple-link"
                   >
                     <img
@@ -622,32 +491,26 @@ export const AppView = () => {
             ''
           )}
 
-          {app.appAppleId && appAppStore && (
+          {/* {code.contact && (
             <div className="container-appview-box">
-              <h2>{app?.appTitle} app</h2>
-              <p className="app-description">{appAppStore?.description}</p>
-            </div>
-          )}
-          {app.contact && (
-            <div className="container-appview-box">
-              <h2>{app.title} support</h2>
+              <h2>{code.title} support</h2>
               <div>
-                <Link to={`mailto:${app.contact}`} target="_blank">
+                <Link to={`mailto:${code.contact}`} target="_blank">
                   <Button
                     secondary
                     icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
-                    label={`Contact ${app.appTitle} support`}
+                    label={`Contact ${code.appTitle} support`}
                   />
                 </Link>
               </div>
             </div>
-          )}
+          )} */}
           <div className="container-details container-badges">
             <div className="container-tags">
               <div className="badges">
                 <p>App: </p>
                 <div>
-                  <Badge label={app.appTitle} size="small" />
+                  <Badge label={code.appTitle} size="small" />
                 </div>
               </div>
             </div>
@@ -655,13 +518,13 @@ export const AppView = () => {
               <div className="badges">
                 <p>Tagged: </p>
                 <div>
-                  <Badge secondary label={app.topicTitle} size="small" />
+                  <Badge secondary label={code.topicTitle} size="small" />
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Badge secondary label={app.categoryTitle} size="small" />
+                  <Badge secondary label={code.categoryTitle} size="small" />
                 </div>
               </div>
             </div>
@@ -682,36 +545,36 @@ export const AppView = () => {
               icon={faLink}
               className="button-copy"
               onClick={() =>
-                copyToClipboard(`https://www.topappdeals.com/deals/${app.id}`)
+                copyToClipboard(`https://www.topappdeals.com/codes/${code.id}`)
               }
             />
-            <FacebookShareButton url={`/Apps/${app.id}`}>
+            <FacebookShareButton url={`/codes/${code.id}`}>
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
             <TwitterShareButton
-              url={`https://www.topappdeals.com/deals/${app.id}`}
-              title={`Check out this GPT App: '${app.title}'`}
-              hashtags={['Apps']}
+              url={`https://www.topappdeals.com/codes/${code.id}`}
+              title={`Check out this referral code for ${code.appTitle}: '${code.title}'`}
+              hashtags={['Codes']}
             >
               <FontAwesomeIcon className="share-icon" icon={faTwitter} />
             </TwitterShareButton>
             <LinkedinShareButton
-              url={`https://www.topappdeals.com/deals/${app.id}`}
+              url={`https://www.topappdeals.com/codes/${code.id}`}
             >
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
-              subject="Check out this deal!"
-              body={`This app deal is great: '${app.title}'`}
-              url={`https://www.topappdeals.com/deals/${app.id}`}
+              subject={`${code.appTitle} referral code ${code.title}`}
+              body={`Use this code in ${code.appTitle} app: ${code.title}`}
+              url={`https://www.topappdeals.com/codes/${code.id}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-          <div className="container-comments">
+          {/* <div className="container-comments">
             {comments.length === 0 && (
               <div>
-                <i>No reviews for {app.title}. </i>
+                <i>No reviews for {code.title}. </i>
                 {user && <i>Add a first one below.</i>}
               </div>
             )}
@@ -770,7 +633,7 @@ export const AppView = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
           <div className="container-details cta">
             <div>
               <h2>🔥 Create a free account</h2>
@@ -782,18 +645,74 @@ export const AppView = () => {
               </Link>
             </div>
           </div>
-          {similarDealsFromApp.length > 0 && (
+          {similarCodesFromDeal.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Other deals from {app.appTitle} app</h2>
+              <h2>🔎 Other {code.dealTitle}s</h2>
               <div className="container-cards small-cards">
-                {cardItemsSimilarDealsFromApp}
+                {similarCodesFromDeal.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      title={item.title}
+                      description={item.description}
+                      url={item.url}
+                      urlImage={
+                        item.url_image === null ? 'deal' : item.url_image
+                      }
+                      topic={item.topicTitle}
+                      appTitle={item.appTitle}
+                      smallCard
+                    />
+                  );
+                })}
               </div>
             </div>
           )}
-          {similarApps.length > 0 && (
+          {similarCodesFromApp.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Similar deals in {app.topicTitle}</h2>
-              <div className="container-cards small-cards">{cardItems}</div>
+              <h2>🔎 Other codes from {code.appTitle}s</h2>
+              <div className="container-cards small-cards">
+                {similarCodesFromApp.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      title={item.title}
+                      description={item.description}
+                      url={item.url}
+                      urlImage={
+                        item.url_image === null ? 'deal' : item.url_image
+                      }
+                      topic={item.topicTitle}
+                      appTitle={item.appTitle}
+                      smallCard
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+          {similarCodes.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Other codes in {code.topicTitle}</h2>
+              <div className="container-cards small-cards">
+                {similarCodes.map((item) => {
+                  return (
+                    <Card
+                      id={item.id}
+                      title={`${item.dealTitle} (${item.title})`}
+                      cardUrl={`/codes/${item.id}`}
+                      description={item.description}
+                      url={item.url}
+                      urlImage={
+                        item.url_image === null ? 'deal' : item.url_image
+                      }
+                      topic={item.topicTitle}
+                      appTitle={item.appTitle}
+                      smallCard
+                    />
+                  );
+                })}
+              </div>
             </div>
           )}
         </section>

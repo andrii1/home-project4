@@ -26,7 +26,6 @@ import {
 export const Apps = () => {
   const { user } = useUserContext();
   const location = useLocation();
-  const { pathname } = location;
   const { topicIdParam, categoryIdParam, appIdParam, searchTermIdParam } =
     useParams();
   const [searchTerms, setSearchTerms] = useState();
@@ -61,8 +60,6 @@ export const Apps = () => {
     column: 'id',
     direction: 'desc',
   });
-  const [codesPage, setCodesPage] = useState(false);
-
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
     { title: 'Free', checked: false },
     { title: 'Paid with a free plan', checked: false },
@@ -76,15 +73,6 @@ export const Apps = () => {
     { title: 'Social media contacts', checked: false },
   ]);
 
-  useEffect(() => {
-    if (pathname.includes('/codes')) {
-      setCodesPage(true);
-    }
-  }, [pathname]);
-
-  console.log('path1', codesPage);
-  // console.log('path2', pathname.includes('codes'), a + 1);
-
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
@@ -93,11 +81,9 @@ export const Apps = () => {
   // first fetch
   useEffect(() => {
     setIsLoading(true);
-    const url = `${apiURL()}/${
-      pathname.includes('/codes') ? `codes` : `deals`
-    }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
-      topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-    }${
+    const url = `${apiURL()}/deals?page=0&column=${orderBy.column}&direction=${
+      orderBy.direction
+    }${topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''}${
       categoryIdParam !== undefined
         ? `&filteredCategories=${categoryIdParam}`
         : ''
@@ -158,16 +144,15 @@ export const Apps = () => {
     filteredDetails,
     filteredPricing,
     filtersSubmitted,
-    pathname,
   ]);
 
   const fetchApps = async () => {
     setIsLoading(true);
     setError(null);
 
-    const url = `${apiURL()}/${
-      pathname.includes('/codes') ? `codes` : `deals`
-    }?page=${page}&column=${orderBy.column}&direction=${orderBy.direction}${
+    const url = `${apiURL()}/deals?page=${page}&column=${
+      orderBy.column
+    }&direction=${orderBy.direction}${
       topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
     }${
       categoryIdParam !== undefined
@@ -788,22 +773,11 @@ export const Apps = () => {
                 <Card
                   listCard={listView}
                   id={app.id}
-                  title={
-                    pathname.includes('/codes') ? app.dealTitle : app.title
-                  }
+                  title={app.title}
                   description={app.description}
-                  referralCode={pathname.includes('/codes') ? app.title : null}
-                  referralCodeOnClick={
-                    pathname.includes('/codes')
-                      ? () => copyToClipboard(app.title)
-                      : null
-                  }
+                  referralCode={app.referral_code}
+                  referralCodeOnClick={() => copyToClipboard(app.referral_code)}
                   url={app.url}
-                  cardUrl={
-                    pathname.includes('/codes')
-                      ? `/codes/${app.id}`
-                      : `/deals/${app.id}`
-                  }
                   urlImage={app.url_image === null ? 'deal' : app.url_image}
                   topic={app.topicTitle}
                   topicId={app.topic_id}
