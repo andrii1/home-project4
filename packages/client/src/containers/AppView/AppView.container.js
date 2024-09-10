@@ -449,7 +449,7 @@ export const AppView = () => {
                   onKeyDown={() => handleDeleteBookmarks(app.id)}
                   className="button-bookmark"
                 >
-                  Remove deal from saved{' '}
+                  Remove deal from saved &nbsp;
                   <FontAwesomeIcon icon={faHeartSolid} size="lg" />
                 </button>
               ) : user ? (
@@ -459,7 +459,8 @@ export const AppView = () => {
                   onKeyDown={() => addFavorite(app.id)}
                   className="button-bookmark"
                 >
-                  Save this deal <FontAwesomeIcon icon={faHeart} size="lg" />
+                  Save this deal &nbsp;
+                  <FontAwesomeIcon icon={faHeart} size="lg" />
                 </button>
               ) : (
                 <button
