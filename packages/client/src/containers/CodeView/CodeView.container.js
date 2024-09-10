@@ -320,7 +320,7 @@ export const CodeView = () => {
                         size="sm"
                       />
                     }
-                    label="Visit referral link"
+                    label="Use code!"
                   />
                 </Link>
               )}
@@ -367,7 +367,7 @@ export const CodeView = () => {
                       size="sm"
                     />
                   }
-                  label={code.dealTitle}
+                  label={`All ${code.dealTitle}`}
                 />
               </Link>
             </div>

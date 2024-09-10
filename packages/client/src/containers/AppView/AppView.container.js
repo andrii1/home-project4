@@ -596,7 +596,7 @@ export const AppView = () => {
                     <>
                       <Link to={code.url} target="_blank">
                         <Button
-                          size="large"
+                          size="medium"
                           primary
                           icon={
                             <FontAwesomeIcon
@@ -604,11 +604,11 @@ export const AppView = () => {
                               size="sm"
                             />
                           }
-                          label="Use this code!"
+                          label="Use code!"
                         />
                       </Link>
                       <Button
-                        size="large"
+                        size="medium"
                         secondary
                         icon={
                           <img
@@ -626,6 +626,19 @@ export const AppView = () => {
                       >
                         <span>Copied to clipboard!</span>
                       </Toast>
+                      <Link to={`../../codes/${code.id}`} target="_blank">
+                        <Button
+                          size="medium"
+                          secondary
+                          icon={
+                            <FontAwesomeIcon
+                              icon={faArrowUpRightFromSquare}
+                              size="sm"
+                            />
+                          }
+                          label="View"
+                        />
+                      </Link>
                     </>
                   );
                 })}
