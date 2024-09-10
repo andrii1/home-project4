@@ -411,11 +411,46 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
+
+  const showDealCodesInTitle = (codes) => {
+    let list;
+    if (codes.length === 1) {
+      list = codes.map((i) => {
+        return `(${i.title})`;
+      });
+    } else if (codes.length === 2) {
+      list = codes.map((i, index) => {
+        return index === codes.length - 1 ? `(${i.title})` : `(${i.title}), `;
+      });
+    } else {
+      list = codes.slice(0, 3).map((i, index) => {
+        return index === 2 ? `(${i.title})` : `(${i.title}), `;
+      });
+    }
+
+    return `${list}`;
+  };
+
+  const showNumberOfCodesInTitle = (codes) => {
+    let title;
+    if (codes.length === 1) {
+      title = 'code';
+    } else {
+      title = 'codes';
+    }
+
+    return `${codes.length} ${title}`;
+  };
+
   return (
     <>
       <Helmet>
         <title>{`${String(app.title).substring(0, 50)} ${
-          app.referral_code !== null ? `(${app.referral_code})` : ''
+          dealCodes.length > 0
+            ? `${showDealCodesInTitle(dealCodes)} - ${showNumberOfCodesInTitle(
+                dealCodes,
+              )}`
+            : ''
         } - Top App Deals`}</title>
         <meta
           name="description"
@@ -427,7 +462,11 @@ export const AppView = () => {
           <div className="header">
             <h1 className="hero-header">
               {app.title}{' '}
-              {app.referral_code !== null ? `(${app.referral_code})` : ''}
+              {dealCodes.length > 0
+                ? `${showDealCodesInTitle(
+                    dealCodes,
+                  )} - ${showNumberOfCodesInTitle(dealCodes)}`
+                : ''}
             </h1>
             <h3>{app.appTitle} deal</h3>
           </div>
@@ -543,7 +582,12 @@ export const AppView = () => {
           {dealCodes.length > 0 && (
             <div className="container-codes">
               <div className="container-title">
-                <h2>{app.title}</h2>
+                <h2>
+                  {app.title} -{' '}
+                  {dealCodes.length > 0
+                    ? `${showNumberOfCodesInTitle(dealCodes)}`
+                    : ''}
+                </h2>
               </div>
 
               <div className="container-appview-buttons">

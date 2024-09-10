@@ -63,7 +63,8 @@ const getCodesByDeal = async (deal) => {
       .join('categories', 'topics.category_id', '=', 'categories.id')
       .where({
         'deals.id': deal,
-      });
+      })
+      .orderBy('id', 'desc');
     return apps;
   } catch (error) {
     return error.message;
