@@ -153,7 +153,7 @@ export const AppView = () => {
     fetchCodesForASingleDeal(id);
   }, [id]);
 
-  console.log('test');
+  console.log('test1');
 
   useEffect(() => {
     async function fetchAppAppStore(appleId) {
