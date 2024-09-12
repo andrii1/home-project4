@@ -289,13 +289,24 @@ export const CodeView = () => {
   return (
     <>
       <Helmet>
-        <title>{`${code.dealTitle} (${code.title}) - Top App Deals`}</title>
-        <meta name="description" content={`${code.dealTitle} - use it now!`} />
+        <title>
+          {`${code.dealTitleCode ? code.dealTitleCode : code.dealTitle} (${
+            code.title
+          }) - Top App Deals`}
+        </title>
+        <meta
+          name="description"
+          content={`${
+            code.dealTitleCode ? code.dealTitleCode : code.dealTitle
+          } - use it now!`}
+        />
       </Helmet>
       <main>
         <section className="container-appview">
           <div className="header">
-            <h1 className="hero-header">{`${code.dealTitle} (${code.title})`}</h1>
+            <h1 className="hero-header">{`${
+              code.dealTitleCode ? code.dealTitleCode : code.dealTitle
+            } (${code.title})`}</h1>
             {/* <h3>{app.appTitle} code</h3> */}
           </div>
 

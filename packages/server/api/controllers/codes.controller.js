@@ -445,6 +445,7 @@ const getAppById = async (id) => {
       .select(
         'codes.*',
         'deals.title as dealTitle',
+        'deals.title_code as dealTitleCode',
         'deals.description as dealDescription',
         'apps.title as appTitle',
         'apps.id as appId',
