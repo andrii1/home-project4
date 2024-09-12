@@ -31,11 +31,23 @@
   line-height: 1.5rem;
 }
 
-.container-appview-buttons {
+.container-appview-buttons,
+.container-appview-codes {
   gap: 1rem;
   display: flex;
 }
 
+.container-appview-codes-users span {
+  font-size: 14px;
+}
+
+.codes-added-by-mobile {
+  display: none !important;
+}
+
+.container-appview-codes {
+  align-items: center;
+}
 .container-deal-actions {
   display: flex;
   justify-content: space-between;
@@ -177,6 +189,13 @@ img.copy-referral-code.smaller-icon {
   width: 100%;
 }
 
+.container-codes-users {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+}
+
 @media only screen and (min-width: 769px) {
   .container-description h2 {
     margin-bottom: 0rem;
@@ -215,7 +234,8 @@ img.copy-referral-code.smaller-icon {
     flex-direction: column;
     gap: 2rem;
   }
-  .container-appview-buttons {
+  .container-appview-buttons,
+  .container-appview-codes {
     /* flex-direction: column; */
     align-items: center;
   }
@@ -243,7 +263,8 @@ img.copy-referral-code.smaller-icon {
     display: none;
   }
 
-  .container-appview-buttons {
+  .container-appview-buttons,
+  .container-appview-codes {
     /* gap: 1rem; */
     justify-content: space-between;
   }
@@ -255,6 +276,12 @@ img.copy-referral-code.smaller-icon {
   .container-deal-actions {
     flex-wrap: wrap;
     gap: 1rem;
+  }
+
+  .container-codes-users {
+    gap: 0.5rem;
+    align-items: stretch;
+    flex-direction: column;
   }
 }
 

@@ -153,8 +153,6 @@ export const AppView = () => {
     fetchCodesForASingleDeal(id);
   }, [id]);
 
-  console.log('test2');
-
   useEffect(() => {
     async function fetchAppAppStore(appleId) {
       const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
@@ -590,56 +588,61 @@ export const AppView = () => {
                 </h2>
               </div>
 
-              <div className="container-appview-buttons">
+              <div className="container-appview-codes-users">
                 {dealCodes.map((code) => {
                   return (
-                    <>
-                      <Link to={code.url} target="_blank">
-                        <Button
-                          size="medium"
-                          primary
-                          icon={
-                            <FontAwesomeIcon
-                              icon={faArrowUpRightFromSquare}
-                              size="sm"
-                            />
-                          }
-                          label="Use code!"
-                        />
-                      </Link>
-                      <Button
-                        size="medium"
-                        secondary
-                        icon={
-                          <img
-                            src={iconCopy}
-                            alt="copy"
-                            className="icon-copy copy-referral-code"
+                    <div className="container-codes-users">
+                      <div className="container-appview-codes">
+                        <Link to={code.url} target="_blank">
+                          <Button
+                            size="medium"
+                            primary
+                            icon={
+                              <FontAwesomeIcon
+                                icon={faArrowUpRightFromSquare}
+                                size="sm"
+                              />
+                            }
+                            label="Use code!"
                           />
-                        }
-                        label={app.referral_code}
-                        onClick={() => copyToClipboard(app.referral_code)}
-                      />
-                      <Toast
-                        open={openToast}
-                        overlayClass={`toast ${animation}`}
-                      >
-                        <span>Copied to clipboard!</span>
-                      </Toast>
-                      <Link to={`../../codes/${code.id}`} target="_blank">
+                        </Link>
                         <Button
                           size="medium"
                           secondary
                           icon={
-                            <FontAwesomeIcon
-                              icon={faArrowUpRightFromSquare}
-                              size="sm"
+                            <img
+                              src={iconCopy}
+                              alt="copy"
+                              className="icon-copy copy-referral-code"
                             />
                           }
-                          label="View"
+                          label={app.referral_code}
+                          onClick={() => copyToClipboard(app.referral_code)}
                         />
-                      </Link>
-                    </>
+                        <Toast
+                          open={openToast}
+                          overlayClass={`toast ${animation}`}
+                        >
+                          <span>Copied to clipboard!</span>
+                        </Toast>
+                        <Link to={`../../codes/${code.id}`} target="_blank">
+                          <Button
+                            size="medium"
+                            secondary
+                            icon={
+                              <FontAwesomeIcon
+                                icon={faArrowUpRightFromSquare}
+                                size="sm"
+                              />
+                            }
+                            label="View"
+                          />
+                        </Link>
+                      </div>
+                      <span className="codes-added-by">
+                        added by {code.userFullName}
+                      </span>
+                    </div>
                   );
                 })}
               </div>

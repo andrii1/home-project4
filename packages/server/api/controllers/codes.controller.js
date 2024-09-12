@@ -47,6 +47,7 @@ const getCodesByDeal = async (deal) => {
         'codes.*',
         'deals.id as dealId',
         'deals.title as dealTitle',
+        'users.full_name as userFullName',
         'apps.title as appTitle',
         'apps.id as appId',
         'apps.topic_id as appTopicId',
@@ -58,6 +59,7 @@ const getCodesByDeal = async (deal) => {
         'categories.title as categoryTitle',
       )
       .join('deals', 'codes.deal_id', '=', 'deals.id')
+      .join('users', 'codes.user_id', '=', 'users.id')
       .join('apps', 'deals.app_id', '=', 'apps.id')
       .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id')
