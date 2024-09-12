@@ -4,9 +4,9 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 
 /* Get all topics */
-const getSearchTerms = async () => {
+const getSearches = async () => {
   try {
-    const searchTerms = await knex('searchTerms');
+    const searches = await knex('searches');
     // .select(
     //   'topics.id as id',
     //   'topics.title as title',
@@ -14,16 +14,20 @@ const getSearchTerms = async () => {
     //   'categories.title as categoryTitle',
     // )
     // .join('searches', 'searches.search_term_id', '=', 'searchTerms.id');
-    return searchTerms;
+    return searches;
   } catch (error) {
     return error.message;
   }
 };
 
 // Get topics by Category
-const getTopicsByCategory = async (category) => {
+const getSearchesByDeal = async (deal) => {
   try {
-    const topics = await knex('topics').where({ category_id: category });
+    const topics = await knex('searches')
+      .select('searches.*')
+      .join('searchesDeals', 'searchesDeals.search_id', '=', 'searches.id')
+      .join('deals', 'searchesDeals.deal_id', '=', 'deals.id')
+      .where({ deal_id: deal });
     return topics;
   } catch (error) {
     return error.message;
@@ -31,6 +35,6 @@ const getTopicsByCategory = async (category) => {
 };
 
 module.exports = {
-  getSearchTerms,
-  getTopicsByCategory,
+  getSearches,
+  getSearchesByDeal,
 };

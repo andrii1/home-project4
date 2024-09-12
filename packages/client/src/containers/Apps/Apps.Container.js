@@ -401,7 +401,7 @@ export const Apps = () => {
 
   useEffect(() => {
     async function fetchSearchTermsDb() {
-      const response = await fetch(`${apiURL()}/searchTerms/`);
+      const response = await fetch(`${apiURL()}/searches/`);
       const searchTermsResponseDb = await response.json();
       setSearchTermsDb(searchTermsResponseDb);
     }

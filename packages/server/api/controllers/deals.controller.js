@@ -366,14 +366,14 @@ const getAppsBySearchTerm = async (page, column, direction, searchTerm) => {
           'topics.category_id as category_id',
           'categories.title as categoryTitle',
           'searches.id as searchId',
-          'searchTerms.title as searchTermTitle',
+          'searches.title as searchTitle',
         )
         .join('apps', 'deals.app_id', '=', 'apps.id')
         .join('topics', 'apps.topic_id', '=', 'topics.id')
         .join('categories', 'topics.category_id', '=', 'categories.id')
-        .join('searches', 'searches.deal_id', '=', 'deals.id')
-        .join('searchTerms', 'searchTerms.id', '=', 'searches.search_term_id')
-        .where('searches.search_term_id', '=', `${searchTerm}`);
+        .join('searchesDeals', 'searchesDeals.deal_id', '=', 'deals.id')
+        .join('searches', 'searches.id', '=', 'searchesDeals.search_id')
+        .where('searches.id', '=', `${searchTerm}`);
     const lastItem = await getModel()
       .orderBy(column, lastItemDirection)
       .limit(1);

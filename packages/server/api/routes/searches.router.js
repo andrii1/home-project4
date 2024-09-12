@@ -9,18 +9,18 @@ const router = express.Router({ mergeParams: true });
 // router.use('/:id/apps', topicAppsRouter);
 
 // controllers
-const searchTermsController = require('../controllers/searchTerms.controller');
+const searchesController = require('../controllers/searches.controller');
 
 router.get('/', (req, res, next) => {
-  if (req.query.category) {
-    searchTermsController
-      .getTopicsByCategory(req.query.category)
+  if (req.query.deal) {
+    searchesController
+      .getSearchesByDeal(req.query.deal)
       .then((result) => res.json(result))
       .catch(next);
   } else {
     try {
-      searchTermsController
-        .getSearchTerms()
+      searchesController
+        .getSearches()
         .then((result) => res.json(result))
         .catch(next);
     } catch (error) {

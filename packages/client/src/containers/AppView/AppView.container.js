@@ -36,84 +36,6 @@ import { apiURL } from '../../apiURL';
 import './AppView.styles.css';
 import { useUserContext } from '../../userContext';
 
-const searches = [
-  { id: 1, title: 'ai tool' },
-  { id: 2, title: 'avatar creator' },
-  {
-    id: 3,
-    title: 'ai music',
-  },
-];
-
-const alternativeApps = [
-  {
-    id: 1,
-    title: '10web',
-    description:
-      'Create a website using AI Website Builder,\nhost it on 10Web Hosting, and optimize it with\nPageSpeed Booster.',
-    rating: null,
-    topic_id: 6,
-    url: 'https://10web.io',
-    pricing_type: 'Paid with free trial',
-    url_x: 'https://twitter.com/10Web_io',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension: null,
-    url_small_screenshot: 'Free',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.072Z',
-    topicTitle: 'Website builders',
-    category_id: 4,
-    categoryTitle: 'Engineering & Development',
-  },
-  {
-    id: 2,
-    title: 'TLDV',
-    description:
-      'Short for "too long; didn\'t view."\n\nThis AI platform saves you time by taking meeting notes for you.\n\nSit back and relax as tl;dv transcribes and summarizes your calls automatically.',
-    rating: null,
-    topic_id: 17,
-    url: 'https://tldv.io',
-    pricing_type: 'Paid with free plan',
-    url_x: 'https://twitter.com/tldview?lang=en',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension:
-      'https://chrome.google.com/webstore/detail/record-transcribe-chatgpt/lknmjhcajhfbbglglccadlfdjbaiifig',
-    url_small_screenshot: 'Paid with a free plan',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.083Z',
-    topicTitle: 'Meetings',
-    category_id: 1,
-    categoryTitle: 'Work & Productivity',
-  },
-  {
-    id: 3,
-    title: 'Klap',
-    description:
-      'Turn videos into viral shorts\nGet ready-to-publish TikToks, Reels, Shorts from YouTube videos in a click',
-    rating: null,
-    topic_id: 7,
-    url: 'https://klap.app',
-    pricing_type: 'Paid',
-    url_x: 'https://twitter.com/tldview?lang=en',
-    url_discord: null,
-    url_app_store: null,
-    url_google_play_store: null,
-    url_chrome_extension: null,
-    url_small_screenshot: 'Paid with a free trial',
-    url_large_screenshot: null,
-    user_id: null,
-    created_at: '2023-10-13T08:43:58.088Z',
-    topicTitle: 'Video',
-    category_id: 2,
-    categoryTitle: 'Marketing & Sales',
-  },
-];
 export const AppView = () => {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
@@ -135,6 +57,7 @@ export const AppView = () => {
   const [comment, setComment] = useState('');
   const [allRatings, setAllRatings] = useState([]);
   const [ratings, setRatings] = useState([]);
+  const [searches, setSearches] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -143,14 +66,21 @@ export const AppView = () => {
       setApp(appResponse[0]);
     }
 
-    async function fetchCodesForASingleDeal(dealId) {
+    async function fetchCodesForADeal(dealId) {
       const response = await fetch(`${apiURL()}/codes/?deal=${dealId}`);
       const appResponse = await response.json();
       setDealCodes(appResponse);
     }
 
+    async function fetchSearchesForADeal(dealId) {
+      const response = await fetch(`${apiURL()}/searches/?deal=${dealId}`);
+      const appResponse = await response.json();
+      setSearches(appResponse);
+    }
+
     fetchSingleApp(id);
-    fetchCodesForASingleDeal(id);
+    fetchCodesForADeal(id);
+    fetchSearchesForADeal(id);
   }, [id]);
 
   useEffect(() => {
@@ -274,6 +204,19 @@ export const AppView = () => {
         appTitle={item.appTitle}
         smallCard
       />
+    );
+  });
+
+  const searchItems = searches.map((search) => {
+    return (
+      <Link to={`../../deals/search/${search.id}`} target="_blank">
+        <Button
+          size="medium"
+          secondary
+          icon={<FontAwesomeIcon icon={faArrowUpRightFromSquare} size="sm" />}
+          label={search.title}
+        />
+      </Link>
     );
   });
 
@@ -875,6 +818,12 @@ export const AppView = () => {
             <div className="container-alternatives">
               <h2>🔎 Similar deals in {app.topicTitle}</h2>
               <div className="container-cards small-cards">{cardItems}</div>
+            </div>
+          )}
+          {searches.length > 0 && (
+            <div className="container-alternatives">
+              <h2>🔎 Related searches</h2>
+              <div className="container-related-searches">{searchItems}</div>
             </div>
           )}
         </section>

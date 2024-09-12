@@ -196,6 +196,12 @@ img.copy-referral-code.smaller-icon {
   width: 100%;
 }
 
+.container-related-searches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
 @media only screen and (min-width: 769px) {
   .container-description h2 {
     margin-bottom: 0rem;
