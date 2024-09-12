@@ -169,6 +169,14 @@ img.copy-referral-code.smaller-icon {
   width: 1rem;
 }
 
+.icon-copy {
+  width: 1rem;
+}
+
+.container-codes {
+  width: 100%;
+}
+
 @media only screen and (min-width: 769px) {
   .container-description h2 {
     margin-bottom: 0rem;
@@ -236,7 +244,8 @@ img.copy-referral-code.smaller-icon {
   }
 
   .container-appview-buttons {
-    gap: 1rem;
+    /* gap: 1rem; */
+    justify-content: space-between;
   }
 
   .container-store-logos {
