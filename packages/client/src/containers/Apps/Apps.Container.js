@@ -82,9 +82,6 @@ export const Apps = () => {
     }
   }, [pathname]);
 
-  console.log('path1', codesPage);
-  // console.log('path2', pathname.includes('codes'), a + 1);
-
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
