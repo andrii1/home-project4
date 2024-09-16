@@ -80,8 +80,8 @@ main {
   .hero {
     width: 90%;
     height: 100%;
-    margin: 2rem auto;
-    padding: 2rem 0rem;
+    margin: 2rem auto !important;
+    /* padding: 2rem 0rem; */
   }
   .container-cards {
     grid-template-columns: repeat(1, 1fr);

@@ -571,8 +571,6 @@ export const Apps = () => {
     metaDescription = 'Find best app deals and referral codes';
   }
 
-  console.log('appTitles', appTitles);
-
   const sortOptions = ['Recent', 'A-Z', 'Z-A'];
 
   const pricingList = pricingOptionsChecked.map((item) => (
@@ -678,7 +676,7 @@ export const Apps = () => {
         <meta name="description" content={metaDescription} />
       </Helmet>
       {/* <div className="hero"></div> */}
-      <div className="hero">
+      <div className="hero apps">
         <h1 className="hero-header">
           {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} app deals`}
           {!appIdParam && !searchTermIdParam && 'Browse best app deals'}

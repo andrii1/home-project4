@@ -162,13 +162,21 @@ export const Navigation = () => {
                   }`}
                 >
                   <li>
-                    <NavLink to="/categories" className="nav-link">
+                    <NavLink
+                      to="/categories"
+                      onClick={toggleHamburger}
+                      className="nav-link"
+                    >
                       Categories
                     </NavLink>
                   </li>
                   <li>
                     {user ? (
-                      <NavLink to="/apps/new" className="login submit">
+                      <NavLink
+                        to="/apps/new"
+                        onClick={toggleHamburger}
+                        className="login submit"
+                      >
                         Submit
                       </NavLink>
                     ) : (
@@ -196,6 +204,8 @@ export const Navigation = () => {
                       icon={faSearch}
                       onClick={() => {
                         setOpenSearchModal(true);
+                        setHamburgerOpen(false);
+                        setHamburgerUserOpen(false);
                       }}
                     />
                   </label>
@@ -203,7 +213,14 @@ export const Navigation = () => {
               </li>
             </div>
             <li>
-              <NavLink to="/" className="nav-link">
+              <NavLink
+                to="/"
+                className="nav-link"
+                onClick={() => {
+                  setHamburgerOpen(false);
+                  setHamburgerUserOpen(false);
+                }}
+              >
                 <img src={logo} alt="logo" className="img-logo" />
               </NavLink>
             </li>
@@ -225,7 +242,11 @@ export const Navigation = () => {
                     }`}
                   >
                     {name}
-                    <NavLink to="/bookmarks" className="login">
+                    <NavLink
+                      onClick={toggleHamburgerUser}
+                      to="/bookmarks"
+                      className="login"
+                    >
                       Bookmarks
                     </NavLink>
                     <FontAwesomeIcon

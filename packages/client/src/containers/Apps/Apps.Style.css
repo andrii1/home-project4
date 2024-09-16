@@ -21,6 +21,7 @@ main {
 
 .hero h1 {
   margin-bottom: 0.3rem;
+  margin-top: 0rem;
 }
 
 .hero form {
@@ -226,11 +227,14 @@ main {
 }
 
 @media only screen and (max-width: 992px) {
-  .hero {
+  .hero.apps {
+    margin: 2rem auto;
+    padding: 0rem;
+  }
+  .hero form {
     display: none;
     /* width: 90%;
     height: 100%;
-    margin: 2rem auto;
     padding: 2rem 0rem; */
   }
   .container-cards {
