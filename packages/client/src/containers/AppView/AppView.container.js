@@ -403,7 +403,11 @@ export const AppView = () => {
         } - Top App Deals`}</title>
         <meta
           name="description"
-          content={`${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`}
+          content={
+            keywords.length > 0
+              ? keywords.map((keyword) => keyword.title).join(', ')
+              : `${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`
+          }
         />
       </Helmet>
       <main>
