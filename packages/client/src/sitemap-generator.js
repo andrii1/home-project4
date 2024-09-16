@@ -14,6 +14,12 @@ async function generateSitemap() {
     const prompts = promptsResult.sort((a, b) => a.id - b.id);
     const idMap = [];
 
+    /* Codes */
+    const responseCodes = await fetch(`http://localhost:5001/api/codes/`);
+    const codesResult = await responseCodes.json();
+    const codes = codesResult.sort((a, b) => a.id - b.id);
+    const idMapCodes = [];
+
     /* Topics */
     const responseTopics = await fetch(`http://localhost:5001/api/topics`);
     const topicsResult = await responseTopics.json();
@@ -29,15 +35,17 @@ async function generateSitemap() {
     const idMapCategories = [];
 
     /* Searches */
-    const responseSearches = await fetch(
-      `http://localhost:5001/api/searchTerms`,
-    );
+    const responseSearches = await fetch(`http://localhost:5001/api/searches`);
     const searchesResult = await responseSearches.json();
     const searches = searchesResult.sort((a, b) => a.id - b.id);
     const idMapSearches = [];
 
     prompts.forEach((prompt) => {
       idMap.push({ id: prompt.id });
+    });
+
+    codes.forEach((code) => {
+      idMapCodes.push({ codeIdParam: code.id });
     });
 
     topics.forEach((topic) => {
@@ -54,6 +62,7 @@ async function generateSitemap() {
 
     const paramsConfig = {
       '/deals/:id': idMap,
+      '/codes/:codeIdParam': idMapCodes,
       '/deals/topic/:topicIdParam': idMapTopics,
       '/deals/category/:categoryIdParam': idMapCategories,
       '/deals/search/:searchIdParam': idMapSearches,
