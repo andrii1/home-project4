@@ -16,6 +16,7 @@ const cloudinary = require('./cloudinary.router');
 const appsAppStore = require('./appsAppStore.router');
 const searches = require('./searches.router');
 const codes = require('./codes.router');
+const keywords = require('./keywords.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -59,5 +60,6 @@ router.use('/comments', comments);
 router.use('/appsAppStore', appsAppStore);
 router.use('/searches', searches);
 router.use('/codes', codes);
+router.use('/keywords', keywords);
 
 module.exports = router;

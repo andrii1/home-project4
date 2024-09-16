@@ -159,6 +159,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
+  align-items: flex-start;
 }
 
 .container-badges {
@@ -200,6 +201,17 @@ img.copy-referral-code.smaller-icon {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+.p-no-margin {
+  margin: 0rem !important;
+}
+
+.badges-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: flex-start;
 }
 
 @media only screen and (min-width: 769px) {
@@ -287,6 +299,9 @@ img.copy-referral-code.smaller-icon {
   .container-codes-users {
     gap: 0.5rem;
     align-items: stretch;
+    flex-direction: column;
+  }
+  .badges {
     flex-direction: column;
   }
 }

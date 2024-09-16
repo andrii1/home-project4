@@ -58,6 +58,7 @@ export const AppView = () => {
   const [allRatings, setAllRatings] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [searches, setSearches] = useState([]);
+  const [keywords, setKeywords] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -78,9 +79,16 @@ export const AppView = () => {
       setSearches(appResponse);
     }
 
+    async function fetchKeywordsForADeal(dealId) {
+      const response = await fetch(`${apiURL()}/keywords/?deal=${dealId}`);
+      const appResponse = await response.json();
+      setKeywords(appResponse);
+    }
+
     fetchSingleApp(id);
     fetchCodesForADeal(id);
     fetchSearchesForADeal(id);
+    fetchKeywordsForADeal(id);
   }, [id]);
 
   useEffect(() => {
@@ -677,18 +685,55 @@ export const AppView = () => {
             </div>
             <div className="container-tags">
               <div className="badges">
-                <p>Tagged: </p>
+                <p>Topic: </p>
                 <div>
-                  <Badge secondary label={app.topicTitle} size="small" />
+                  <Link to={`/deals/topic/${app.topic_id}`} target="_blank">
+                    <Button
+                      label={app.topicTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Badge secondary label={app.categoryTitle} size="small" />
+                  <Link
+                    to={`/deals/category/${app.category_id}`}
+                    target="_blank"
+                  >
+                    <Button
+                      label={app.categoryTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
+            {keywords.length > 0 && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p className="p-no-margin">Tags: </p>
+                  <div className="badges-keywords">
+                    {keywords.map((keyword) => (
+                      <Badge label={keyword.title} size="small" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
           {/* <div className="container-related-searches">
             <h3>Related searches</h3>
