@@ -533,26 +533,45 @@ export const Apps = () => {
 
     setOrderBy({ column, direction });
   }, [sortOrder]);
+
   let pageTitle;
+  let metaContent;
+  let metaDescription;
   if (topicIdParam) {
-    pageTitle = `${topics
+    metaContent = topics
       .filter((topic) => topic.id === parseInt(topicIdParam, 10))
-      .map((item) => item.title)} - app deals`;
+      .map((item) => item.title);
+    pageTitle = `${metaContent} - app deals`;
+    metaDescription = `${metaContent} best app deals, referral codes, coupons, discounts`;
   } else if (categoryIdParam) {
-    pageTitle = `${categories
+    metaContent = categories
       .filter((category) => category.id === parseInt(categoryIdParam, 10))
-      .map((item) => item.title)} - app deals`;
+      .map((item) => item.title);
+    pageTitle = `${metaContent} - app deals`;
+    metaDescription = `${metaContent} best app deals, referral codes, coupons, discounts`;
   } else if (appIdParam) {
-    pageTitle = `${appTitles
+    metaContent = appTitles
       .filter((category) => category.id === parseInt(appIdParam, 10))
-      .map((item) => item.title)} app deals`;
+      .map((item) => item.title);
+    metaDescription = appTitles
+      .filter((category) => category.id === parseInt(appIdParam, 10))
+      .map((item) =>
+        item.meta_description
+          ? item.meta_description
+          : `${item.title} app deals, referral codes, coupons, discounts`,
+      );
+    pageTitle = `${metaContent} app deals`;
   } else if (searchTermIdParam) {
     pageTitle = `${searchTermsDb
       .filter((searchTerm) => searchTerm.id === parseInt(searchTermIdParam, 10))
       .map((item) => item.title)} - Top App Deals`;
+    metaDescription = 'Find best app deals and referral codes';
   } else {
     pageTitle = 'Top App Deals - best app deals';
+    metaDescription = 'Find best app deals and referral codes';
   }
+
+  console.log('appTitles', appTitles);
 
   const sortOptions = ['Recent', 'A-Z', 'Z-A'];
 
@@ -656,7 +675,7 @@ export const Apps = () => {
     <main>
       <Helmet>
         <title>{pageTitle}</title>
-        <meta name="description" content="Find best app deals" />
+        <meta name="description" content={metaDescription} />
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
