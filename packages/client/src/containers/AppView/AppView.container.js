@@ -782,6 +782,7 @@ export const AppView = () => {
             </EmailShareButton>
           </div>
           <div className="container-comments">
+            <h2 className="h-no-margin">Reviews</h2>
             {comments.length === 0 && (
               <div>
                 <i>No reviews for {app.title}. </i>

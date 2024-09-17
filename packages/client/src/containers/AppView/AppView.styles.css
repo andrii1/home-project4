@@ -214,6 +214,10 @@ img.copy-referral-code.smaller-icon {
   align-items: flex-start;
 }
 
+.h-no-margin {
+  margin-top: 0rem;
+}
+
 @media only screen and (min-width: 769px) {
   .container-description h2 {
     margin-bottom: 0rem;
