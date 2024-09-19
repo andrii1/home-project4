@@ -571,8 +571,8 @@ export const AppView = () => {
                               className="icon-copy copy-referral-code"
                             />
                           }
-                          label={app.referral_code}
-                          onClick={() => copyToClipboard(app.referral_code)}
+                          label={code.title}
+                          onClick={() => copyToClipboard(code.title)}
                         />
                         <Toast
                           open={openToast}
