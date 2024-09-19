@@ -29,6 +29,7 @@ export const Card = ({
   url,
   cardUrl,
   urlImage,
+  urlImageIcon,
   id,
   className,
   smallCard = true,
@@ -73,7 +74,9 @@ export const Card = ({
         className={`card-image ${listCard ? 'list' : ''}`}
       >
         <img
-          className={listCard ? 'img-app-icon-list' : 'img-app-icon'}
+          className={`${listCard ? 'img-app-icon-list' : 'img-app-icon'} ${
+            urlImageIcon ? 'icon-shadow' : ''
+          }`}
           alt="test"
           src={urlImage}
         />
@@ -224,6 +227,7 @@ Card.propTypes = {
   urlImage: PropTypes.string,
   smallCard: PropTypes.bool,
   listCard: PropTypes.bool,
+  urlImageIcon: PropTypes.bool,
   className: PropTypes.string,
   isFavorite: PropTypes.func,
   addFavorite: PropTypes.func,
@@ -244,6 +248,7 @@ Card.defaultProps = {
   id: null,
   smallCard: false,
   listCard: false,
+  urlImageIcon: false,
   className: null,
   isFavorite: undefined,
   addFavorite: undefined,

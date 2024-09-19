@@ -858,6 +858,7 @@ export const Apps = () => {
                         },q_auto,f_auto/deals/deal.svg`
                       : app.iconUrl
                   }
+                  urlImageIcon={app.iconUrl !== null}
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   appTitle={app.appTitle}
