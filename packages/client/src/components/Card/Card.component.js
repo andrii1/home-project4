@@ -71,16 +71,14 @@ export const Card = ({
         to={cardUrl}
         target="_blank"
         className={`card-image ${listCard ? 'list' : ''}`}
-        style={{
-          backgroundImage: `url(http://res.cloudinary.com/dgarvanzw/image/upload/w_${
-            listCard ? '500' : '700'
-          },q_auto,f_auto/deals/${urlImage}.${
-            urlImage === 'deal' ? 'svg' : 'png'
-          } )`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'contain',
-        }}
-      />
+      >
+        <img
+          className={listCard ? 'img-app-icon-list' : 'img-app-icon'}
+          alt="test"
+          src={urlImage}
+        />
+      </Link>
+
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
           <div className="card-title">

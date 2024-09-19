@@ -425,11 +425,17 @@ export const AppView = () => {
           </div>
 
           <img
-            className="appview-image"
+            className={
+              appAppStore.artworkUrl512 ? 'appview-icon' : 'appview-image'
+            }
             alt={`${app.title}`}
-            src={`http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
-              app.url_image === null ? 'deal' : app.url_image
-            }.${app.url_image === null ? 'svg' : 'png'}`}
+            src={
+              appAppStore.artworkUrl512
+                ? `${appAppStore.artworkUrl512}`
+                : `http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
+                    app.url_image === null ? 'deal' : app.url_image
+                  }.${app.url_image === null ? 'svg' : 'png'}`
+            }
           />
 
           <div className="container-deal-actions">

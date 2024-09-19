@@ -45,6 +45,7 @@ const getApps = async (page, column, direction) => {
         .select(
           'deals.*',
           'apps.title as appTitle',
+          'apps.apple_id as appAppleId',
           'apps.description as appDescription',
           'apps.url as appUrl',
           'apps.url_image as appUrlImage',
@@ -412,6 +413,7 @@ const getAppsBy = async ({
           'apps.url as appUrl',
           'apps.url_image as appUrlImage',
           'apps.topic_id as topic_id',
+          'apps.apple_id as appAppleId',
           'topics.title as topicTitle',
           'topics.category_id as category_id',
           'categories.title as categoryTitle',

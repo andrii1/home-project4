@@ -110,19 +110,6 @@ export const Apps = () => {
         : ''
     }`;
 
-    // if (topicIdParam) {
-    //   url = `${apiURL()}/apps?page=0&filteredTopics=${topicIdParam}&column=${
-    //     orderBy.column
-    //   }&direction=${orderBy.direction}`;
-    // } else if (categoryIdParam) {
-    //   url = `${apiURL()}/apps?page=0&filteredCategories=${categoryIdParam}&column=${
-    //     orderBy.column
-    //   }&direction=${orderBy.direction}`;
-    // } else {
-    //   url = `${apiURL()}/apps?page=0&column=${orderBy.column}&direction=${
-    //     orderBy.direction
-    //   }`;
-    // }
     async function fetchData() {
       const response = await fetch(url);
       const json = await response.json();
@@ -135,8 +122,31 @@ export const Apps = () => {
         hasMore = false;
       }
 
+      const arrayWithAppleIds = json.data
+        .map((deal) => deal.appAppleId)
+        .filter((deal) => deal !== null)
+        .join(',');
+
+      const responseAppIcons = await fetch(
+        `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
+      );
+      const jsonAppIcons = await responseAppIcons.json();
+      const appIcons = jsonAppIcons.results;
+
+      const arrayWithIcons = json.data.map((deal) => ({
+        ...deal,
+        iconUrl: appIcons?.some((e) => e.trackId.toString() === deal.appAppleId)
+          ? appIcons
+              .filter(
+                (appleId) => appleId.trackId.toString() === deal.appAppleId,
+              )
+              .map((item) => item.artworkUrl512)[0]
+              .toString()
+          : null,
+      }));
+
       setApps({
-        data: json.data,
+        data: arrayWithIcons,
         lastItem: json.lastItem,
         hasMore,
       });
@@ -157,6 +167,8 @@ export const Apps = () => {
     filtersSubmitted,
     pathname,
   ]);
+
+  console.log('apps', apps);
 
   const fetchApps = async () => {
     setIsLoading(true);
@@ -212,9 +224,30 @@ export const Apps = () => {
       hasMore = false;
     }
 
+    const arrayWithAppleIds = json.data
+      .map((deal) => deal.appAppleId)
+      .filter((deal) => deal !== null)
+      .join(',');
+
+    const responseAppIcons = await fetch(
+      `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
+    );
+    const jsonAppIcons = await responseAppIcons.json();
+    const appIcons = jsonAppIcons.results;
+
+    const arrayWithIcons = json.data.map((deal) => ({
+      ...deal,
+      iconUrl: appIcons?.some((e) => e.trackId.toString() === deal.appAppleId)
+        ? appIcons
+            .filter((appleId) => appleId.trackId.toString() === deal.appAppleId)
+            .map((item) => item.artworkUrl512)[0]
+            .toString()
+        : null,
+    }));
+
     setApps((prevItems) => {
       return {
-        data: [...prevItems.data, ...json.data],
+        data: [...prevItems.data, ...arrayWithIcons],
         lastItem: json.lastItem,
         hasMore,
       };
@@ -818,7 +851,13 @@ export const Apps = () => {
                       ? `/codes/${app.id}`
                       : `/deals/${app.id}`
                   }
-                  urlImage={app.url_image === null ? 'deal' : app.url_image}
+                  urlImage={
+                    app.iconUrl === null
+                      ? `http://res.cloudinary.com/dgarvanzw/image/upload/w_${
+                          listView ? '500' : '700'
+                        },q_auto,f_auto/deals/deal.svg`
+                      : app.iconUrl
+                  }
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   appTitle={app.appTitle}

@@ -123,11 +123,18 @@
   text-decoration: underline;
 }
 
-.appview-image {
-  /* width: 100%; */
-  max-height: 20rem;
-  border-radius: 0.5rem;
+.appview-image,
+.appview-icon {
+  max-height: 15rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.appview-image {
+  border-radius: 0.5rem;
+}
+
+.appview-icon {
+  border-radius: 1.5rem;
 }
 
 .small-cards {
@@ -262,8 +269,10 @@ img.copy-referral-code.smaller-icon {
     align-items: center;
   }
 
-  .appview-image {
+  .appview-image,
+  .appview-icon {
     margin: 0 auto;
+    max-height: 10rem;
   }
 
   .container-comments {
