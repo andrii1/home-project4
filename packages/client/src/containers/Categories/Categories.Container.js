@@ -64,7 +64,15 @@ export const Categories = () => {
         }
         return acc;
       }, []);
-      setCategoriesAndTopics(topicsAndCategories);
+      const sortedTopicsAndCategories = topicsAndCategories
+        .map((item) => {
+          return {
+            ...item,
+            topics: item.topics.sort((a, b) => a.title.localeCompare(b.title)),
+          };
+        })
+        .sort((a, b) => a.categoryTitle.localeCompare(b.categoryTitle));
+      setCategoriesAndTopics(sortedTopicsAndCategories);
     }
     fetchCategories();
     fetchTopics();

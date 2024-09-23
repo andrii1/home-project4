@@ -168,8 +168,6 @@ export const Apps = () => {
     pathname,
   ]);
 
-  console.log('apps', apps);
-
   const fetchApps = async () => {
     setIsLoading(true);
     setError(null);
