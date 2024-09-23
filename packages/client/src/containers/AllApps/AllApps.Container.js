@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './Categories.Style.css';
+import './AllApps.Style.css';
 import { apiURL } from '../../apiURL';
 import { CardCategories } from '../../components/CardCategories/CardCategories.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-export const Categories = () => {
+export const AllApps = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoriesAndTopics, setCategoriesAndTopics] = useState([]);
-  const [topics, setTopics] = useState([]);
+  const [apps, setApps] = useState([]);
   useEffect(() => {
     async function fetchCategories() {
       const responseCategories = await fetch(`${apiURL()}/categories/`);
@@ -33,53 +33,48 @@ export const Categories = () => {
   }, [searchTerms]);
 
   useEffect(() => {
-    async function fetchCategories() {
-      const response = await fetch(`${apiURL()}/categories/`);
-      const categoriesResponse = await response.json();
-      setCategories(categoriesResponse);
-    }
+    async function fetchApps() {
+      const response = await fetch(`${apiURL()}/apps/`);
+      const appsResponse = await response.json();
+      setApps(appsResponse);
+      console.log('appsresponse', appsResponse);
 
-    async function fetchTopics() {
-      const response = await fetch(`${apiURL()}/topics/`);
-      const topicsResponse = await response.json();
-      setTopics(topicsResponse);
-
-      const topicsAndCategories = topicsResponse.reduce((acc, d) => {
-        const found = acc.find((a) => a.categoryId === d.categoryId);
+      const topicsAndApps = appsResponse.reduce((acc, d) => {
+        const found = acc.find((a) => a.topicId === d.topic_id);
         /* const value = { name: d.name, val: d.value }; */
+        console.log('found', found);
         const value = {
           id: d.id,
           title: d.title,
-          categoryId: d.categoryId,
         }; // the element in data property
         if (!found) {
           /* acc.push(...value); */
           acc.push({
-            categoryId: d.categoryId,
-            categoryTitle: d.categoryTitle,
-            topics: [value],
+            topicId: d.topic_id,
+            topicTitle: d.topicTitle,
+            apps: [value],
           }); // not found, so need to add data property
         } else {
           /* acc.push({ name: d.name, data: [{ value: d.value }, { count: d.count }] }); */
-          found.topics.push(value); // if found, that means data property exists, so just push new element to found.data.
+          found.apps.push(value); // if found, that means data property exists, so just push new element to found.data.
         }
         return acc;
       }, []);
-      const sortedTopicsAndCategories = topicsAndCategories
+      const sortedTopicsAndApps = topicsAndApps
         .map((item) => {
           return {
             ...item,
-            topics: item.topics.sort((a, b) => a.title.localeCompare(b.title)),
+            apps: item.apps.sort((a, b) => a.title.localeCompare(b.title)),
           };
         })
-        .sort((a, b) => a.categoryTitle.localeCompare(b.categoryTitle));
-      setCategoriesAndTopics(sortedTopicsAndCategories);
+        .sort((a, b) => a.topicTitle.localeCompare(b.topicTitle));
+      setCategoriesAndTopics(sortedTopicsAndApps);
     }
-    fetchCategories();
-    fetchTopics();
+
+    fetchApps();
   }, []);
 
-  console.log('test2', categories);
+  console.log('categoriesandtopics', categoriesAndTopics);
 
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
@@ -108,9 +103,9 @@ export const Categories = () => {
     //   .map((item) => item.id);
     return (
       <CardCategories
-        title={category.categoryTitle}
-        url={category.categoryId}
-        topics={category.topics}
+        title={category.topicTitle}
+        url={category.topicId}
+        topics={category.apps}
       />
     );
   });
@@ -125,8 +120,8 @@ export const Categories = () => {
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="hero">
-        <h1 className="hero-header">Categories</h1>
-        <p className="subheading">Search deals by categories and topics</p>
+        <h1 className="hero-header">Apps</h1>
+        <p className="subheading">Search deals by apps</p>
         <form>
           <label>
             <FontAwesomeIcon
@@ -138,7 +133,7 @@ export const Categories = () => {
               className="input-search-home"
               onChange={handleSearch}
               /* onFocus={handleClick} */
-              placeholder="Search categories and topics"
+              placeholder="Search by apps"
             />
           </label>
         </form>
