@@ -55,7 +55,7 @@ export const Navigation = () => {
       setTopics(topicsResponse);
       const combinedArray = categoriesResponse.concat(topicsResponse);
       if (searchTerms) {
-        const filteredSearch = combinedArray.filter((item) =>
+        const filteredSearch = combinedArray?.filter((item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()),
         );
         setResultsHome(filteredSearch);
@@ -68,12 +68,13 @@ export const Navigation = () => {
       const responseApps = await fetch(`${apiURL()}/deals/`);
 
       const responseAppsJson = await responseApps.json();
+      console.log('responseAppsJson', responseAppsJson);
       if (searchTerms) {
-        const filteredSearch = responseAppsJson.filter(
+        const filteredSearch = responseAppsJson?.filter(
           (item) =>
             item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
             item.description
-              .toLowerCase()
+              ?.toLowerCase()
               .includes(searchTerms.toLowerCase()) ||
             item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
             item.categoryTitle
@@ -84,7 +85,7 @@ export const Navigation = () => {
       }
     }
 
-    fetchCategories();
+    // fetchCategories();
     fetchApps();
   }, [searchTerms]);
   const handleSearch = (event) => {

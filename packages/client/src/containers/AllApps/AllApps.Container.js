@@ -68,23 +68,11 @@ export const AllApps = () => {
     setSearchTerms(event.target.value);
   };
 
-  const dropdownList = resultsHome.map((result) => {
-    let finalResult;
-    if (Object.keys(result).length > 2) {
-      finalResult = (
-        <Link to={`/apps/topic/${result.id}`}>
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    } else {
-      finalResult = (
-        <Link to={`/apps/category/${result.id}`}>
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    }
-    return finalResult;
-  });
+  const dropdownList = resultsHome.map((result) => (
+    <Link to={`/deals/app/${result.id}`}>
+      <li key={result.id}>{result.title}</li>
+    </Link>
+  ));
   const cardItems = categoriesAndTopics.map((category) => {
     // const relatedTopics = topics
     //   .filter((topic) => topic.categoryId === category.id)
