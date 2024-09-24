@@ -148,16 +148,16 @@ export const AllApps = () => {
       </div>
       <div className="container-apps-sort">
         <Link
-          className={showAppsBy === 'topics' ? '' : 'apps-sort-underline'}
-          onClick={() => setShowAppsBy('topics')}
-        >
-          By topics
-        </Link>
-        <Link
           className={showAppsBy === 'alphabet' ? '' : 'apps-sort-underline'}
           onClick={() => setShowAppsBy('alphabet')}
         >
           By alphabet
+        </Link>
+        <Link
+          className={showAppsBy === 'topics' ? '' : 'apps-sort-underline'}
+          onClick={() => setShowAppsBy('topics')}
+        >
+          By topics
         </Link>
       </div>
       <section className="container-cards">{cardItems}</section>
