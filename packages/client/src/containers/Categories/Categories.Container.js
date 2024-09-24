@@ -79,8 +79,6 @@ export const Categories = () => {
     fetchTopics();
   }, []);
 
-  console.log('test2', categories);
-
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
