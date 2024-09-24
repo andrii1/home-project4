@@ -10,39 +10,29 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 export const AllApps = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [categoriesAndTopics, setCategoriesAndTopics] = useState([]);
   const [apps, setApps] = useState([]);
+
   useEffect(() => {
-    async function fetchCategories() {
-      const responseCategories = await fetch(`${apiURL()}/categories/`);
-      const responseTopics = await fetch(`${apiURL()}/topics/`);
-      const categoriesResponse = await responseCategories.json();
-      const topicsResponse = await responseTopics.json();
-      const combinedArray = categoriesResponse.concat(topicsResponse);
-      if (searchTerms) {
-        const filteredSearch = combinedArray.filter((item) =>
-          item.title.toLowerCase().includes(searchTerms.toLowerCase()),
-        );
-        setResultsHome(filteredSearch);
-      } else {
-        setResultsHome(categoriesResponse);
-      }
+    if (searchTerms) {
+      const filteredSearch = apps.filter((item) =>
+        item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+      setResultsHome(filteredSearch);
+    } else {
+      setResultsHome(apps);
     }
-    fetchCategories();
-  }, [searchTerms]);
+  }, [searchTerms, apps]);
 
   useEffect(() => {
     async function fetchApps() {
       const response = await fetch(`${apiURL()}/apps/`);
       const appsResponse = await response.json();
       setApps(appsResponse);
-      console.log('appsresponse', appsResponse);
 
       const topicsAndApps = appsResponse.reduce((acc, d) => {
         const found = acc.find((a) => a.topicId === d.topic_id);
         /* const value = { name: d.name, val: d.value }; */
-        console.log('found', found);
         const value = {
           id: d.id,
           title: d.title,
@@ -73,8 +63,6 @@ export const AllApps = () => {
 
     fetchApps();
   }, []);
-
-  console.log('categoriesandtopics', categoriesAndTopics);
 
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
@@ -133,7 +121,7 @@ export const AllApps = () => {
               className="input-search-home"
               onChange={handleSearch}
               /* onFocus={handleClick} */
-              placeholder="Search by apps"
+              placeholder="Search apps"
             />
           </label>
         </form>
