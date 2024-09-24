@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './AllApps.Style.css';
@@ -6,12 +6,13 @@ import { apiURL } from '../../apiURL';
 import { CardCategories } from '../../components/CardCategories/CardCategories.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Button } from '../../components/Button/Button.component';
 
 export const AllApps = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
-  const [categoriesAndTopics, setCategoriesAndTopics] = useState([]);
   const [apps, setApps] = useState([]);
+  const [showAppsBy, setShowAppsBy] = useState('alphabet');
 
   useEffect(() => {
     if (searchTerms) {
@@ -29,8 +30,13 @@ export const AllApps = () => {
       const response = await fetch(`${apiURL()}/apps/`);
       const appsResponse = await response.json();
       setApps(appsResponse);
+    }
+    fetchApps();
+  }, []);
 
-      const topicsAndApps = appsResponse.reduce((acc, d) => {
+  const filteredApps = useMemo(() => {
+    if (showAppsBy === 'topics') {
+      const topicsAndApps = apps.reduce((acc, d) => {
         const found = acc.find((a) => a.topicId === d.topic_id);
         /* const value = { name: d.name, val: d.value }; */
         const value = {
@@ -50,7 +56,7 @@ export const AllApps = () => {
         }
         return acc;
       }, []);
-      const sortedTopicsAndApps = topicsAndApps
+      return topicsAndApps
         .map((item) => {
           return {
             ...item,
@@ -58,11 +64,22 @@ export const AllApps = () => {
           };
         })
         .sort((a, b) => a.topicTitle.localeCompare(b.topicTitle));
-      setCategoriesAndTopics(sortedTopicsAndApps);
     }
+    const obj = apps
+      .sort((a, b) => a.title.localeCompare(b.title))
+      .reduce((acc, c) => {
+        const letter = c.title[0];
+        acc[letter] = (acc[letter] || []).concat({
+          id: c.id,
+          title: c.title,
+        });
+        return acc;
+      }, {});
 
-    fetchApps();
-  }, []);
+    return Object.entries(obj).map(([letter, appTitles]) => {
+      return { letter, appTitles };
+    });
+  }, [showAppsBy, apps]);
 
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
@@ -73,18 +90,26 @@ export const AllApps = () => {
       <li key={result.id}>{result.title}</li>
     </Link>
   ));
-  const cardItems = categoriesAndTopics.map((category) => {
-    // const relatedTopics = topics
-    //   .filter((topic) => topic.categoryId === category.id)
-    //   .map((item) => item.id);
+
+  const cardItems = filteredApps.map((item) => {
+    if (Object.keys(item).includes('letter'))
+      return (
+        <CardCategories
+          title={item.letter}
+          topics={item.appTitles}
+          slug="app"
+        />
+      );
     return (
       <CardCategories
-        title={category.topicTitle}
-        url={category.topicId}
-        topics={category.apps}
+        title={item.topicTitle}
+        url={item.topicId}
+        topics={item.apps}
+        slug="topic"
       />
     );
   });
+
   return (
     <main>
       <Helmet>
@@ -120,6 +145,20 @@ export const AllApps = () => {
         ) : (
           ''
         )}
+      </div>
+      <div className="container-apps-sort">
+        <Link
+          className={showAppsBy === 'topics' ? '' : 'apps-sort-underline'}
+          onClick={() => setShowAppsBy('topics')}
+        >
+          By topics
+        </Link>
+        <Link
+          className={showAppsBy === 'alphabet' ? '' : 'apps-sort-underline'}
+          onClick={() => setShowAppsBy('alphabet')}
+        >
+          By alphabet
+        </Link>
       </div>
       <section className="container-cards">{cardItems}</section>
     </main>
