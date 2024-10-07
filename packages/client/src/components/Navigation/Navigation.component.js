@@ -184,23 +184,15 @@ export const Navigation = () => {
                     </NavLink>
                   </li>
                   <li>
-                    {user ? (
-                      <NavLink
-                        to="/apps/new"
-                        onClick={toggleHamburger}
-                        className="login submit"
-                      >
-                        Submit
-                      </NavLink>
-                    ) : (
+                    {!user && (
                       <NavLink
                         onClick={() => {
                           setOpenModal(true);
-                          setModalTitle('Do you want to add your deals?');
+                          setModalTitle('Sign up');
                         }}
-                        className="login submit"
+                        className="login submit nav-link"
                       >
-                        Submit an app
+                        Add your referral code
                       </NavLink>
                     )}
                   </li>
@@ -258,17 +250,24 @@ export const Navigation = () => {
                       hamburgerUserOpen ? 'menu-open' : 'menu-closed'
                     }`}
                   >
-                    {name}
+                    Hi, {name}
                     <NavLink
                       onClick={toggleHamburgerUser}
                       to="/bookmarks"
-                      className="login"
+                      className="login nav-link"
                     >
                       Bookmarks
                     </NavLink>
+                    <NavLink
+                      onClick={toggleHamburgerUser}
+                      to="/codes/new"
+                      className="login nav-link"
+                    >
+                      Add referral code
+                    </NavLink>
                     <FontAwesomeIcon
                       onClick={logout}
-                      className="share-icon"
+                      className="share-icon logout-icon"
                       icon={faRightFromBracket}
                     />
                   </div>
@@ -376,7 +375,7 @@ export const Navigation = () => {
         </Link>
         or
         <Link to="/login">
-          <Button label="Log in" />
+          <Button secondary label="Log in" />
         </Link>
       </Modal>
       <Modal
@@ -389,7 +388,7 @@ export const Navigation = () => {
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
+              // autoFocus
               type="text"
               className="input-search-modal mobile"
               onChange={handleSearch}

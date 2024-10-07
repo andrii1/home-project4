@@ -121,6 +121,10 @@ main {
   display: none;
 }
 
+form.home {
+  display: none;
+}
+
 @media only screen and (max-width: 768px) {
   .container-topics {
     display: none;
