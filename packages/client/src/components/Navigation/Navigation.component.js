@@ -240,15 +240,19 @@ export const Navigation = () => {
             <li>
               {user ? (
                 <div className="container-logged-in">
-                  <Button
-                    className="hamburger-menu-button"
-                    onClick={toggleHamburgerUser}
-                    primary
-                  >
-                    <FontAwesomeIcon
-                      icon={hamburgerUserOpen ? faXmark : faUser}
-                    />
-                  </Button>
+                  {hamburgerUserOpen && (
+                    <Button
+                      className="hamburger-menu-button-circle"
+                      onClick={toggleHamburgerUser}
+                      primary
+                    >
+                      <FontAwesomeIcon icon={faXmark} />
+                    </Button>
+                  )}
+                  {!hamburgerUserOpen && (
+                    <ProfileImage name={name} onClick={toggleHamburgerUser} />
+                  )}
+
                   <div
                     className={`menu-user ${
                       hamburgerUserOpen ? 'menu-open' : 'menu-closed'

@@ -68,7 +68,15 @@ ul li,
   min-width: 3.5rem;
 }
 
-.hamburger-menu-button.storybook-button svg {
+.hamburger-menu-button-circle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  padding: 0rem;
+}
+
+.hamburger-menu-button.storybook-button svg,
+.hamburger-menu-button-circle.storybook-button svg {
   margin: 0 !important;
 }
 
