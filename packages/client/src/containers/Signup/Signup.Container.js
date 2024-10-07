@@ -32,7 +32,13 @@ export const Signup = () => {
   useEffect(() => {
     if (loading) return;
     if (user) {
-      addUserToDb(user, name);
+      let nameToDb;
+      if (user.displayName) {
+        nameToDb = user.displayName;
+      } else {
+        nameToDb = name;
+      }
+      addUserToDb(user, nameToDb);
       navigate('/');
     }
   }, [user, name, loading, addUserToDb, navigate]);

@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+
 import React, { useState, useEffect } from 'react';
 import './Navigation.Style.css';
 import { apiURL } from '../../apiURL';
@@ -14,6 +17,7 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../Modal/Modal.Component';
+import { ProfileImage } from '../ProfileImage/ProfileImage.Component';
 
 export const Navigation = () => {
   const { user, name, logout } = useUserContext();
@@ -315,7 +319,7 @@ export const Navigation = () => {
         </div>
         <div className="nav-buttons">
           <ul>
-            <li>
+            {/* <li>
               {user ? (
                 <NavLink to="/apps/new" className="login submit">
                   Submit
@@ -324,28 +328,26 @@ export const Navigation = () => {
                 <NavLink
                   onClick={() => {
                     setOpenModal(true);
-                    setModalTitle('Do you want to add your prompts?');
+                    setModalTitle('Do you want to add your referral codes?');
                   }}
                   className="login submit"
                 >
                   Submit
                 </NavLink>
               )}
-            </li>
+            </li> */}
             {user ? (
               <div className="container-logged-in">
-                <NavLink to="/bookmarks" className="login">
-                  Bookmarks
-                </NavLink>
-                {name}
-                <Link to="/">
-                  <FontAwesomeIcon icon={faUser} />
-                </Link>
-                <FontAwesomeIcon
-                  onClick={logout}
-                  className="share-icon"
-                  icon={faRightFromBracket}
-                />
+                <ProfileImage name={name} />
+                <div className="dropdown-content">
+                  <NavLink to="/bookmarks" className="login">
+                    Bookmarks
+                  </NavLink>
+                  <NavLink to="/codes/new">Submit a referral code</NavLink>
+                  <div className="div-logout" onClick={logout}>
+                    Logout
+                  </div>
+                </div>
               </div>
             ) : (
               <>
