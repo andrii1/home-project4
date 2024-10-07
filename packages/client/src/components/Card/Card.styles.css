@@ -184,11 +184,16 @@
 
 @media only screen and (max-width: 768px) {
   .card-list {
-    min-height: 8rem;
+    min-height: 7rem;
   }
   .card-list .card-header {
     flex-wrap: wrap;
     gap: 0.5rem;
+  }
+
+  .card-list .card-title {
+    justify-content: space-between;
+    width: 100%;
   }
   .card-list .card-description {
     font-size: 0.75rem;
@@ -218,5 +223,10 @@
 
   .card-list h2 {
     font-size: 1.2rem;
+    text-align: left;
+  }
+
+  .card-list .topics-bookmark {
+    display: none;
   }
 }

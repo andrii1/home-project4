@@ -93,6 +93,8 @@ export const Apps = () => {
     };
   }, [handleWindowSizeChange]);
 
+  // end of change list view
+
   useEffect(() => {
     if (pathname.includes('/codes')) {
       setCodesPage(true);
