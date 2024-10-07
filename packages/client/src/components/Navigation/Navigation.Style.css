@@ -68,6 +68,18 @@ ul li,
   min-width: 3.5rem;
 }
 
+.hamburger-menu-button.no-border {
+  box-shadow: none !important;
+}
+
+.hamburger-menu-button.no-border .svg-inline--fa {
+  height: 2rem;
+}
+
+.search-form-mobile .svg-inline--fa {
+  height: 1.5rem;
+}
+
 .hamburger-menu-button-circle {
   width: 2.5rem;
   height: 2.5rem;
@@ -91,7 +103,7 @@ ul li,
   z-index: 999;
   background: white;
   max-width: 100%;
-  top: 3.5rem;
+  top: 3.7rem;
   right: 0px;
   /* bottom: 0px; */
   left: 0px;

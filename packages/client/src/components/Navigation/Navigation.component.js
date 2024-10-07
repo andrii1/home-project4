@@ -155,7 +155,7 @@ export const Navigation = () => {
               <li>
                 <Button
                   secondary
-                  className="hamburger-menu-button"
+                  className="hamburger-menu-button no-border"
                   onClick={toggleHamburger}
                 >
                   <FontAwesomeIcon icon={hamburgerOpen ? faXmark : faBars} />
@@ -210,7 +210,7 @@ export const Navigation = () => {
               <FontAwesomeIcon className="search-icon" icon={faSearch} />
             </li> */}
               <li>
-                <form>
+                <form className="search-form-mobile">
                   <label>
                     <FontAwesomeIcon
                       className="search-icon mobile"
@@ -225,7 +225,7 @@ export const Navigation = () => {
                 </form>
               </li>
             </div>
-            <li>
+            {/* <li>
               <NavLink
                 to="/"
                 className="nav-link"
@@ -236,7 +236,7 @@ export const Navigation = () => {
               >
                 <img src={logo} alt="logo" className="img-logo" />
               </NavLink>
-            </li>
+            </li> */}
             <li>
               {user ? (
                 <div className="container-logged-in">
