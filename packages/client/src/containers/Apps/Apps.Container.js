@@ -51,7 +51,7 @@ export const Apps = () => {
   const [showTopicsContainer, setShowTopicsContainer] = useState(false);
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [listView, setListView] = useState(false);
+  const [listView, setListView] = useState(window.innerWidth <= 768);
   const [page, setPage] = useState(0);
   const [counter, setCounter] = useState(0);
   const [apps, setApps] = useState({});
@@ -75,6 +75,23 @@ export const Apps = () => {
     { title: 'Android app available', checked: false },
     { title: 'Social media contacts', checked: false },
   ]);
+
+  // changing list view depending on window size
+
+  const handleWindowSizeChange = useCallback(async () => {
+    if (window.innerWidth <= 768) {
+      return setListView(true);
+    }
+
+    return setListView(false);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
+  }, [handleWindowSizeChange]);
 
   useEffect(() => {
     if (pathname.includes('/codes')) {
