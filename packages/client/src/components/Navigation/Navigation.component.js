@@ -287,15 +287,15 @@ export const Navigation = () => {
           </ul>
         </div>
       </div>
-      <div className="navigation">
-        <div className="menu">
+      <div className="navigation desktop">
+        <div className="menu desktop">
           <ul>
             <li>
               <NavLink to="/" className="nav-link">
                 <img src={logo} alt="logo" className="img-logo" />
               </NavLink>
             </li>
-            <li>
+            <li className="navigation-search">
               <form>
                 <label>
                   <FontAwesomeIcon className="search-icon" icon={faSearch} />
@@ -308,12 +308,12 @@ export const Navigation = () => {
                 </label>
               </form>
             </li>
-            <li>
+            <li className="hide-on-tablet">
               <NavLink to="/categories" className="nav-link">
                 Categories
               </NavLink>
             </li>
-            <li>
+            <li className="hide-on-tablet">
               <NavLink to="/all-apps" className="nav-link">
                 Apps
               </NavLink>
@@ -388,7 +388,7 @@ export const Navigation = () => {
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              // autoFocus
+              autoFocus
               type="text"
               className="input-search-modal mobile"
               onChange={handleSearch}
