@@ -9,14 +9,14 @@ main {
   margin: 0 auto;
 }
 
-.hero {
+/* .hero {
   width: 100%;
   border-radius: 8px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-}
+} */
 
 /* .hero h1 {
   margin-bottom: 0.3rem;

@@ -291,7 +291,7 @@ export const Navigation = () => {
         <div className="menu desktop">
           <ul>
             <li>
-              <NavLink to="/" className="nav-link">
+              <NavLink to="/" className="nav-link logo-link">
                 <img src={logo} alt="logo" className="img-logo" />
               </NavLink>
             </li>
