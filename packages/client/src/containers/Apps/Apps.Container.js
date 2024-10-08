@@ -548,7 +548,28 @@ export const Apps = () => {
     </Link>
   ));
 
-  const topicsList = appTitles.map((topic) => {
+  const categoriesList = categories.map((category) => {
+    if (categoryIdParam) {
+      return (
+        <Link to={`/deals/category/${category.id}`}>
+          <Button
+            primary={
+              category.id.toString() === categoryIdParam.toString() && true
+            }
+            secondary={category.id !== categoryIdParam && true}
+            label={category.title}
+          />
+        </Link>
+      );
+    }
+    return (
+      <Link to={`/deals/category/${category.id}`}>
+        <Button secondary label={category.title} />
+      </Link>
+    );
+  });
+
+  const appsList = appTitles.map((topic) => {
     if (appIdParam) {
       return (
         <Link to={`/deals/app/${topic.id}`}>
@@ -738,19 +759,18 @@ export const Apps = () => {
               )
               .map((item) => item.title)}`}
         </h1>
-        <form className="home">
+        {/* <form className="home">
           <label>
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               type="text"
               className="input-search-home"
               onChange={handleSearch}
-              /* onFocus={handleClick} */
               placeholder="Search best deals..."
             />
           </label>
-        </form>
-        {searchTerms ? (
+        </form> */}
+        {/* {searchTerms ? (
           <div className="dropdown-search">
             <ul>
               {resultsHome.length > 0 ? (
@@ -762,17 +782,17 @@ export const Apps = () => {
           </div>
         ) : (
           ''
-        )}
+        )} */}
       </div>
       <section className={`container-topics ${showTopicsContainer && 'show'}`}>
         <Link to="/">
           <Button
-            primary={!appIdParam}
-            secondary={appIdParam}
-            label="All apps"
+            primary={!categoryIdParam}
+            secondary={categoryIdParam}
+            label="All categories"
           />
         </Link>
-        {topicsList}
+        {categoriesList}
       </section>
       <section className="container-filters">
         <Button
