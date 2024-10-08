@@ -131,9 +131,10 @@ export const Card = ({
         )}
         <div className="topics-bookmark">
           <div className="container-topic-app">
-            <Badge label={appTitle} size="small" />
+            <Button secondary label={appTitle} size="small" />
+
             <Link to={`/deals/topic/${topicId}`}>
-              <Button label={topic} size="small" />
+              <Button secondary label={topic} size="small" />
             </Link>
           </div>
 

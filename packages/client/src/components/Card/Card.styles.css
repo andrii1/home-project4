@@ -9,7 +9,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 }
 
 .card-list {
@@ -22,7 +22,7 @@
   /* align-items: center; */
   justify-content: space-between;
   border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
 }
 
 .card-body {
@@ -45,6 +45,7 @@
 
 .card-description {
   text-align: left;
+  font-size: 0.875rem;
 }
 
 .card-category h2,
@@ -100,7 +101,7 @@
 }
 
 .card-category h2 {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 .card-list .card-header {
@@ -228,5 +229,12 @@
 
   .card-list .topics-bookmark {
     display: none;
+  }
+
+  .card-category h2 {
+    font-size: 1.4rem;
+  }
+  .card-description {
+    font-size: 1rem;
   }
 }
