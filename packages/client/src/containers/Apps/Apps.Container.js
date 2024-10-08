@@ -806,7 +806,7 @@ export const Apps = () => {
           className="button-topics"
           onClick={(event) => setShowTopicsContainer(!showTopicsContainer)}
           backgroundColor="#ffe5d9"
-          label="Apps"
+          label="Categories"
           icon={<FontAwesomeIcon className="filter-icon" icon={faBookOpen} />}
         />
         <DropDownView

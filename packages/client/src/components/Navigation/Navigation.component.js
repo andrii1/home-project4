@@ -158,7 +158,10 @@ export const Navigation = () => {
                   className="hamburger-menu-button no-border"
                   onClick={toggleHamburger}
                 >
-                  <FontAwesomeIcon icon={hamburgerOpen ? faXmark : faBars} />
+                  <FontAwesomeIcon
+                    onClick={toggleHamburger}
+                    icon={hamburgerOpen ? faXmark : faBars}
+                  />
                 </Button>
                 <ul
                   className={`hamburger-menu ${

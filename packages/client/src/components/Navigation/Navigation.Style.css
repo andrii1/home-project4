@@ -40,6 +40,10 @@ ul li,
   margin: 0rem !important;
 }
 
+.navigation-mobile .container-logged-out {
+  gap: 1.5rem;
+}
+
 @media only screen and (min-width: 769px) {
   ul li:not(.dropdown-search ul li):not(.dropdown-search-modal ul li),
   .menu ul li {
@@ -91,7 +95,8 @@ ul li,
 }
 
 .hamburger-menu-button {
-  min-width: 3.5rem;
+  /* min-width: 3.5rem; */
+  padding: 0rem;
 }
 
 .hamburger-menu-button.no-border {
@@ -168,7 +173,7 @@ ul li,
 .container-mobile-menu-search {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .modal-content .search-icon {
@@ -186,6 +191,8 @@ ul li,
   }
   .navigation-mobile {
     display: block;
+    width: 90%;
+    margin: 1rem auto 0rem auto;
   }
   .navigation {
     display: none;
