@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
@@ -753,15 +754,16 @@ export const Apps = () => {
       {/* <div className="hero"></div> */}
       <div className="hero apps">
         <h1 className="hero-header">
-          {appIdParam && `${findAppTitleByAppIdParam(appIdParam)} app deals`}
-          {!appIdParam && !searchTermIdParam && 'Browse best app deals'}
-          {searchTermIdParam &&
-            `${searchTermsDb
-              .filter(
-                (searchTerm) =>
-                  searchTerm.id === parseInt(searchTermIdParam, 10),
-              )
-              .map((item) => item.title)}`}
+          {categoryIdParam || topicIdParam || appIdParam
+            ? `${pageTitle}`
+            : searchTermIdParam
+            ? `${searchTermsDb
+                .filter(
+                  (searchTerm) =>
+                    searchTerm.id === parseInt(searchTermIdParam, 10),
+                )
+                .map((item) => item.title)}`
+            : 'Browse best app deals'}
         </h1>
         {/* <form className="home">
           <label>
