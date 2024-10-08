@@ -13,7 +13,10 @@ const getTopics = async () => {
         'topics.category_id as categoryId',
         'categories.title as categoryTitle',
       )
-      .join('categories', 'topics.category_id', '=', 'categories.id');
+      .distinct('topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id')
+      .join('apps', 'apps.topic_id', '=', 'topics.id')
+      .join('deals', 'deals.app_id', '=', 'apps.id');
     return topics;
   } catch (error) {
     return error.message;

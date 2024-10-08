@@ -8,12 +8,12 @@ const router = express.Router({ mergeParams: true });
 // controllers
 const appsAppStoreController = require('../controllers/appsAppStore.controller');
 
-router.get('/', (req, res, next) => {
-  appsAppStoreController
-    .getExampleResources()
-    .then((result) => res.json(result))
-    .catch(next);
-});
+// router.get('/', (req, res, next) => {
+//   appsAppStoreController
+//     .getExampleResources()
+//     .then((result) => res.json(result))
+//     .catch(next);
+// });
 
 router.get('/:id', (req, res, next) => {
   appsAppStoreController

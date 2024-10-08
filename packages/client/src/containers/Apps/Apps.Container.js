@@ -145,12 +145,16 @@ export const Apps = () => {
         .map((deal) => deal.appAppleId)
         .filter((deal) => deal !== null)
         .join(',');
-
-      const responseAppIcons = await fetch(
-        `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
-      );
-      const jsonAppIcons = await responseAppIcons.json();
-      const appIcons = jsonAppIcons.results;
+      let appIcons;
+      if (arrayWithAppleIds) {
+        const responseAppIcons = await fetch(
+          `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
+        );
+        const jsonAppIcons = await responseAppIcons.json();
+        appIcons = jsonAppIcons.results;
+      } else {
+        appIcons = [];
+      }
 
       const arrayWithIcons = json.data.map((deal) => ({
         ...deal,
@@ -429,7 +433,7 @@ export const Apps = () => {
     }
 
     async function fetchCategories() {
-      const response = await fetch(`${apiURL()}/categories/`);
+      const response = await fetch(`${apiURL()}/categories`);
       const categoriesResponse = await response.json();
       setCategories(categoriesResponse);
     }

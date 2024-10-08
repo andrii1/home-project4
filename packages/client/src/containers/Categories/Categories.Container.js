@@ -11,6 +11,7 @@ export const Categories = () => {
   const [searchTerms, setSearchTerms] = useState();
   const [resultsHome, setResultsHome] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [categoriesAndTopics, setCategoriesAndTopics] = useState([]);
   const [topics, setTopics] = useState([]);
   useEffect(() => {
@@ -109,6 +110,7 @@ export const Categories = () => {
         title={category.categoryTitle}
         url={category.categoryId}
         topics={category.topics}
+        slug="topic"
       />
     );
   });
