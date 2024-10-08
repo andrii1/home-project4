@@ -54,7 +54,7 @@ main {
 }
 
 .container-cards.grid {
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
 }
 
 @media only screen and (max-width: 768px) {
@@ -113,7 +113,7 @@ main {
 .container-topics {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: left;
   gap: 0.5rem;
 }
 
@@ -145,7 +145,7 @@ form.home {
   justify-content: right;
   align-items: center;
   gap: 0.5rem;
-  padding-right: 2rem;
+  /* padding-right: 2rem; */
   margin: 2rem 0rem;
 }
 @media only screen and (max-width: 768px) {

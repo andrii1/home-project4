@@ -321,7 +321,7 @@ export const Navigation = () => {
           </ul>
         </div>
         <div className="nav-buttons">
-          <ul>
+          <ul className="nav-buttons-login">
             {/* <li>
               {user ? (
                 <NavLink to="/apps/new" className="login submit">

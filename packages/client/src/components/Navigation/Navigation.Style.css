@@ -1,12 +1,13 @@
 .navigation {
   display: flex;
   justify-content: space-between;
-  margin: 1.5rem 2rem 0rem 2rem;
+  margin: 1.5rem auto 0rem auto;
   align-items: center;
 }
 
 .navigation.desktop {
   gap: 2rem;
+  max-width: 85rem;
 }
 
 .menu.desktop {
@@ -29,6 +30,14 @@ ul li,
 .menu ul li {
   list-style-type: none;
   color: black;
+}
+
+.nav-buttons-login {
+  gap: 1.5rem;
+}
+
+.nav-buttons-login li {
+  margin: 0rem !important;
 }
 
 @media only screen and (min-width: 769px) {
