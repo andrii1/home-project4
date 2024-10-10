@@ -11,97 +11,152 @@ import { useUserContext } from '../../userContext';
 
 export const Submit = () => {
   const { user } = useUserContext();
-  const [selectedTopic, setSelectedTopic] = useState('');
-  const [topics, setTopics] = useState([]);
+  const [selectedApp, setSelectedApp] = useState('');
+  const [selectedDeal, setSelectedDeal] = useState('');
+  const [apps, setApps] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [validForm, setValidForm] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
-  const [promptTitle, promptTitleError, validatePromptTitle] =
-    useInputValidation('prompt');
-  const [promptDescription, promptDescriptionError, validatePromptDescription] =
+  const [codeTitle, codeTitleError, validateCodeTitle] =
+    useInputValidation('code');
+  const [codeDescription, codeDescriptionError, validateCodeDescription] =
     useInputValidation('description');
+  const [codeUrl, codeUrlError, validateCodeUrl] = useInputValidation('url');
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
-    async function fetchTopics() {
-      const response = await fetch(`${apiURL()}/topics`);
+    async function fetchApps() {
+      const response = await fetch(`${apiURL()}/apps`);
       const examples = await response.json();
-      setTopics(examples);
+      setApps(examples);
     }
-    fetchTopics();
+    fetchApps();
   }, []);
 
-  const topicOptions = topics.map((topic) => topic.title);
-  const addPrompt = async (prompt, description, topicId) => {
-    const response = await fetch(`${apiURL()}/prompts`, {
+  useEffect(() => {
+    async function fetchDeals(app) {
+      const response = await fetch(`${apiURL()}/deals?app=${app}`);
+      const examples = await response.json();
+      setDeals(examples);
+    }
+    if (selectedApp) {
+      fetchDeals(selectedApp);
+    }
+  }, [selectedApp]);
+
+  const appOptions = apps
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .map((app) => app.title);
+
+  const dealOptions = deals
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .map((deal) => deal.title);
+
+  const addCode = async (code, description, url, dealId) => {
+    const response = await fetch(`${apiURL()}/codes`, {
       method: 'POST',
       headers: {
         token: `token ${user?.uid}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        title: prompt,
+        title: code,
         description,
-        topic_id: topicId,
+        url,
+        deal_id: dealId,
       }),
     });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (promptTitleError || promptTitle.length === 0) {
+    if (
+      codeTitleError ||
+      codeTitle.length === 0 ||
+      !selectedApp ||
+      !selectedDeal
+    ) {
       setInvalidForm(true);
       setValidForm(false);
     } else {
       setInvalidForm(false);
       setValidForm(true);
-      addPrompt(promptTitle, promptDescription, selectedTopic);
+      // addCode(codeTitle, codeDescription, codeUrl, selectedDeal);
       setOpenConfirmationModal(true);
     }
   };
 
-  const setDropdownTopic = (topicName) => {
-    const value = topics
-      .filter((topic) => topic.title === topicName.toString())
+  const setDropdownApp = (appName) => {
+    const value = apps
+      .filter((app) => app.title === appName.toString())
       .map((item) => item.id);
-    setSelectedTopic(value[0]);
+    setSelectedApp(value[0]);
   };
+
+  const setDropdownDeal = (dealName) => {
+    const value = deals
+      .filter((deal) => deal.title === dealName.toString())
+      .map((item) => item.id);
+    setSelectedDeal(value[0]);
+  };
+
+  console.log({ codeTitleError });
 
   return (
     <>
       <Helmet>
-        <title>Submit an app</title>
+        <title>Add referral code - Top App Deals</title>
       </Helmet>
       <main>
-        <h1 className="hero-header">Submit an app</h1>
+        <h1 className="hero-header">Add your referral code</h1>
         <div className="form-container add-app-container">
           <div className="form-box submit-box">
             <form>
-              <TextFormTextarea
-                value={promptTitle}
-                placeholder="App name"
-                onChange={validatePromptTitle}
-                error={promptTitleError}
-              />
-              <TextFormTextarea
-                value={promptDescription}
-                placeholder="Description/Explanation"
-                onChange={validatePromptDescription}
-                error={promptDescriptionError}
-              />
               <Dropdown
-                label="topic"
-                options={topicOptions}
-                onSelect={(topicName) => setDropdownTopic(topicName)}
+                label="an app"
+                options={appOptions}
+                onSelect={(appName) => setDropdownApp(appName)}
                 showFilterIcon={false}
                 showLabel={false}
+                required
+              />
+              {selectedApp && (
+                <Dropdown
+                  label="a deal"
+                  options={dealOptions}
+                  onSelect={(dealName) => setDropdownDeal(dealName)}
+                  showFilterIcon={false}
+                  showLabel={false}
+                  required
+                />
+              )}
+
+              <TextFormTextarea
+                value={codeTitle}
+                placeholder="Your referral code"
+                onChange={validateCodeTitle}
+                error={codeTitleError}
+                required
+              />
+              <TextFormTextarea
+                value={codeUrl}
+                placeholder="Referral link (optional)"
+                onChange={validateCodeUrl}
+                error={codeUrlError}
+              />
+              <TextFormTextarea
+                value={codeDescription}
+                placeholder="Description (optional)"
+                onChange={validateCodeDescription}
+                error={codeDescriptionError}
               />
               <Button
                 primary
                 className="btn-add-prompt"
                 onClick={handleSubmit}
-                label="Suggest an app"
+                label="Add code"
               />
               {validForm && (
                 <Modal
-                  title="Your prompt has been submitted!"
+                  title="Your code has been submitted!"
                   open={openConfirmationModal}
                   toggle={
                     (() => setOpenConfirmationModal(false),

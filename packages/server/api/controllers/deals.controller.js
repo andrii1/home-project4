@@ -213,6 +213,25 @@ const getAppsByCategories = async (categories) => {
   }
 };
 
+const getDealsByApp = async (app) => {
+  try {
+    const apps = await knex('deals')
+      .select(
+        'deals.*',
+        'apps.title as appTitle',
+        'apps.description as appDescription',
+        'apps.url as appUrl',
+        'apps.url_image as appUrlImage',
+      )
+      .join('apps', 'deals.app_id', '=', 'apps.id')
+      .where('app_id', app);
+
+    return apps;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 const getAppsByTopicsSearch = async (
   search,
   topics,
@@ -550,4 +569,5 @@ module.exports = {
   getAppsAll,
   createApps,
   getAppsBySearchTerm,
+  getDealsByApp,
 };

@@ -8,6 +8,7 @@ const TextFormTextarea = ({
   error,
   onChange,
   className,
+  required,
 }) => {
   return (
     <div className="input-wrapper">
@@ -15,7 +16,7 @@ const TextFormTextarea = ({
 
       <textarea
         className={['form-input', className].join(' ')}
-        placeholder={placeholder}
+        placeholder={required ? `${placeholder} *` : placeholder}
         value={value}
         onChange={(e) => {
           onChange(e.target.value);
@@ -32,10 +33,12 @@ TextFormTextarea.propTypes = {
   onChange: PropTypes.func.isRequired,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
   className: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 TextFormTextarea.defaultProps = {
   className: null,
+  required: false,
 };
 
 export default TextFormTextarea;

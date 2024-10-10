@@ -108,6 +108,11 @@ router.get('/', (req, res, next) => {
       .getApps(req.query.page, req.query.column, req.query.direction)
       .then((result) => res.json(result))
       .catch(next);
+  } else if (req.query.app) {
+    dealsController
+      .getDealsByApp(req.query.app)
+      .then((result) => res.json(result))
+      .catch(next);
   } else {
     dealsController
       .getAppsAll()

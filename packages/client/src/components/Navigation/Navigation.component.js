@@ -27,8 +27,9 @@ export const Navigation = () => {
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
   const [searchTerms, setSearchTerms] = useState();
+  const [apps, setApps] = useState([]);
   const [resultsHome, setResultsHome] = useState([]);
-  const [resultsHomeApps, setResultsHomeApps] = useState([]);
+  // const [resultsHomeApps, setResultsHomeApps] = useState([]);
   const [topics, setTopics] = useState([]);
   const toggleModal = () => {
     setOpenModal(false);
@@ -51,46 +52,47 @@ export const Navigation = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchCategories() {
-      const responseCategories = await fetch(`${apiURL()}/categories/`);
-      const responseTopics = await fetch(`${apiURL()}/topics/`);
-      const categoriesResponse = await responseCategories.json();
-      const topicsResponse = await responseTopics.json();
-      setTopics(topicsResponse);
-      const combinedArray = categoriesResponse.concat(topicsResponse);
-      if (searchTerms) {
-        const filteredSearch = combinedArray?.filter((item) =>
-          item.title.toLowerCase().includes(searchTerms.toLowerCase()),
-        );
-        setResultsHome(filteredSearch);
-      } else {
-        setResultsHome(categoriesResponse);
-      }
-    }
+    // async function fetchCategories() {
+    //   const responseCategories = await fetch(`${apiURL()}/categories/`);
+    //   const responseTopics = await fetch(`${apiURL()}/topics/`);
+    //   const categoriesResponse = await responseCategories.json();
+    //   const topicsResponse = await responseTopics.json();
+    //   setTopics(topicsResponse);
+    //   const combinedArray = categoriesResponse.concat(topicsResponse);
+    //   if (searchTerms) {
+    //     const filteredSearch = combinedArray?.filter((item) =>
+    //       item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+    //     );
+    //     setResultsHome(filteredSearch);
+    //   } else {
+    //     setResultsHome(categoriesResponse);
+    //   }
+    // }
 
     async function fetchApps() {
       const responseApps = await fetch(`${apiURL()}/deals/`);
-
       const responseAppsJson = await responseApps.json();
-      if (searchTerms) {
-        const filteredSearch = responseAppsJson?.filter(
-          (item) =>
-            item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
-            item.description
-              ?.toLowerCase()
-              .includes(searchTerms.toLowerCase()) ||
-            item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
-            item.categoryTitle
-              .toLowerCase()
-              .includes(searchTerms.toLowerCase()),
-        );
-        setResultsHomeApps(filteredSearch);
-      }
+      setApps(responseAppsJson);
     }
 
-    // fetchCategories();
     fetchApps();
-  }, [searchTerms]);
+  }, []);
+
+  const filterAppsBySearch = (search) => {
+    if (search) {
+      return apps.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.description?.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.categoryTitle.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+    }
+    return apps;
+  };
+
+  const resultsHomeApps = filterAppsBySearch(searchTerms);
+
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
@@ -137,7 +139,7 @@ export const Navigation = () => {
     }
     return finalResult;
   });
-  const dropDownResultsApps = resultsHomeApps.map((result) => (
+  const dropDownResultsApps = resultsHomeApps?.map((result) => (
     <Link
       to={`/deals/${result.id}`}
       /* state={{ frontPageItem: relatedTopics }} */
@@ -349,7 +351,7 @@ export const Navigation = () => {
                   <NavLink to="/bookmarks" className="login">
                     Bookmarks
                   </NavLink>
-                  <NavLink to="/codes/new">Submit a referral code</NavLink>
+                  <NavLink to="/codes/new">Add your referral code</NavLink>
                   <div className="div-logout" onClick={logout}>
                     Logout
                   </div>

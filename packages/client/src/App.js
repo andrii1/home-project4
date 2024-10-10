@@ -51,7 +51,7 @@ function App() {
             <Route exact path="/deals/app/:appIdParam" element={<Apps />} />
             <Route exact path="/codes/:id" element={<CodeView />} />
             <Route exact path="/faq" element={<Faq />} />
-            <Route exact path="/deals/new" element={<Submit />} />
+            <Route exact path="/codes/new" element={<Submit />} />
             <Route exact path="/success" element={<StripeSuccess />} />
             <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />

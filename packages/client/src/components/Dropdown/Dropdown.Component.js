@@ -2,7 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Dropdown.Style.css';
 
-export const Dropdown = ({ options, label, onSelect, disabled, showLabel }) => {
+export const Dropdown = ({
+  options,
+  label,
+  onSelect,
+  disabled,
+  showLabel,
+  required,
+}) => {
   const optionList =
     options.length > 0 &&
     options.map((item) => {
@@ -22,7 +29,7 @@ export const Dropdown = ({ options, label, onSelect, disabled, showLabel }) => {
       <div>
         <select id={label} onChange={handleChange} disabled={disabled}>
           <option selected hidden>
-            Choose {label}
+            Choose {label} {required && '*'}
           </option>
           {optionList}
         </select>
@@ -39,10 +46,12 @@ Dropdown.propTypes = {
   onSelect: PropTypes.func,
   disabled: PropTypes.string,
   showLabel: PropTypes.bool,
+  required: PropTypes.bool,
 };
 
 Dropdown.defaultProps = {
   onSelect: undefined,
   disabled: undefined,
   showLabel: true,
+  required: false,
 };

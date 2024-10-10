@@ -477,17 +477,18 @@ const getAppById = async (id) => {
 };
 
 // post
-const createApps = async (token, body) => {
+const createCodes = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    await knex('deals').insert({
+    await knex('codes').insert({
       title: body.title,
       description: body.description,
-      topic_id: body.topic_id,
+      url: body.url,
+      deal_id: body.deal_id,
       user_id: user.id,
     });
     return {
@@ -509,7 +510,7 @@ module.exports = {
   getAppsByCategory,
   getAppById,
   getAppsAll,
-  createApps,
+  createCodes,
   getAppsBySearchTerm,
   getCodesByDeal,
 };
