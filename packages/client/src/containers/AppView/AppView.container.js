@@ -30,7 +30,7 @@ import {
   EmailShareButton,
 } from 'react-share';
 import appImage from '../../assets/images/app-placeholder.svg';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
 
 import { apiURL } from '../../apiURL';
 import './AppView.styles.css';
@@ -360,6 +360,7 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
+
   const dealCodesInTitle = dealCodes.map((i) => {
     return `(${i.title})`;
   });
@@ -378,7 +379,7 @@ export const AppView = () => {
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 50)} ${
+        <title>{`${String(app.title).substring(0, 30)} - ${
           dealCodes.length > 0
             ? `${dealCodesInTitle
                 .slice(0, 3)
@@ -398,12 +399,14 @@ export const AppView = () => {
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">
-              {app.title}{' '}
-              {dealCodes.length > 0
-                ? `${dealCodesInTitle
-                    .slice(0, 3)
-                    .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
-                : ''}
+              {`${app.title} -
+              ${
+                dealCodes.length > 0
+                  ? `${dealCodesInTitle
+                      .slice(0, 3)
+                      .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
+                  : ''
+              }`}
             </h1>
             <h3>{app.appTitle} deal</h3>
           </div>
@@ -538,29 +541,10 @@ export const AppView = () => {
                   return (
                     <div className="container-codes-users">
                       <div className="container-appview-codes">
-                        <Link to={code.url} target="_blank">
-                          <Button
-                            size="medium"
-                            primary
-                            icon={
-                              <FontAwesomeIcon
-                                icon={faArrowUpRightFromSquare}
-                                size="sm"
-                              />
-                            }
-                            label="Use code!"
-                          />
-                        </Link>
                         <Button
                           size="medium"
-                          secondary
-                          icon={
-                            <img
-                              src={iconCopy}
-                              alt="copy"
-                              className="icon-copy copy-referral-code"
-                            />
-                          }
+                          primary
+                          icon={<FontAwesomeIcon icon={faCopy} />}
                           label={code.title}
                           onClick={() => copyToClipboard(code.title)}
                         />
@@ -570,6 +554,21 @@ export const AppView = () => {
                         >
                           <span>Copied to clipboard!</span>
                         </Toast>
+                        {code.url && (
+                          <Link to={code.url} target="_blank">
+                            <Button
+                              size="medium"
+                              secondary
+                              icon={
+                                <FontAwesomeIcon
+                                  icon={faArrowUpRightFromSquare}
+                                  size="sm"
+                                />
+                              }
+                              label="Use code!"
+                            />
+                          </Link>
+                        )}
                         <Link to={`../../codes/${code.id}`} target="_blank">
                           <Button
                             size="medium"

@@ -300,12 +300,6 @@ img.copy-referral-code.smaller-icon {
     display: none;
   }
 
-  .container-appview-buttons,
-  .container-appview-codes {
-    /* gap: 1rem; */
-    justify-content: space-between;
-  }
-
   .container-store-logos {
     gap: 2rem;
   }
@@ -329,6 +323,9 @@ img.copy-referral-code.smaller-icon {
   .container-appview {
     width: 90%;
     margin: 0 auto;
+  }
+  .container-appview h1 {
+    font-size: 1.75rem;
   }
 }
 
