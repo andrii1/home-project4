@@ -79,7 +79,7 @@ export const Submit = () => {
     } else {
       setInvalidForm(false);
       setValidForm(true);
-      // addCode(codeTitle, codeDescription, codeUrl, selectedDeal);
+      addCode(codeTitle, codeDescription, codeUrl, selectedDeal);
       setOpenConfirmationModal(true);
     }
   };
@@ -97,8 +97,6 @@ export const Submit = () => {
       .map((item) => item.id);
     setSelectedDeal(value[0]);
   };
-
-  console.log({ codeTitleError });
 
   return (
     <>

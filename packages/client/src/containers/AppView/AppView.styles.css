@@ -37,6 +37,12 @@
   display: flex;
 }
 
+.container-appview-codes-users {
+  flex-direction: column;
+  display: flex;
+  gap: 1rem;
+}
+
 .container-appview-codes-users span {
   font-size: 14px;
 }

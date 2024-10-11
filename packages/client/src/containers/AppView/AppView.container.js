@@ -360,25 +360,9 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
-
-  const showDealCodesInTitle = (codes) => {
-    let list;
-    if (codes.length === 1) {
-      list = codes.map((i) => {
-        return `(${i.title})`;
-      });
-    } else if (codes.length === 2) {
-      list = codes.map((i, index) => {
-        return index === codes.length - 1 ? `(${i.title})` : `(${i.title}), `;
-      });
-    } else {
-      list = codes.slice(0, 3).map((i, index) => {
-        return index === 2 ? `(${i.title})` : `(${i.title}), `;
-      });
-    }
-
-    return `${list}`;
-  };
+  const dealCodesInTitle = dealCodes.map((i) => {
+    return `(${i.title})`;
+  });
 
   const showNumberOfCodesInTitle = (codes) => {
     let title;
@@ -396,9 +380,9 @@ export const AppView = () => {
       <Helmet>
         <title>{`${String(app.title).substring(0, 50)} ${
           dealCodes.length > 0
-            ? `${showDealCodesInTitle(dealCodes)} - ${showNumberOfCodesInTitle(
-                dealCodes,
-              )}`
+            ? `${dealCodesInTitle
+                .slice(0, 3)
+                .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
             : ''
         } - Top App Deals`}</title>
         <meta
@@ -416,9 +400,9 @@ export const AppView = () => {
             <h1 className="hero-header">
               {app.title}{' '}
               {dealCodes.length > 0
-                ? `${showDealCodesInTitle(
-                    dealCodes,
-                  )} - ${showNumberOfCodesInTitle(dealCodes)}`
+                ? `${dealCodesInTitle
+                    .slice(0, 3)
+                    .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
                 : ''}
             </h1>
             <h3>{app.appTitle} deal</h3>
