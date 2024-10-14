@@ -8,6 +8,7 @@ export const Dropdown = ({
   onSelect,
   disabled,
   showLabel,
+  selectedOptionValue,
   required,
 }) => {
   const optionList =
@@ -28,10 +29,19 @@ export const Dropdown = ({
       {showLabel && <label htmlFor={label}>{label}</label>}
       <div>
         <select id={label} onChange={handleChange} disabled={disabled}>
-          <option selected hidden>
-            Choose {label} {required && '*'}
-          </option>
-          {optionList}
+          {selectedOptionValue && (
+            <option selected value={selectedOptionValue}>
+              {selectedOptionValue}
+            </option>
+          )}
+          {!selectedOptionValue && (
+            <>
+              <option selected hidden>
+                Choose {label} {required && '*'}
+              </option>
+              {optionList}
+            </>
+          )}
         </select>
       </div>
     </div>
@@ -45,6 +55,7 @@ Dropdown.propTypes = {
   label: PropTypes.string.isRequired,
   onSelect: PropTypes.func,
   disabled: PropTypes.string,
+  selectedOptionValue: PropTypes.string,
   showLabel: PropTypes.bool,
   required: PropTypes.bool,
 };
@@ -52,6 +63,7 @@ Dropdown.propTypes = {
 Dropdown.defaultProps = {
   onSelect: undefined,
   disabled: undefined,
+  selectedOptionValue: undefined,
   showLabel: true,
   required: false,
 };

@@ -10,6 +10,8 @@ import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import appStoreLogo from '../../assets/images/download-on-the-app-store-apple-logo.svg';
 import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg';
+import { Dropdown } from '../../components/Dropdown/Dropdown.Component';
+import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
 import Toast from '../../components/Toast/Toast.Component';
 import {
   faEnvelope,
@@ -35,6 +37,7 @@ import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
 import { apiURL } from '../../apiURL';
 import './AppView.styles.css';
 import { useUserContext } from '../../userContext';
+import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component';
 
 export const AppView = () => {
   const { id } = useParams();
@@ -59,6 +62,7 @@ export const AppView = () => {
   const [ratings, setRatings] = useState([]);
   const [searches, setSearches] = useState([]);
   const [keywords, setKeywords] = useState([]);
+  const [openAddCodeForm, setOpenAddCodeForm] = useState(true);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -376,6 +380,8 @@ export const AppView = () => {
     return `${codes.length} ${title}`;
   };
 
+  console.log({ app });
+
   return (
     <>
       <Helmet>
@@ -590,6 +596,58 @@ export const AppView = () => {
                   );
                 })}
               </div>
+            </div>
+          )}
+          {!user && (
+            <div className="container-details cta">
+              <div>
+                <h2>🔥 Add your own referral codes</h2>
+                <p>Create an account to get started for free</p>
+              </div>
+              <div>
+                <Link target="_blank" to="/signup">
+                  <Button primary label="Create my account 👌" />
+                </Link>
+              </div>
+            </div>
+          )}
+          {user && (
+            <div
+              className={`container-details cta cta-gap ${
+                openAddCodeForm ? 'cta-code-form' : ''
+              }`}
+            >
+              <div>
+                <h2 className="h-no-margin h-no-margin-bottom">
+                  🔥 Add your referral code
+                </h2>
+              </div>
+
+              {!openAddCodeForm && (
+                <div>
+                  <Button
+                    primary
+                    onClick={() => setOpenAddCodeForm(true)}
+                    label="Add a code 👌"
+                  />
+                </div>
+              )}
+              {openAddCodeForm && (
+                <div>
+                  <Button
+                    secondary
+                    onClick={() => setOpenAddCodeForm(false)}
+                    label="Close form"
+                  />
+                </div>
+              )}
+              {openAddCodeForm && (
+                <FormNewCode
+                  selectedOptionValue1={[app.appTitle]}
+                  selectedOptionValue2={[app.title]}
+                  className="form-code-appview"
+                />
+              )}
             </div>
           )}
 
