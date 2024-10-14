@@ -3,10 +3,6 @@
   flex-direction: column;
 }
 
-.submit-box {
-  margin-top: 2.5rem;
-}
-
 .submit-box-new-comment,
 .submit-box {
   width: 42rem;
@@ -15,4 +11,13 @@
 
 .btn-add-prompt {
   margin-top: 1rem;
+}
+
+@media only screen and (max-width: 992px) {
+}
+
+@media only screen and (max-width: 768px) {
+  .submit-box {
+    width: 90%;
+  }
 }

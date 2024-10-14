@@ -34,19 +34,6 @@ export const Submit = () => {
   }, []);
 
   useEffect(() => {
-    async function fetchCodes() {
-      try {
-        const response = await fetch(`${apiURL()}/codes`);
-        const examples = await response.json();
-        console.log(response, response.body, examples);
-      } catch (error) {
-        console.log('errrr', error, error.message);
-      }
-    }
-    fetchCodes();
-  }, []);
-
-  useEffect(() => {
     async function fetchDeals(app) {
       const response = await fetch(`${apiURL()}/deals?app=${app}`);
       const examples = await response.json();
@@ -124,7 +111,9 @@ export const Submit = () => {
         <title>Add referral code - Top App Deals</title>
       </Helmet>
       <main>
-        <h1 className="hero-header">Add your referral code</h1>
+        <div className="hero">
+          <h1 className="hero-header">Add your referral code</h1>
+        </div>
         <div className="form-container add-app-container">
           <div className="form-box submit-box">
             <form>
@@ -156,7 +145,7 @@ export const Submit = () => {
               />
               <TextFormTextarea
                 value={codeUrl}
-                placeholder="Referral link (optional)"
+                placeholder="Referral code link (optional)"
                 onChange={validateCodeUrl}
                 error={codeUrlError}
               />
@@ -188,7 +177,7 @@ export const Submit = () => {
               )}
             </form>
           </div>
-          <p>Reach out to agorh @ icloud.com </p>
+          {/* <p>Reach out to agorh @ icloud.com </p> */}
         </div>
       </main>
     </>
