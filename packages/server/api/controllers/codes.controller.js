@@ -480,10 +480,20 @@ const getAppById = async (id) => {
 const createCodes = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
+
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
-      throw new HttpError('User not found', 401);
+      throw new HttpError('Error - user not found', 401);
     }
+
+    const codesByUser = (
+      await knex('codes').where({ user_id: user.id }).count('codes.id AS count')
+    )[0];
+
+    if (codesByUser.count > 5) {
+      throw new HttpError('Error - too many codes added by user', 404);
+    }
+
     await knex('codes').insert({
       title: body.title,
       description: body.description,
@@ -491,6 +501,7 @@ const createCodes = async (token, body) => {
       deal_id: body.deal_id,
       user_id: user.id,
     });
+
     return {
       successful: true,
     };

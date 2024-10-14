@@ -112,6 +112,7 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
+
   codesController
     .createCodes(token, req.body)
     .then((result) => res.json(result))

@@ -13,6 +13,7 @@ export const Submit = () => {
   const { user } = useUserContext();
   const [selectedApp, setSelectedApp] = useState('');
   const [selectedDeal, setSelectedDeal] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [apps, setApps] = useState([]);
   const [deals, setDeals] = useState([]);
   const [validForm, setValidForm] = useState(false);
@@ -30,6 +31,19 @@ export const Submit = () => {
       setApps(examples);
     }
     fetchApps();
+  }, []);
+
+  useEffect(() => {
+    async function fetchCodes() {
+      try {
+        const response = await fetch(`${apiURL()}/codes`);
+        const examples = await response.json();
+        console.log(response, response.body, examples);
+      } catch (error) {
+        console.log('errrr', error, error.message);
+      }
+    }
+    fetchCodes();
   }, []);
 
   useEffect(() => {
@@ -65,6 +79,13 @@ export const Submit = () => {
         deal_id: dealId,
       }),
     });
+    const responseJson = await response.json();
+
+    if (JSON.stringify(responseJson).includes('Error')) {
+      setErrorMessage(responseJson);
+    } else if (response.ok && !JSON.stringify(responseJson).includes('Error')) {
+      setOpenConfirmationModal(true);
+    }
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -80,7 +101,6 @@ export const Submit = () => {
       setInvalidForm(false);
       setValidForm(true);
       addCode(codeTitle, codeDescription, codeUrl, selectedDeal);
-      setOpenConfirmationModal(true);
     }
   };
 
@@ -162,6 +182,7 @@ export const Submit = () => {
                   }
                 />
               )}
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
               {invalidForm && (
                 <p className="error-message">Form is not valid</p>
               )}
