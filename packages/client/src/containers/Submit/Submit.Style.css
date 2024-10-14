@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+/* .comment-box {
+  margin-top: 1rem;
+} */
+
 .submit-box-new-comment,
 .submit-box {
   width: 42rem;
