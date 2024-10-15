@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -14,8 +15,8 @@ import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg'
 import { Dropdown } from '../../components/Dropdown/Dropdown.Component';
 import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
 import Toast from '../../components/Toast/Toast.Component';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Markdown from 'markdown-to-jsx';
+import ImageGallery from 'react-image-gallery';
 
 import {
   faEnvelope,
@@ -384,6 +385,20 @@ export const DealView = () => {
     return `${codes.length} ${title}`;
   };
 
+  // const images = [
+  //   {
+  //     original: 'https://picsum.photos/id/1018/1000/600/',
+  //     thumbnail: 'https://picsum.photos/id/1018/250/150/',
+  //   },
+  //   {
+  //     original: 'https://picsum.photos/id/1015/300/600/',
+  //     thumbnail: 'https://picsum.photos/id/1015/150/450/',
+  //   },
+  //   {
+  //     original: 'https://picsum.photos/id/1019/1000/600/',
+  //     thumbnail: 'https://picsum.photos/id/1019/250/150/',
+  //   },
+  // ];
   return (
     <>
       <Helmet>
@@ -432,6 +447,7 @@ export const DealView = () => {
                   }.${app.url_image === null ? 'svg' : 'png'}`
             }
           />
+          {/* <ImageGallery items={images} /> */}
 
           <div className="container-deal-actions">
             <div>
@@ -603,7 +619,7 @@ export const DealView = () => {
             ) : (
               <div className="container-title">
                 <span>
-                  <i>No codes yet for {app.title}</i> 😢
+                  <i>No codes yet</i> 😢 <i>Add your code now!</i>
                 </span>
               </div>
             )}

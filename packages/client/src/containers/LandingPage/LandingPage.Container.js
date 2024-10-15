@@ -1,12 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ImageGallery from 'react-image-gallery';
 
 import { apiURL } from '../../apiURL';
 import './LandingPage.Style.css';
 
 export const LandingPage = () => {
   const [exampleResources, setExampleResources] = useState([]);
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   useEffect(() => {
     async function fetchExampleResources() {
@@ -18,16 +20,31 @@ export const LandingPage = () => {
     fetchExampleResources();
   }, []);
 
-  useEffect(() => {
-    async function fetchImages() {
-      const response = await fetch(`${apiURL()}/cloudinary/images`);
-      const json = await response.json();
+  // useEffect(() => {
+  //   async function fetchImages() {
+  //     const response = await fetch(`${apiURL()}/cloudinary/images`);
+  //     const json = await response.json();
 
-      setImages(json.resources[0].url);
-    }
+  //     setImages(json.resources[0].url);
+  //   }
 
-    fetchImages();
-  }, []);
+  //   fetchImages();
+  // }, []);
+
+  const images = [
+    {
+      original: 'https://picsum.photos/id/1018/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1018/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1015/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1015/250/150/',
+    },
+    {
+      original: 'https://picsum.photos/id/1019/1000/600/',
+      thumbnail: 'https://picsum.photos/id/1019/250/150/',
+    },
+  ];
 
   return (
     <div className="landing-page-container">
@@ -36,7 +53,10 @@ export const LandingPage = () => {
         <div key={example.id}>{example.title}</div>
       ))}
       123
-      <div
+      <div className="container-image-gallery-dealview">
+        {/* <ImageGallery thumbnailHeight="50px" items={images} /> */}
+      </div>
+      {/* <div
         className="card-image"
         style={{
           backgroundImage: `url(${images})`,
@@ -46,7 +66,7 @@ export const LandingPage = () => {
           border: '1px',
         }}
       />
-      {images}
+      {images} */}
     </div>
   );
 };
