@@ -14,6 +14,9 @@ import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg'
 import { Dropdown } from '../../components/Dropdown/Dropdown.Component';
 import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
 import Toast from '../../components/Toast/Toast.Component';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import Markdown from 'markdown-to-jsx';
+
 import {
   faEnvelope,
   faLink,
@@ -673,13 +676,16 @@ export const DealView = () => {
               </h2>
             </div>
             <p className="app-description main-description">
-              {app.description}
+              <Markdown>{app.description}</Markdown>
             </p>
 
             {app.description_long && (
               <>
                 <h3>Deal details</h3>
-                <p className="app-description">{app.description_long}</p>
+                <p className="app-description">
+                  {' '}
+                  <Markdown>{app.description_long}</Markdown>
+                </p>
               </>
             )}
           </div>
