@@ -132,7 +132,7 @@ export const Card = ({
         )}
         <div className="topics-bookmark">
           <div className="container-topic-app">
-            <Link target="_blank" to={`/apps/${appId}`}>
+            <Link target="_blank" to={`/deals/app/${appId}`}>
               <Button secondary label={appTitle} size="small" />
             </Link>
             <Link target="_blank" to={`/deals/topic/${topicId}`}>
