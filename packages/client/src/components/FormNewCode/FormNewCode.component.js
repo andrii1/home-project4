@@ -210,8 +210,14 @@ export const FormNewCode = ({
   );
 };
 
-FormNewCode.propTypes = { className: PropTypes.string };
+FormNewCode.propTypes = {
+  className: PropTypes.string,
+  selectedOptionValue1: PropTypes.shape,
+  selectedOptionValue2: PropTypes.shape,
+};
 
 FormNewCode.defaultProps = {
   className: null,
+  selectedOptionValue1: null,
+  selectedOptionValue2: null,
 };

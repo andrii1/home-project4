@@ -62,7 +62,7 @@ export const AppView = () => {
   const [ratings, setRatings] = useState([]);
   const [searches, setSearches] = useState([]);
   const [keywords, setKeywords] = useState([]);
-  const [openAddCodeForm, setOpenAddCodeForm] = useState(true);
+  const [openAddCodeForm, setOpenAddCodeForm] = useState(false);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -380,14 +380,12 @@ export const AppView = () => {
     return `${codes.length} ${title}`;
   };
 
-  console.log({ app });
-
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 30)} - ${
+        <title>{`${String(app.title).substring(0, 30)}${
           dealCodes.length > 0
-            ? `${dealCodesInTitle
+            ? ` - ${dealCodesInTitle
                 .slice(0, 3)
                 .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
             : ''
@@ -405,10 +403,10 @@ export const AppView = () => {
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">
-              {`${app.title} -
+              {`${app.title}
               ${
                 dealCodes.length > 0
-                  ? `${dealCodesInTitle
+                  ? ` - ${dealCodesInTitle
                       .slice(0, 3)
                       .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
                   : ''
@@ -531,37 +529,52 @@ export const AppView = () => {
             </div>
           </div>
 
-          {dealCodes.length > 0 && (
-            <div className="container-codes">
-              <div className="container-title">
-                <h2>
-                  {app.title} -{' '}
-                  {dealCodes.length > 0
-                    ? `${showNumberOfCodesInTitle(dealCodes)}`
-                    : ''}
-                </h2>
-              </div>
+          <div className="container-codes">
+            {dealCodes.length > 0 ? (
+              <>
+                <div className="container-title">
+                  <h2>
+                    {app.title} -{' '}
+                    {dealCodes.length > 0
+                      ? `${showNumberOfCodesInTitle(dealCodes)}`
+                      : ''}
+                  </h2>
+                </div>
 
-              <div className="container-appview-codes-users">
-                {dealCodes.map((code) => {
-                  return (
-                    <div className="container-codes-users">
-                      <div className="container-appview-codes">
-                        <Button
-                          size="medium"
-                          primary
-                          icon={<FontAwesomeIcon icon={faCopy} />}
-                          label={code.title}
-                          onClick={() => copyToClipboard(code.title)}
-                        />
-                        <Toast
-                          open={openToast}
-                          overlayClass={`toast ${animation}`}
-                        >
-                          <span>Copied to clipboard!</span>
-                        </Toast>
-                        {code.url && (
-                          <Link to={code.url} target="_blank">
+                <div className="container-appview-codes-users">
+                  {dealCodes.map((code) => {
+                    return (
+                      <div className="container-codes-users">
+                        <div className="container-appview-codes">
+                          <Button
+                            size="medium"
+                            primary
+                            icon={<FontAwesomeIcon icon={faCopy} />}
+                            label={code.title}
+                            onClick={() => copyToClipboard(code.title)}
+                          />
+                          <Toast
+                            open={openToast}
+                            overlayClass={`toast ${animation}`}
+                          >
+                            <span>Copied to clipboard!</span>
+                          </Toast>
+                          {code.url && (
+                            <Link to={code.url} target="_blank">
+                              <Button
+                                size="medium"
+                                secondary
+                                icon={
+                                  <FontAwesomeIcon
+                                    icon={faArrowUpRightFromSquare}
+                                    size="sm"
+                                  />
+                                }
+                                label="Use code!"
+                              />
+                            </Link>
+                          )}
+                          <Link to={`../../codes/${code.id}`} target="_blank">
                             <Button
                               size="medium"
                               secondary
@@ -571,33 +584,27 @@ export const AppView = () => {
                                   size="sm"
                                 />
                               }
-                              label="Use code!"
+                              label="View"
                             />
                           </Link>
-                        )}
-                        <Link to={`../../codes/${code.id}`} target="_blank">
-                          <Button
-                            size="medium"
-                            secondary
-                            icon={
-                              <FontAwesomeIcon
-                                icon={faArrowUpRightFromSquare}
-                                size="sm"
-                              />
-                            }
-                            label="View"
-                          />
-                        </Link>
+                        </div>
+                        <span className="codes-added-by">
+                          added by {code.userFullName}
+                        </span>
                       </div>
-                      <span className="codes-added-by">
-                        added by {code.userFullName}
-                      </span>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
+              </>
+            ) : (
+              <div className="container-title">
+                <span>
+                  <i>No codes yet for {app.title}</i> 😢
+                </span>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
           {!user && (
             <div className="container-details cta">
               <div>

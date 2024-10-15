@@ -490,7 +490,7 @@ const createCodes = async (token, body) => {
       await knex('codes').where({ user_id: user.id }).count('codes.id AS count')
     )[0];
 
-    if (codesByUser.count > 5) {
+    if (codesByUser.count >= 5) {
       throw new HttpError('Error - too many codes added by user', 404);
     }
 
