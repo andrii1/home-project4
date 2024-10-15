@@ -617,7 +617,17 @@ export const AppView = () => {
                 openAddCodeForm ? 'cta-code-form' : ''
               }`}
             >
-              <div>
+              {openAddCodeForm && (
+                <Button
+                  secondary
+                  type="button"
+                  onClick={() => setOpenAddCodeForm(false)}
+                  className="button-container-add-code"
+                >
+                  X
+                </Button>
+              )}
+              <div className="container-header-referral-code">
                 <h2 className="h-no-margin h-no-margin-bottom">
                   🔥 Add your referral code
                 </h2>
@@ -632,21 +642,18 @@ export const AppView = () => {
                   />
                 </div>
               )}
+
               {openAddCodeForm && (
-                <div>
-                  <Button
-                    secondary
-                    onClick={() => setOpenAddCodeForm(false)}
-                    label="Close form"
+                <>
+                  <FormNewCode
+                    selectedOptionValue1={[app.appTitle]}
+                    selectedOptionValue2={[app.title]}
+                    className="form-code-appview"
                   />
-                </div>
-              )}
-              {openAddCodeForm && (
-                <FormNewCode
-                  selectedOptionValue1={[app.appTitle]}
-                  selectedOptionValue2={[app.title]}
-                  className="form-code-appview"
-                />
+                  <Link target="_blank" className="link" to="/codes/new">
+                    Add a code to other app
+                  </Link>
+                </>
               )}
             </div>
           )}

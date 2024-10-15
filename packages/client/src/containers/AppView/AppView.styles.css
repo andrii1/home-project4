@@ -244,6 +244,16 @@ img.copy-referral-code.smaller-icon {
 .cta-code-form {
   flex-direction: column;
   gap: 1rem;
+  position: relative;
+}
+
+.button-container-add-code {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 1.25rem;
+  padding: 0rem;
+  box-shadow: none;
 }
 
 @media only screen and (min-width: 769px) {

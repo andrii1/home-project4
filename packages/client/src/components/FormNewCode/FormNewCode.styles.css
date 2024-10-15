@@ -2,3 +2,9 @@
   box-shadow: none;
   border: none;
 }
+
+@media only screen and (max-width: 768px) {
+  .form-box.form-code-appview {
+    padding: 1rem 0rem;
+  }
+}
