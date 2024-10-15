@@ -309,7 +309,7 @@ img.copy-referral-code.smaller-icon {
 
   .appview-image,
   .appview-icon {
-    margin: 0 auto;
+    /* margin: 0 auto; */
     max-height: 10rem;
   }
 
