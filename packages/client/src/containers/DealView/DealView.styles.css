@@ -172,7 +172,7 @@
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .container-badges {
@@ -270,6 +270,9 @@ img.copy-referral-code.smaller-icon {
   margin-bottom: 0rem;
 }
 @media only screen and (max-width: 768px) {
+  .badges {
+    align-items: self-start;
+  }
   .container-title {
     flex-direction: column;
     align-items: flex-start;
