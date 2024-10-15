@@ -7,6 +7,7 @@ import { Apps } from './containers/Apps/Apps.Container';
 import { LandingPage } from './containers/LandingPage/LandingPage.Container';
 import TestPage from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
+import { DealView } from './containers/DealView/DealView.container';
 import { AppView } from './containers/AppView/AppView.container';
 import { CodeView } from './containers/CodeView/CodeView.container';
 import { Signup } from './containers/Signup/Signup.Container';
@@ -36,7 +37,8 @@ function App() {
             <Route path="/test" element={<Prompts />} />
             <Route path="/all-apps" element={<AllApps />} />
             <Route path="/categories" element={<Categories />} />
-            <Route exact path="/deals/:id" element={<AppView />} />
+            <Route exact path="/deals/:id" element={<DealView />} />
+            <Route exact path="/apps/:id" element={<AppView />} />
             <Route exact path="/deals/topic/:topicIdParam" element={<Apps />} />
             <Route
               exact

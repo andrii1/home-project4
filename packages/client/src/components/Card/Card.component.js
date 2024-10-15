@@ -25,6 +25,7 @@ export const Card = ({
   referralCodeOnClick,
   topic,
   topicId,
+  appId,
   appTitle,
   url,
   cardUrl,
@@ -131,9 +132,10 @@ export const Card = ({
         )}
         <div className="topics-bookmark">
           <div className="container-topic-app">
-            <Button secondary label={appTitle} size="small" />
-
-            <Link to={`/deals/topic/${topicId}`}>
+            <Link target="_blank" to={`/apps/${appId}`}>
+              <Button secondary label={appTitle} size="small" />
+            </Link>
+            <Link target="_blank" to={`/deals/topic/${topicId}`}>
               <Button secondary label={topic} size="small" />
             </Link>
           </div>
@@ -222,6 +224,7 @@ Card.propTypes = {
   topic: PropTypes.string,
   topicId: PropTypes.string,
   appTitle: PropTypes.string,
+  appId: PropTypes.string,
   id: PropTypes.string,
   url: PropTypes.shape,
   cardUrl: PropTypes.shape,
@@ -241,6 +244,7 @@ Card.defaultProps = {
   description: null,
   referralCode: null,
   appTitle: null,
+  appId: null,
   topicId: null,
   topic: null,
   url: null,

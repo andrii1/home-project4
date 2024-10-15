@@ -35,11 +35,11 @@ import appImage from '../../assets/images/app-placeholder.svg';
 import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
 
 import { apiURL } from '../../apiURL';
-import './AppView.styles.css';
+import './DealView.styles.css';
 import { useUserContext } from '../../userContext';
 import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component';
 
-export const AppView = () => {
+export const DealView = () => {
   const { id } = useParams();
   const [openModal, setOpenModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
@@ -66,7 +66,7 @@ export const AppView = () => {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   useEffect(() => {
     async function fetchSingleApp(appId) {
-      const response = await fetch(`${apiURL()}/apps/${appId}`);
+      const response = await fetch(`${apiURL()}/deals/${appId}`);
       const appResponse = await response.json();
       setApp(appResponse[0]);
     }
@@ -392,14 +392,18 @@ export const AppView = () => {
         } - Top App Deals`}</title>
         <meta
           name="description"
-          content={`${app.title} - all deals, coupons, codes in one place`}
+          content={
+            keywords.length > 0
+              ? keywords.map((keyword) => keyword.title).join(', ')
+              : `${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`
+          }
         />
       </Helmet>
       <main>
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">
-              {`${app.title} app
+              {`${app.title}
               ${
                 dealCodes.length > 0
                   ? ` - ${dealCodesInTitle
@@ -408,7 +412,7 @@ export const AppView = () => {
                   : ''
               }`}
             </h1>
-            <h3>All deals, promo and referral codes</h3>
+            <h3>{app.appTitle} deal</h3>
           </div>
 
           <img
@@ -426,7 +430,7 @@ export const AppView = () => {
           />
 
           <div className="container-deal-actions">
-            {/* <div>
+            <div>
               {user && favorites.some((x) => x.id === app.id) ? (
                 <button
                   type="button"
@@ -460,10 +464,10 @@ export const AppView = () => {
                   Save <FontAwesomeIcon icon={faHeart} size="lg" />
                 </button>
               )}
-            </div> */}
+            </div>
             <div className="container-appview-buttons">
-              {app.url && (
-                <Link to={app.url} target="_blank">
+              {app.appUrl && (
+                <Link to={app.appUrl} target="_blank">
                   <Button
                     size="large"
                     secondary
@@ -473,12 +477,12 @@ export const AppView = () => {
                         size="sm"
                       />
                     }
-                    label={`Visit ${app.title} website`}
+                    label={`Visit ${app.appTitle} website`}
                   />
                 </Link>
               )}
             </div>
-            {/* <div className="container-rating">
+            <div className="container-rating">
               Rating
               {user &&
               allRatings.some((rating) => rating.deal_id === app.id) &&
@@ -522,7 +526,7 @@ export const AppView = () => {
                   }
                 </button>
               )}
-            </div> */}
+            </div>
           </div>
 
           <div className="container-codes">
@@ -595,7 +599,7 @@ export const AppView = () => {
             ) : (
               <div className="container-title">
                 <span>
-                  <i>No deals yet for {app.title}</i> 😢
+                  <i>No codes yet for {app.title}</i> 😢
                 </span>
               </div>
             )}
@@ -663,21 +667,30 @@ export const AppView = () => {
 
           <div className="container-description">
             <div className="container-title">
-              <h2>{app.title} app</h2>
+              <h2>
+                {app.title} in {app.appTitle} app
+              </h2>
             </div>
             <p className="app-description main-description">
               {app.description}
             </p>
+
+            {app.description_long && (
+              <>
+                <h3>Deal details</h3>
+                <p className="app-description">{app.description_long}</p>
+              </>
+            )}
           </div>
 
-          {app.url_app_store || app.url_google_play_store ? (
+          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {app.appTitle} app</h2>
               <div className="container-store-logos">
-                {app.url_app_store && (
+                {app.appUrlAppStore && (
                   <Link
                     target="_blank"
-                    to={app.url_app_store}
+                    to={app.appUrlAppStore}
                     className="simple-link"
                   >
                     <img
@@ -687,10 +700,10 @@ export const AppView = () => {
                     />
                   </Link>
                 )}
-                {app.url_google_play_store && (
+                {app.appUrlGooglePlayStore && (
                   <Link
                     target="_blank"
-                    to={app.url_google_play_store}
+                    to={app.appUrlGooglePlayStore}
                     className="simple-link"
                   >
                     <img

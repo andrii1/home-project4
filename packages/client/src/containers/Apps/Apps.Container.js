@@ -745,6 +745,8 @@ export const Apps = () => {
     }, 2500);
   };
 
+  console.log({ apps });
+
   return (
     <main>
       <Helmet>
@@ -905,6 +907,7 @@ export const Apps = () => {
                   topic={app.topicTitle}
                   topicId={app.topic_id}
                   appTitle={app.appTitle}
+                  appId={app.app_id}
                   isFavorite={favorites.some((x) => x.id === app.id)}
                   addFavorite={(event) => addFavorite(app.id)}
                   deleteBookmark={() => handleDeleteBookmarks(app.id)}
