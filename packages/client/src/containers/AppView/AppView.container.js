@@ -71,28 +71,28 @@ export const AppView = () => {
       setApp(appResponse[0]);
     }
 
-    async function fetchCodesForADeal(dealId) {
-      const response = await fetch(`${apiURL()}/codes/?deal=${dealId}`);
+    async function fetchCodesForADeal(appId) {
+      const response = await fetch(`${apiURL()}/deals/?app=${appId}`);
       const appResponse = await response.json();
       setDealCodes(appResponse);
     }
 
-    async function fetchSearchesForADeal(dealId) {
-      const response = await fetch(`${apiURL()}/searches/?deal=${dealId}`);
-      const appResponse = await response.json();
-      setSearches(appResponse);
-    }
+    // async function fetchSearchesForADeal(dealId) {
+    //   const response = await fetch(`${apiURL()}/searches/?deal=${dealId}`);
+    //   const appResponse = await response.json();
+    //   setSearches(appResponse);
+    // }
 
-    async function fetchKeywordsForADeal(dealId) {
-      const response = await fetch(`${apiURL()}/keywords/?deal=${dealId}`);
-      const appResponse = await response.json();
-      setKeywords(appResponse);
-    }
+    // async function fetchKeywordsForADeal(dealId) {
+    //   const response = await fetch(`${apiURL()}/keywords/?deal=${dealId}`);
+    //   const appResponse = await response.json();
+    //   setKeywords(appResponse);
+    // }
 
     fetchSingleApp(id);
     fetchCodesForADeal(id);
-    fetchSearchesForADeal(id);
-    fetchKeywordsForADeal(id);
+    // fetchSearchesForADeal(id);
+    // fetchKeywordsForADeal(id);
   }, [id]);
 
   useEffect(() => {
@@ -101,12 +101,12 @@ export const AppView = () => {
       const example = await response.json();
       setAppAppStore(example.results[0]);
     }
-    app.appAppleId && fetchAppAppStore(app.appAppleId);
-  }, [app.appAppleId]);
+    app.apple_id && fetchAppAppStore(app.apple_id);
+  }, [app.apple_id]);
 
   useEffect(() => {
     async function fetchSimilarApps() {
-      const response = await fetch(`${apiURL()}/deals`);
+      const response = await fetch(`${apiURL()}/apps`);
       const appsResponse = await response.json();
       const similarAppsArray = appsResponse
         .filter((item) => item.appTopicId === app.topic_id)
@@ -123,62 +123,62 @@ export const AppView = () => {
     fetchSimilarApps();
   }, [app.topic_id, app.id, app.app_id]);
 
-  const fetchCommentsByAppId = useCallback(async (appId) => {
-    const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
-    const commentResponse = await response.json();
-    setComments(commentResponse);
-  }, []);
+  // const fetchCommentsByAppId = useCallback(async (appId) => {
+  //   const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
+  //   const commentResponse = await response.json();
+  //   setComments(commentResponse);
+  // }, []);
 
-  useEffect(() => {
-    fetchCommentsByAppId(id);
-  }, [fetchCommentsByAppId, id]);
+  // useEffect(() => {
+  //   fetchCommentsByAppId(id);
+  // }, [fetchCommentsByAppId, id]);
 
   const navigateBack = () => {
     navigate(-1);
   };
 
-  const addComment = async (commentContent) => {
-    const response = await fetch(`${apiURL()}/comments`, {
-      method: 'POST',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        content: commentContent,
-        deal_id: id,
-      }),
-    });
-    if (response.ok) {
-      fetchCommentsByAppId(id);
-    }
-  };
+  // const addComment = async (commentContent) => {
+  //   const response = await fetch(`${apiURL()}/comments`, {
+  //     method: 'POST',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       content: commentContent,
+  //       deal_id: id,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     fetchCommentsByAppId(id);
+  //   }
+  // };
 
-  const commentHandler = (event) => {
-    setComment(event.target.value);
-  };
+  // const commentHandler = (event) => {
+  //   setComment(event.target.value);
+  // };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (!comment) {
-      setError('Comment is required!');
-      setInvalidForm(true);
-      setValidForm(false);
-      return;
-    }
-    if (comment.trim().length < 5) {
-      setError('Comment must be more than five characters!');
-      setInvalidForm(true);
-      setValidForm(false);
-      return;
-    }
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   if (!comment) {
+  //     setError('Comment is required!');
+  //     setInvalidForm(true);
+  //     setValidForm(false);
+  //     return;
+  //   }
+  //   if (comment.trim().length < 5) {
+  //     setError('Comment must be more than five characters!');
+  //     setInvalidForm(true);
+  //     setValidForm(false);
+  //     return;
+  //   }
 
-    setInvalidForm(false);
-    setValidForm(true);
-    addComment(comment);
-    setOpenConfirmationModal(true);
-    setComment('');
-  };
+  //   setInvalidForm(false);
+  //   setValidForm(true);
+  //   addComment(comment);
+  //   setOpenConfirmationModal(true);
+  //   setComment('');
+  // };
   const getOnlyYearMonthDay = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
@@ -191,7 +191,7 @@ export const AppView = () => {
     return (
       <Card
         id={item.id}
-        cardUrl={`/deals/${item.id}`}
+        cardUrl={`/apps/${item.id}`}
         title={item.title}
         description={item.description}
         url={item.url}
@@ -425,8 +425,9 @@ export const AppView = () => {
             }
           />
 
-          <div className="container-deal-actions">
-            {/* <div>
+          {app.url && (
+            <div className="container-deal-actions">
+              {/* <div>
               {user && favorites.some((x) => x.id === app.id) ? (
                 <button
                   type="button"
@@ -461,8 +462,7 @@ export const AppView = () => {
                 </button>
               )}
             </div> */}
-            <div className="container-appview-buttons">
-              {app.url && (
+              <div className="container-appview-buttons">
                 <Link to={app.url} target="_blank">
                   <Button
                     size="large"
@@ -476,9 +476,8 @@ export const AppView = () => {
                     label={`Visit ${app.title} website`}
                   />
                 </Link>
-              )}
-            </div>
-            {/* <div className="container-rating">
+              </div>
+              {/* <div className="container-rating">
               Rating
               {user &&
               allRatings.some((rating) => rating.deal_id === app.id) &&
@@ -523,7 +522,8 @@ export const AppView = () => {
                 </button>
               )}
             </div> */}
-          </div>
+            </div>
+          )}
 
           <div className="container-codes">
             {dealCodes.length > 0 ? (
@@ -661,14 +661,20 @@ export const AppView = () => {
             </div>
           )}
 
-          <div className="container-description">
+          {/* <div className="container-description">
             <div className="container-title">
               <h2>{app.title} app</h2>
             </div>
             <p className="app-description main-description">
               {app.description}
             </p>
-          </div>
+          </div> */}
+          {app.apple_id && appAppStore && (
+            <div className="container-appview-box">
+              <h2>{app?.title} app</h2>
+              <p className="app-description">{appAppStore?.description}</p>
+            </div>
+          )}
 
           {app.url_app_store || app.url_google_play_store ? (
             <div className="container-appview-box">
@@ -706,75 +712,22 @@ export const AppView = () => {
             ''
           )}
 
-          {app.appAppleId && appAppStore && (
-            <div className="container-appview-box">
-              <h2>{app?.appTitle} app</h2>
-              <p className="app-description">{appAppStore?.description}</p>
-            </div>
-          )}
-          {app.contact && (
-            <div className="container-appview-box">
-              <h2>{app.title} support</h2>
-              <div>
-                <Link to={`mailto:${app.contact}`} target="_blank">
-                  <Button
-                    secondary
-                    icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
-                    label={`Contact ${app.appTitle} support`}
-                  />
-                </Link>
-              </div>
-            </div>
-          )}
           <div className="container-details container-badges">
-            <div className="container-tags">
-              <div className="badges">
-                <p>App: </p>
-                <div>
-                  <Badge label={app.appTitle} size="small" />
-                </div>
-              </div>
-            </div>
             <div className="container-tags">
               <div className="badges">
                 <p>Topic: </p>
                 <div>
-                  <Link to={`/deals/topic/${app.topic_id}`} target="_blank">
-                    <Button
-                      label={app.topicTitle}
-                      size="small"
-                      icon={
-                        <FontAwesomeIcon
-                          icon={faArrowUpRightFromSquare}
-                          size="sm"
-                        />
-                      }
-                    />
-                  </Link>
+                  <Button label={app.topicTitle} size="small" />
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Link
-                    to={`/deals/category/${app.category_id}`}
-                    target="_blank"
-                  >
-                    <Button
-                      label={app.categoryTitle}
-                      size="small"
-                      icon={
-                        <FontAwesomeIcon
-                          icon={faArrowUpRightFromSquare}
-                          size="sm"
-                        />
-                      }
-                    />
-                  </Link>
+                  <Button label={app.categoryTitle} size="small" />
                 </div>
               </div>
             </div>
-            {keywords.length > 0 && (
+            {/* {keywords.length > 0 && (
               <div className="container-tags">
                 <div className="badges">
                   <p className="p-no-margin">Tags: </p>
@@ -785,7 +738,7 @@ export const AppView = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           {/* <div className="container-related-searches">
             <h3>Related searches</h3>
@@ -803,33 +756,33 @@ export const AppView = () => {
               icon={faLink}
               className="button-copy"
               onClick={() =>
-                copyToClipboard(`https://www.topappdeals.com/deals/${app.id}`)
+                copyToClipboard(`https://www.topappdeals.com/apps/${app.id}`)
               }
             />
-            <FacebookShareButton url={`/Apps/${app.id}`}>
+            <FacebookShareButton url={`/apps/${app.id}`}>
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
             <TwitterShareButton
-              url={`https://www.topappdeals.com/deals/${app.id}`}
+              url={`https://www.topappdeals.com/apps/${app.id}`}
               title={`Check out this GPT App: '${app.title}'`}
               hashtags={['Apps']}
             >
               <FontAwesomeIcon className="share-icon" icon={faTwitter} />
             </TwitterShareButton>
             <LinkedinShareButton
-              url={`https://www.topappdeals.com/deals/${app.id}`}
+              url={`https://www.topappdeals.com/apps/${app.id}`}
             >
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
               subject="Check out this deal!"
               body={`This app deal is great: '${app.title}'`}
-              url={`https://www.topappdeals.com/deals/${app.id}`}
+              url={`https://www.topappdeals.com/apps/${app.id}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-          <div className="container-comments">
+          {/* <div className="container-comments">
             <h2 className="h-no-margin h-no-margin-bottom">Reviews</h2>
             {comments.length === 0 && (
               <div>
@@ -892,11 +845,11 @@ export const AppView = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
           <div className="container-details cta">
             <div>
               <h2>🔥 Create a free account</h2>
-              <p>And bookmark you favorite deals</p>
+              <p>Add your referral codes, bookmark you favorite deals</p>
             </div>
             <div>
               <Link target="_blank" to="/signup">
