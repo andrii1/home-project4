@@ -630,8 +630,7 @@ export const AppView = () => {
               {openAddCodeForm && (
                 <>
                   <FormNewCode
-                    selectedOptionValue1={[app.appTitle]}
-                    selectedOptionValue2={[app.title]}
+                    selectedOptionValue1={[app.title]}
                     className="form-code-appview"
                   />
                   <Link target="_blank" className="link" to="/codes/new">

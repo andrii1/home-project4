@@ -18,7 +18,7 @@ export const ContainerCta = ({ user }) => {
         </p>
       </div>
       <div>
-        <Link target="_blank" to={user ? '/upgrade' : '/signup'}>
+        <Link target="_blank" to={user ? '#' : '/signup'}>
           <Button
             primary
             label={user ? 'Upgrade 👌' : 'Create my account 👌'}
