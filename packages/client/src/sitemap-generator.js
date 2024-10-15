@@ -14,6 +14,12 @@ async function generateSitemap() {
     const prompts = promptsResult.sort((a, b) => a.id - b.id);
     const idMap = [];
 
+    /* Apps */
+    const responseApps = await fetch(`http://localhost:5001/api/apps/`);
+    const appsResult = await responseApps.json();
+    const apps = appsResult.sort((a, b) => a.id - b.id);
+    const idMapApps = [];
+
     /* Codes */
     const responseCodes = await fetch(`http://localhost:5001/api/codes/`);
     const codesResult = await responseCodes.json();
@@ -44,6 +50,10 @@ async function generateSitemap() {
       idMap.push({ id: prompt.id });
     });
 
+    apps.forEach((app) => {
+      idMapApps.push({ appIdParam: app.id });
+    });
+
     codes.forEach((code) => {
       idMapCodes.push({ codeIdParam: code.id });
     });
@@ -62,6 +72,7 @@ async function generateSitemap() {
 
     const paramsConfig = {
       '/deals/:id': idMap,
+      '/apps/:appIdParam': idMapApps,
       '/codes/:codeIdParam': idMapCodes,
       '/deals/topic/:topicIdParam': idMapTopics,
       '/deals/category/:categoryIdParam': idMapCategories,

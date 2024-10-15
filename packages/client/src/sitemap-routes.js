@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 export default (
   <Route>
     <Route exact path="/deals/:id" />
+    <Route exact path="/apps/:appIdParam" />
     <Route exact path="/codes/:codeIdParam" />
     <Route exact path="/deals/topic/:topicIdParam" />
     <Route exact path="/deals/category/:categoryIdParam" />
