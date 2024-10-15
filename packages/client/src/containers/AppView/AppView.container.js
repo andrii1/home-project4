@@ -6,6 +6,7 @@ import { Button } from '../../components/Button/Button.component';
 import { Badge } from '../../components/Badge/Badge.component';
 import { Card } from '../../components/Card/Card.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ContainerCta } from '../../components/ContainerCta/ContainerCta.component';
 import Modal from '../../components/Modal/Modal.Component';
 import iconCopy from '../../assets/images/icons8-copy-24.png';
 import appStoreLogo from '../../assets/images/download-on-the-app-store-apple-logo.svg';
@@ -225,125 +226,125 @@ export const AppView = () => {
   //   );
   // });
 
-  const fetchFavorites = useCallback(async () => {
-    const url = `${apiURL()}/favorites`;
-    const response = await fetch(url, {
-      headers: {
-        token: `token ${user?.uid}`,
-      },
-    });
-    const favoritesData = await response.json();
+  // const fetchFavorites = useCallback(async () => {
+  //   const url = `${apiURL()}/favorites`;
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //     },
+  //   });
+  //   const favoritesData = await response.json();
 
-    if (Array.isArray(favoritesData)) {
-      setFavorites(favoritesData);
-    } else {
-      setFavorites([]);
-    }
-  }, [user]);
+  //   if (Array.isArray(favoritesData)) {
+  //     setFavorites(favoritesData);
+  //   } else {
+  //     setFavorites([]);
+  //   }
+  // }, [user]);
 
-  useEffect(() => {
-    fetchFavorites();
-  }, [fetchFavorites]);
+  // useEffect(() => {
+  //   fetchFavorites();
+  // }, [fetchFavorites]);
 
-  const addFavorite = async (appId) => {
-    const response = await fetch(`${apiURL()}/favorites`, {
-      method: 'POST',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        deal_id: appId,
-      }),
-    });
-    if (response.ok) {
-      fetchFavorites();
-    }
-  };
+  // const addFavorite = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/favorites`, {
+  //     method: 'POST',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       deal_id: appId,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     fetchFavorites();
+  //   }
+  // };
 
-  const handleDeleteBookmarks = (favoritesId) => {
-    const deleteFavorites = async () => {
-      const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
-        method: 'DELETE',
-        headers: {
-          token: `token ${user?.uid}`,
-        },
-      });
+  // const handleDeleteBookmarks = (favoritesId) => {
+  //   const deleteFavorites = async () => {
+  //     const response = await fetch(`${apiURL()}/favorites/${favoritesId} `, {
+  //       method: 'DELETE',
+  //       headers: {
+  //         token: `token ${user?.uid}`,
+  //       },
+  //     });
 
-      if (response.ok) {
-        fetchFavorites();
-      }
-    };
+  //     if (response.ok) {
+  //       fetchFavorites();
+  //     }
+  //   };
 
-    deleteFavorites();
-  };
+  //   deleteFavorites();
+  // };
 
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
   };
 
-  const fetchAllRatings = useCallback(async () => {
-    const url = `${apiURL()}/ratings`;
-    const response = await fetch(url);
-    const ratingsData = await response.json();
-    setAllRatings(ratingsData);
-  }, []);
+  // const fetchAllRatings = useCallback(async () => {
+  //   const url = `${apiURL()}/ratings`;
+  //   const response = await fetch(url);
+  //   const ratingsData = await response.json();
+  //   setAllRatings(ratingsData);
+  // }, []);
 
-  useEffect(() => {
-    fetchAllRatings();
-  }, [fetchAllRatings]);
+  // useEffect(() => {
+  //   fetchAllRatings();
+  // }, [fetchAllRatings]);
 
-  const fetchRatings = useCallback(async () => {
-    const url = `${apiURL()}/ratings`;
-    const response = await fetch(url, {
-      headers: {
-        token: `token ${user?.uid}`,
-      },
-    });
-    const ratingsData = await response.json();
+  // const fetchRatings = useCallback(async () => {
+  //   const url = `${apiURL()}/ratings`;
+  //   const response = await fetch(url, {
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //     },
+  //   });
+  //   const ratingsData = await response.json();
 
-    if (Array.isArray(ratingsData)) {
-      setRatings(ratingsData);
-    } else {
-      setRatings([]);
-    }
-  }, [user]);
+  //   if (Array.isArray(ratingsData)) {
+  //     setRatings(ratingsData);
+  //   } else {
+  //     setRatings([]);
+  //   }
+  // }, [user]);
 
-  useEffect(() => {
-    fetchRatings();
-  }, [fetchRatings]);
+  // useEffect(() => {
+  //   fetchRatings();
+  // }, [fetchRatings]);
 
-  const addRating = async (appId) => {
-    const response = await fetch(`${apiURL()}/ratings`, {
-      method: 'POST',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        deal_id: appId,
-      }),
-    });
-    if (response.ok) {
-      fetchRatings();
-      fetchAllRatings();
-    }
-  };
+  // const addRating = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/ratings`, {
+  //     method: 'POST',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       deal_id: appId,
+  //     }),
+  //   });
+  //   if (response.ok) {
+  //     fetchRatings();
+  //     fetchAllRatings();
+  //   }
+  // };
 
-  const deleteRating = async (appId) => {
-    const response = await fetch(`${apiURL()}/ratings/${appId}`, {
-      method: 'DELETE',
-      headers: {
-        token: `token ${user?.uid}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    if (response.ok) {
-      fetchRatings();
-      fetchAllRatings();
-    }
-  };
+  // const deleteRating = async (appId) => {
+  //   const response = await fetch(`${apiURL()}/ratings/${appId}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       token: `token ${user?.uid}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   if (response.ok) {
+  //     fetchRatings();
+  //     fetchAllRatings();
+  //   }
+  // };
 
   const copyToClipboard = (item) => {
     navigator.clipboard.writeText(item);
@@ -357,10 +358,6 @@ export const AppView = () => {
       setOpenToast(false);
     }, 2500);
   };
-
-  const appDealsInTitle = appDeals.map((i) => {
-    return `(${i.title})`;
-  });
 
   const showNumberOfDealsInTitle = (deals) => {
     let title;
@@ -638,7 +635,7 @@ export const AppView = () => {
                     className="form-code-appview"
                   />
                   <Link target="_blank" className="link" to="/codes/new">
-                    Add a code to other app
+                    Add a code to another app
                   </Link>
                 </>
               )}
@@ -830,17 +827,7 @@ export const AppView = () => {
               </div>
             )}
           </div> */}
-          <div className="container-details cta">
-            <div>
-              <h2>🔥 Create a free account</h2>
-              <p>Add your referral codes, bookmark you favorite deals</p>
-            </div>
-            <div>
-              <Link target="_blank" to="/signup">
-                <Button primary label="Create my account 👌" />
-              </Link>
-            </div>
-          </div>
+          <ContainerCta user={user} />
           {/* {similarDealsFromApp.length > 0 && (
             <div className="container-alternatives">
               <h2>🔎 Other deals from {app.appTitle} app</h2>

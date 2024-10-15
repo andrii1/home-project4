@@ -3,6 +3,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { Button } from '../../components/Button/Button.component';
+import { ContainerCta } from '../../components/ContainerCta/ContainerCta.component';
 import { Badge } from '../../components/Badge/Badge.component';
 import { Card } from '../../components/Card/Card.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -658,7 +659,7 @@ export const DealView = () => {
                     className="form-code-appview"
                   />
                   <Link target="_blank" className="link" to="/codes/new">
-                    Add a code to other app
+                    Add a code to another app
                   </Link>
                 </>
               )}
@@ -744,7 +745,18 @@ export const DealView = () => {
               <div className="badges">
                 <p>App: </p>
                 <div>
-                  <Badge label={app.appTitle} size="small" />
+                  <Link to={`/apps/${app.app_id}`} target="_blank">
+                    <Button
+                      label={app.appTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -906,17 +918,7 @@ export const DealView = () => {
               </div>
             )}
           </div>
-          <div className="container-details cta">
-            <div>
-              <h2>🔥 Create a free account</h2>
-              <p>And bookmark you favorite deals</p>
-            </div>
-            <div>
-              <Link target="_blank" to="/signup">
-                <Button primary label="Create my account 👌" />
-              </Link>
-            </div>
-          </div>
+          <ContainerCta user={user} />
           {similarDealsFromApp.length > 0 && (
             <div className="container-alternatives">
               <h2>🔎 Other deals from {app.appTitle} app</h2>
