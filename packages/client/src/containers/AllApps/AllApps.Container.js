@@ -81,6 +81,8 @@ export const AllApps = () => {
     });
   }, [showAppsBy, apps]);
 
+  console.log('filteredApps', filteredApps);
+
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
