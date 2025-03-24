@@ -51,17 +51,17 @@ export const Apps = () => {
   const [showFiltersContainer, setShowFiltersContainer] = useState(false);
   const [showTopicsContainer, setShowTopicsContainer] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingFirstFetch, setLoadingFirstFetch] = useState(false);
   const [listView, setListView] = useState(window.innerWidth <= 768);
   const [page, setPage] = useState(0);
   const [counter, setCounter] = useState(0);
   const [apps, setApps] = useState({});
   const [dealsTrending, setDealsTrending] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
-  const [sortOrder, setSortOrder] = useState('');
-  const [orderByTrending, setOrderByTrending] = useState(true);
+  const [sortOrder, setSortOrder] = useState('Recent');
+  const [orderByTrending, setOrderByTrending] = useState(false);
   const [codesPage, setCodesPage] = useState(false);
 
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
@@ -156,7 +156,8 @@ export const Apps = () => {
 
   // first fetch
   useEffect(() => {
-    setIsLoading(true);
+    setLoading(true);
+    setLoadingFirstFetch(true);
 
     async function fetchData() {
       const url = `${apiURL()}/${
@@ -224,7 +225,8 @@ export const Apps = () => {
         hasMore,
       });
       setPage((prevPage) => prevPage + 1);
-      setIsLoading(false);
+      setLoading(false);
+      setLoadingFirstFetch(false);
     }
 
     async function fetchDataTrending() {
@@ -296,7 +298,8 @@ export const Apps = () => {
         hasMore,
       });
       setPage((prevPage) => prevPage + 1);
-      setIsLoading(false);
+      setLoading(false);
+      setLoadingFirstFetch(false);
     }
 
     if (pathname === '/' && orderByTrending) {
@@ -338,7 +341,7 @@ export const Apps = () => {
   ]);
 
   const fetchApps = async () => {
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
 
     const url = `${apiURL()}/${
@@ -408,7 +411,7 @@ export const Apps = () => {
   };
 
   const fetchAppsTrending = async () => {
-    setIsLoading(true);
+    setLoading(true);
     setError(null);
 
     // const response = await fetch(`${apiURL()}/deals`);
@@ -801,7 +804,7 @@ export const Apps = () => {
 
   let sortOptions;
   if (!appIdParam && !categoryIdParam && !searchTermIdParam && !topicIdParam) {
-    sortOptions = ['Trending', 'Recent', 'A-Z', 'Z-A'];
+    sortOptions = ['Recent', 'Trending', 'A-Z', 'Z-A'];
   } else {
     sortOptions = ['Recent', 'A-Z', 'Z-A'];
   }
@@ -832,6 +835,9 @@ export const Apps = () => {
       setOrderBy({ column, direction });
     }
   }, [sortOrder]);
+
+  console.log(sortOrder, 'sortOrder');
+  console.log('apps', apps.data);
 
   let pageTitle;
   let metaContent;
@@ -1030,7 +1036,8 @@ export const Apps = () => {
           label="Categories"
         />
         <DropDownView
-          label="Sort"
+          // label="Sort"
+          selectedOptionValue={sortOrder}
           className="no-line-height"
           options={sortOptions}
           // selectedOptionValue - can be removed
@@ -1093,7 +1100,9 @@ export const Apps = () => {
           </form>
         </div>
       </section>
-      {apps.data ? (
+      {loadingFirstFetch ? (
+        <Loading />
+      ) : apps.data ? (
         <section className="container-scroll">
           <InfiniteScroll
             dataLength={apps.data.length}

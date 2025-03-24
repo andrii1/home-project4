@@ -7,41 +7,17 @@ const DropDownView = ({
   label,
   onSelect,
   selectedOptionValue,
-  className,
+  className = '',
   showFilterIcon = false,
   ...props
 }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(selectedOptionValue || '');
+
   const handleChange = (event) => {
-    setValue(event.target.value);
-    onSelect(event.target.value);
+    const newValue = event.target.value;
+    setValue(newValue);
+    onSelect?.(newValue);
   };
-
-  let optionList;
-  if (!selectedOptionValue) {
-    optionList =
-      options.length > 0 &&
-      options.map((item) => {
-        return (
-          <option key={item.toString()} value={item}>
-            {item}
-          </option>
-        );
-      });
-  }
-
-  optionList =
-    options.length > 0 &&
-    options.map((item) => {
-      if (item === selectedOptionValue) {
-        return null;
-      }
-      return (
-        <option key={item.toString()} value={item}>
-          {item}
-        </option>
-      );
-    });
 
   return (
     <select
@@ -50,21 +26,14 @@ const DropDownView = ({
       className={`view-dropdown-select ${className} ${
         showFilterIcon ? 'all-filters' : ''
       }`}
+      {...props}
     >
-      {selectedOptionValue && (
-        <>
-          <option selected value={selectedOptionValue}>
-            {selectedOptionValue}
-          </option>
-          {optionList}
-        </>
-      )}
-      {!selectedOptionValue && (
-        <>
-          <option value="">{label}</option>
-          {optionList}
-        </>
-      )}
+      {!selectedOptionValue && <option value="">{label}</option>}
+      {options.map((item) => (
+        <option key={item} value={item}>
+          {item}
+        </option>
+      ))}
     </select>
   );
 };
@@ -73,15 +42,16 @@ DropDownView.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string).isRequired,
   label: PropTypes.string.isRequired,
   onSelect: PropTypes.func,
-  showFilterIcon: PropTypes.bool,
-  className: PropTypes.string,
   selectedOptionValue: PropTypes.string,
+  className: PropTypes.string,
+  showFilterIcon: PropTypes.bool,
 };
+
 DropDownView.defaultProps = {
   onSelect: undefined,
+  selectedOptionValue: '',
+  className: '',
   showFilterIcon: false,
-  className: null,
-  selectedOptionValue: null,
 };
 
 export default DropDownView;
