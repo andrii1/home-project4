@@ -16,6 +16,7 @@ import { Dropdown } from '../../components/Dropdown/Dropdown.Component';
 import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
 import Toast from '../../components/Toast/Toast.Component';
 import Markdown from 'markdown-to-jsx';
+import { Loading } from '../../components/Loading/Loading.Component';
 import ImageGallery from 'react-image-gallery';
 
 import {
@@ -58,7 +59,8 @@ export const DealView = () => {
   const [similarApps, setSimilarApps] = useState([]);
   const [similarDealsFromApp, setSimilarDealsFromApp] = useState([]);
   const [comments, setComments] = useState([]);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { user } = useUserContext();
   const [validForm, setValidForm] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
@@ -94,35 +96,64 @@ export const DealView = () => {
       setKeywords(appResponse);
     }
 
-    fetchSingleApp(id);
-    fetchCodesForADeal(id);
-    fetchSearchesForADeal(id);
-    fetchKeywordsForADeal(id);
+    // fetchSingleApp(id);
+    // fetchCodesForADeal(id);
+    // fetchSearchesForADeal(id);
+    // fetchKeywordsForADeal(id);
+
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null); // Clear previous errors
+      try {
+        await fetchSingleApp(id);
+        await fetchCodesForADeal(id);
+        await fetchSearchesForADeal(id);
+        await fetchKeywordsForADeal(id);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
   useEffect(() => {
     async function fetchAppAppStore(appleId) {
-      const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
-      const example = await response.json();
-      setAppAppStore(example.results[0]);
+      setLoading(true);
+      try {
+        const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
+        const example = await response.json();
+        setAppAppStore(example.results[0]);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+      setLoading(false);
     }
     app.appAppleId && fetchAppAppStore(app.appAppleId);
   }, [app.appAppleId]);
 
   useEffect(() => {
     async function fetchSimilarApps() {
-      const response = await fetch(`${apiURL()}/deals`);
-      const appsResponse = await response.json();
-      const similarAppsArray = appsResponse
-        .filter((item) => item.appTopicId === app.topic_id)
-        .filter((item) => item.app_id !== app.app_id)
-        .filter((item) => item.id !== app.id);
-      setSimilarApps(similarAppsArray);
+      setLoading(true);
+      try {
+        const response = await fetch(`${apiURL()}/deals`);
+        const appsResponse = await response.json();
+        const similarAppsArray = appsResponse
+          .filter((item) => item.appTopicId === app.topic_id)
+          .filter((item) => item.app_id !== app.app_id)
+          .filter((item) => item.id !== app.id);
+        setSimilarApps(similarAppsArray);
 
-      const similarDealsFromAppArray = appsResponse
-        .filter((item) => item.app_id === app.app_id)
-        .filter((item) => item.id !== app.id);
-      setSimilarDealsFromApp(similarDealsFromAppArray);
+        const similarDealsFromAppArray = appsResponse
+          .filter((item) => item.app_id === app.app_id)
+          .filter((item) => item.id !== app.id);
+        setSimilarDealsFromApp(similarDealsFromAppArray);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+      setLoading(false);
     }
 
     fetchSimilarApps();
@@ -399,22 +430,54 @@ export const DealView = () => {
   //     thumbnail: 'https://picsum.photos/id/1019/250/150/',
   //   },
   // ];
+  console.log('app', app);
+
+  if (loading) {
+    return (
+      <>
+        <Helmet>
+          <title>Loading...</title>
+          <meta name="description" content="Fetching deal details" />
+        </Helmet>
+        <main className="loading-container">
+          <Loading />
+        </main>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Helmet>
+          <title>Error</title>
+          <meta name="description" content="Something went wrong" />
+        </Helmet>
+        <main className="error-container">
+          <h2>{error.message || 'Something went wrong'}</h2>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet>
-        <title>{`${String(app.title).substring(0, 30)}${
-          dealCodes.length > 0
-            ? ` - ${dealCodesInTitle
-                .slice(0, 3)
-                .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
-            : ''
-        } - Top App Deals`}</title>
+        <title>
+          {`${String(app?.title).substring(0, 50)}${
+            dealCodes.length > 0
+              ? ` - ${dealCodesInTitle
+                  .slice(0, 3)
+                  .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
+              : ''
+          }` || 'Top App Deals'}
+        </title>
         <meta
           name="description"
           content={
             keywords.length > 0
               ? keywords.map((keyword) => keyword.title).join(', ')
-              : `${app.appTitle} referral code free, ${app.appTitle} refer a friend, ${app.appTitle} app discount, ${app.appTitle} rewards, ${app.appTitle} coupon code.`
+              : `${app?.appTitle} referral code free, ${app?.appTitle} refer a friend, ${app?.appTitle} app discount, ${app?.appTitle} rewards, ${app?.appTitle} coupon code.`
           }
         />
       </Helmet>
@@ -422,29 +485,32 @@ export const DealView = () => {
         <section className="container-appview">
           <div className="header">
             <h1 className="hero-header">
-              {`${app.title}
-              ${
-                dealCodes.length > 0
-                  ? ` - ${dealCodesInTitle
-                      .slice(0, 3)
-                      .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
-                  : ''
-              }`}
+              {`${app?.title}
+                ${
+                  dealCodes.length > 0
+                    ? ` - ${dealCodesInTitle
+                        .slice(0, 3)
+                        .join(', ')} - ${showNumberOfCodesInTitle(dealCodes)}`
+                    : ''
+                }`}
             </h1>
-            <h3>{app.appTitle} deal</h3>
+            <h3>{app?.appTitle} deal</h3>
           </div>
 
           <img
             className={
-              appAppStore.artworkUrl512 ? 'appview-icon' : 'appview-image'
+              appAppStore?.artworkUrl512 ? 'appview-icon' : 'appview-image'
             }
             alt={`${app.title}`}
             src={
-              appAppStore.artworkUrl512
-                ? `${appAppStore.artworkUrl512}`
-                : `http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
-                    app.url_image === null ? 'deal' : app.url_image
-                  }.${app.url_image === null ? 'svg' : 'png'}`
+              appAppStore?.artworkUrl512 ||
+              `http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
+                app.url_image === '' || app.url_image === null
+                  ? 'deal'
+                  : app.url_image
+              }.${
+                app.url_image === '' || app.url_image === null ? 'svg' : 'png'
+              }`
             }
           />
           {/* <ImageGallery items={images} /> */}
