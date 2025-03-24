@@ -23,6 +23,7 @@ const getAppsAll = async () => {
         'apps.topic_id as appTopicId',
         'apps.description as appDescription',
         'apps.url as appUrl',
+        'apps.apple_id as appAppleId',
         'apps.url_image as appUrlImage',
         'topics.title as topicTitle',
         'topics.category_id as category_id',

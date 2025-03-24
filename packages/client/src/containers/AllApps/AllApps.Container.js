@@ -81,8 +81,6 @@ export const AllApps = () => {
     });
   }, [showAppsBy, apps]);
 
-  console.log('filteredApps', filteredApps);
-
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
   };
@@ -107,7 +105,7 @@ export const AllApps = () => {
         title={item.topicTitle}
         url={item.topicId}
         topics={item.apps}
-        slug="topic"
+        slug="app"
       />
     );
   });

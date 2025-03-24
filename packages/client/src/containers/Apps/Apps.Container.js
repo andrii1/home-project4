@@ -32,7 +32,7 @@ export const Apps = () => {
     useParams();
   const [searchTerms, setSearchTerms] = useState();
   const [searchTermsDb, setSearchTermsDb] = useState([]);
-  const [sortOrder, setSortOrder] = useState();
+
   const [resultsHome, setResultsHome] = useState([]);
 
   const [topics, setTopics] = useState([]);
@@ -56,12 +56,12 @@ export const Apps = () => {
   const [page, setPage] = useState(0);
   const [counter, setCounter] = useState(0);
   const [apps, setApps] = useState({});
+  const [dealsTrending, setDealsTrending] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [orderBy, setOrderBy] = useState({
-    column: 'id',
-    direction: 'desc',
-  });
+  const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
+  const [sortOrder, setSortOrder] = useState('');
+  const [orderByTrending, setOrderByTrending] = useState(true);
   const [codesPage, setCodesPage] = useState(false);
 
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
@@ -77,7 +77,7 @@ export const Apps = () => {
     { title: 'Social media contacts', checked: false },
   ]);
 
-  // changing list view depending on window size
+  // changing list view depending on window size???
 
   const handleWindowSizeChange = useCallback(async () => {
     if (window.innerWidth <= 768) {
@@ -102,6 +102,53 @@ export const Apps = () => {
     }
   }, [pathname]);
 
+  // useEffect(() => {
+  //   if (
+  //     !pathname.includes('/deals') &&
+  //     orderBy.column !== 'title' &&
+  //     orderBy.column !== 'id'
+  //   ) {
+  //     setOrderBy({ column: undefined, direction: undefined, trending: true });
+  //   }
+  // }, [pathname, orderBy.column]);
+
+  // useEffect(() => {
+  //   if (pathname.includes('/deals')) {
+  //     setOrderBy({ ...orderBy, trending: false });
+  //   }
+  // }, [pathname, orderBy]);
+
+  // useEffect(() => {
+  //   if (pathname !== '/') {
+  //     setOrderByTrending(false);
+  //   }
+  // }, [pathname]);
+
+  // useEffect(() => {
+  //   if (
+  //     topicIdParam !== undefined ||
+  //     categoryIdParam !== undefined ||
+  //     searchTermIdParam !== undefined ||
+  //     appIdParam !== undefined ||
+  //     orderBy.column !== undefined ||
+  //     orderBy.direction !== undefined
+  //   ) {
+  //     if (orderBy.column !== undefined) {
+  //       setOrderBy({ ...orderBy, trending: false });
+  //     } else {
+  //       setOrderBy({ column: 'id', direction: 'desc', trending: false });
+  //     }
+  //   }
+  // }, [
+  //   appIdParam,
+  //   categoryIdParam,
+  //   filteredDetails,
+  //   filteredPricing,
+  //   orderBy,
+  //   searchTermIdParam,
+  //   topicIdParam,
+  // ]);
+
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
@@ -110,27 +157,29 @@ export const Apps = () => {
   // first fetch
   useEffect(() => {
     setIsLoading(true);
-    const url = `${apiURL()}/${
-      pathname.includes('/codes') ? `codes` : `deals`
-    }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
-      topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-    }${
-      categoryIdParam !== undefined
-        ? `&filteredCategories=${categoryIdParam}`
-        : ''
-    }${
-      searchTermIdParam !== undefined ? `&searchTerm=${searchTermIdParam}` : ''
-    }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
-      filtersSubmitted && filteredPricing.length > 0
-        ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
-        : ''
-    }${
-      filtersSubmitted && filteredDetails.length > 0
-        ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
-        : ''
-    }`;
 
     async function fetchData() {
+      const url = `${apiURL()}/${
+        pathname.includes('/codes') ? `codes` : `deals`
+      }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
+        topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
+      }${
+        categoryIdParam !== undefined
+          ? `&filteredCategories=${categoryIdParam}`
+          : ''
+      }${
+        searchTermIdParam !== undefined
+          ? `&searchTerm=${searchTermIdParam}`
+          : ''
+      }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
+        filtersSubmitted && filteredPricing.length > 0
+          ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
+          : ''
+      }${
+        filtersSubmitted && filteredDetails.length > 0
+          ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
+          : ''
+      }`;
       const response = await fetch(url);
       const json = await response.json();
 
@@ -178,7 +227,101 @@ export const Apps = () => {
       setIsLoading(false);
     }
 
-    fetchData();
+    async function fetchDataTrending() {
+      const response = await fetch(`${apiURL()}/deals`);
+      const allDeals = await response.json();
+      const responseAnalytics = await fetch(`${apiURL()}/analytics`);
+      const dealsAnalytics = await responseAnalytics.json();
+
+      const dealsWithAnalytics = allDeals
+        .map((deal) => ({
+          ...deal,
+          activeUsers: dealsAnalytics?.some(
+            (e) => e.dealId.toString() === deal.id.toString(),
+          )
+            ? dealsAnalytics
+                .filter((item) => item.dealId.toString() === deal.id.toString())
+                .map((item) => item.activeUsers)
+                .toString()
+            : null,
+        }))
+        .filter((item) => item.activeUsers)
+        .sort((a, b) => {
+          return b.activeUsers - a.activeUsers;
+        });
+      const lastItem = dealsWithAnalytics.slice(-1)[0];
+      console.log('dealsAnalytics', dealsAnalytics);
+      console.log('dealsWithAnalytics', dealsWithAnalytics);
+      setDealsTrending({ deals: dealsWithAnalytics, lastItem });
+
+      const dealsWithPage = dealsWithAnalytics.slice(0, 10);
+
+      console.log('dealsWithPage', dealsWithPage);
+
+      let hasMore = true;
+      if (dealsWithPage.some((item) => item.id === lastItem.id)) {
+        hasMore = false;
+      }
+
+      const arrayWithAppleIds = dealsWithPage
+        .map((deal) => deal.appAppleId)
+        .filter((deal) => deal !== null)
+        .join(',');
+      let appIcons;
+      if (arrayWithAppleIds) {
+        const responseAppIcons = await fetch(
+          `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
+        );
+        const jsonAppIcons = await responseAppIcons.json();
+        appIcons = jsonAppIcons.results;
+      } else {
+        appIcons = [];
+      }
+
+      const arrayWithIcons = dealsWithPage.map((deal) => ({
+        ...deal,
+        iconUrl: appIcons?.some((e) => e.trackId.toString() === deal.appAppleId)
+          ? appIcons
+              .filter(
+                (appleId) => appleId.trackId.toString() === deal.appAppleId,
+              )
+              .map((item) => item.artworkUrl512)[0]
+              .toString()
+          : null,
+      }));
+
+      setApps({
+        data: arrayWithIcons,
+        lastItem,
+        hasMore,
+      });
+      setPage((prevPage) => prevPage + 1);
+      setIsLoading(false);
+    }
+
+    if (pathname === '/' && orderByTrending) {
+      fetchDataTrending();
+    } else {
+      fetchData();
+    }
+    // if (
+    //   topicIdParam !== undefined ||
+    //   categoryIdParam !== undefined ||
+    //   searchTermIdParam !== undefined ||
+    //   appIdParam !== undefined ||
+    //   orderBy.column !== undefined ||
+    //   orderBy.direction !== undefined
+    // ) {
+    //   fetchData();
+    // } else {
+    //   fetchDataTrending();
+    // }
+    // if (orderBy.trending) {
+    //   fetchDataTrending();
+    // } else {
+    //   // setOrderByTrending(false);
+    //
+    // }
   }, [
     categoryIdParam,
     topicIdParam,
@@ -186,10 +329,12 @@ export const Apps = () => {
     searchTermIdParam,
     orderBy.column,
     orderBy.direction,
+    orderBy.trending,
     filteredDetails,
     filteredPricing,
     filtersSubmitted,
     pathname,
+    orderByTrending,
   ]);
 
   const fetchApps = async () => {
@@ -215,22 +360,6 @@ export const Apps = () => {
         ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
         : ''
     }`;
-
-    // comment
-    // let url;
-    // if (topicIdParam) {
-    //   url = `${apiURL()}/apps?filteredTopics=${topicIdParam}&page=${page}&column=${
-    //     orderBy.column
-    //   }&direction=${orderBy.direction}`;
-    // } else if (categoryIdParam) {
-    //   url = `${apiURL()}/apps?filteredCategories=${categoryIdParam}&page=${page}&column=${
-    //     orderBy.column
-    //   }&direction=${orderBy.direction}`;
-    // } else {
-    //   url = `${apiURL()}/apps?page=${page}&column=${orderBy.column}&direction=${
-    //     orderBy.direction
-    //   }`;
-    // }
 
     const response = await fetch(url);
     const json = await response.json();
@@ -276,6 +405,79 @@ export const Apps = () => {
     });
 
     setPage((prev) => prev + 1);
+  };
+
+  const fetchAppsTrending = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    // const response = await fetch(`${apiURL()}/deals`);
+    // const allDeals = await response.json();
+    // const responseAnalytics = await fetch(`${apiURL()}/analytics`);
+    // const dealsAnalytics = await responseAnalytics.json();
+
+    // const dealsWithAnalytics = allDeals
+    //   .map((deal) => ({
+    //     ...deal,
+    //     activeUsers: dealsAnalytics?.some(
+    //       (e) => e.dealId.toString() === deal.id.toString(),
+    //     )
+    //       ? dealsAnalytics
+    //           .filter((item) => item.dealId.toString() === deal.id.toString())
+    //           .map((item) => item.activeUsers)
+    //           .toString()
+    //       : null,
+    //   }))
+    //   .filter((item) => item.activeUsers)
+    //   .sort((a, b) => {
+    //     return b.activeUsers - a.activeUsers;
+    //   });
+    // console.log('dealsAnalytics1', dealsAnalytics);
+    // console.log('dealsWithAnalytics1', dealsWithAnalytics);
+    const dealsWithPage = dealsTrending.deals.slice(page * 10, page * 10 + 10);
+    const { lastItem } = dealsTrending;
+
+    console.log('dealsWithPage1', dealsWithPage);
+    console.log('lastItem', lastItem);
+
+    let hasMore = true;
+    if (dealsWithPage.some((item) => item.id === lastItem.id)) {
+      hasMore = false;
+    }
+
+    const arrayWithAppleIds = dealsWithPage
+      .map((deal) => deal.appAppleId)
+      .filter((deal) => deal !== null)
+      .join(',');
+    let appIcons;
+    if (arrayWithAppleIds) {
+      const responseAppIcons = await fetch(
+        `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
+      );
+      const jsonAppIcons = await responseAppIcons.json();
+      appIcons = jsonAppIcons.results;
+    } else {
+      appIcons = [];
+    }
+
+    const arrayWithIcons = dealsWithPage.map((deal) => ({
+      ...deal,
+      iconUrl: appIcons?.some((e) => e.trackId.toString() === deal.appAppleId)
+        ? appIcons
+            .filter((appleId) => appleId.trackId.toString() === deal.appAppleId)
+            .map((item) => item.artworkUrl512)[0]
+            .toString()
+        : null,
+    }));
+
+    setApps((prevItems) => {
+      return {
+        data: [...prevItems.data, ...arrayWithIcons],
+        lastItem,
+        hasMore,
+      };
+    });
+    setPage((prevPage) => prevPage + 1);
   };
 
   // const fetchApps = useCallback(async () => {
@@ -398,6 +600,10 @@ export const Apps = () => {
   useEffect(() => {
     setPage(0);
   }, [filteredDetails]);
+
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [orderByTrending]);
 
   // useEffect(() => {
   //   setCounter((prev) => prev + 1);
@@ -593,21 +799,38 @@ export const Apps = () => {
     );
   });
 
+  let sortOptions;
+  if (!appIdParam && !categoryIdParam && !searchTermIdParam && !topicIdParam) {
+    sortOptions = ['Trending', 'Recent', 'A-Z', 'Z-A'];
+  } else {
+    sortOptions = ['Recent', 'A-Z', 'Z-A'];
+  }
+
+  // replace with function
+
   useEffect(() => {
     let column;
     let direction;
-    if (sortOrder === 'A-Z') {
+    if (sortOrder === 'Trending') {
+      setOrderByTrending(true);
+      setOrderBy({ column: 'id', direction: 'desc' });
+      console.log('orderby1231');
+    } else if (sortOrder === 'A-Z') {
       column = 'title';
       direction = 'asc';
+      setOrderByTrending(false);
+      setOrderBy({ column, direction });
     } else if (sortOrder === 'Z-A') {
       column = 'title';
       direction = 'desc';
-    } else {
+      setOrderByTrending(false);
+      setOrderBy({ column, direction });
+    } else if (sortOrder === 'Recent') {
       column = 'id';
       direction = 'desc';
+      setOrderByTrending(false);
+      setOrderBy({ column, direction });
     }
-
-    setOrderBy({ column, direction });
   }, [sortOrder]);
 
   let pageTitle;
@@ -646,8 +869,6 @@ export const Apps = () => {
     pageTitle = 'Top App Deals - best app deals';
     metaDescription = 'Find best app deals and referral codes';
   }
-
-  const sortOptions = ['Recent', 'A-Z', 'Z-A'];
 
   const pricingList = pricingOptionsChecked.map((item) => (
     <li key={item}>
@@ -744,7 +965,7 @@ export const Apps = () => {
       setOpenToast(false);
     }, 2500);
   };
-
+  console.log('1112', orderBy.direction === 'desc', orderBy.column === 'id');
   return (
     <main>
       <Helmet>
@@ -803,15 +1024,23 @@ export const Apps = () => {
       <section className="container-filters">
         <Button
           secondary
-          className="button-topics"
+          className="button-topics special-padding"
           onClick={(event) => setShowTopicsContainer(!showTopicsContainer)}
           backgroundColor="#ffe5d9"
           label="Categories"
-          icon={<FontAwesomeIcon className="filter-icon" icon={faBookOpen} />}
         />
         <DropDownView
           label="Sort"
+          className="no-line-height"
           options={sortOptions}
+          // selectedOptionValue - can be removed
+          // selectedOptionValue={
+          //   pathname === '/' && orderByTrending
+          //     ? 'Trending'
+          //     : pathname !== '/'
+          //     ? 'Recent'
+          //     : undefined
+          // }
           onSelect={(option) => setSortOrder(option)}
           showFilterIcon={false}
         />
@@ -824,12 +1053,13 @@ export const Apps = () => {
           icon={<FontAwesomeIcon className="filter-icon" icon={faFilter} />}
         /> */}
         <Button
+          className="special-padding"
           secondary
           onClick={() => setListView(!listView)}
           backgroundColor="#ffe5d9"
         >
           <div className="filter-grid">
-            <FontAwesomeIcon size="lg" icon={faGrip} />
+            <FontAwesomeIcon icon={faGrip} />
             <FontAwesomeIcon icon={faList} />
           </div>
         </Button>
@@ -867,7 +1097,7 @@ export const Apps = () => {
         <section className="container-scroll">
           <InfiniteScroll
             dataLength={apps.data.length}
-            next={fetchApps}
+            next={orderByTrending ? fetchAppsTrending : fetchApps}
             hasMore={apps.hasMore} // Replace with a condition based on your data source
             loader={<p>Loading...</p>}
             endMessage={<p>No more data to load.</p>}
