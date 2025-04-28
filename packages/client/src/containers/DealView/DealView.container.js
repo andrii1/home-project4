@@ -430,7 +430,6 @@ export const DealView = () => {
   //     thumbnail: 'https://picsum.photos/id/1019/250/150/',
   //   },
   // ];
-  console.log('app', app);
 
   if (loading) {
     return (
