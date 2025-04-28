@@ -19,7 +19,7 @@ import {
 } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyBJE_iPOhUoDl27AKqQG1eXss8tQ22mH08',
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: 'deals-3d571.firebaseapp.com',
   projectId: 'deals-3d571',
   storageBucket: 'deals-3d571.appspot.com',

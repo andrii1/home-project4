@@ -252,13 +252,10 @@ export const Apps = () => {
           return b.activeUsers - a.activeUsers;
         });
       const lastItem = dealsWithAnalytics.slice(-1)[0];
-      console.log('dealsAnalytics', dealsAnalytics);
-      console.log('dealsWithAnalytics', dealsWithAnalytics);
+
       setDealsTrending({ deals: dealsWithAnalytics, lastItem });
 
       const dealsWithPage = dealsWithAnalytics.slice(0, 10);
-
-      console.log('dealsWithPage', dealsWithPage);
 
       let hasMore = true;
       if (dealsWithPage.some((item) => item.id === lastItem.id)) {
@@ -439,9 +436,6 @@ export const Apps = () => {
     // console.log('dealsWithAnalytics1', dealsWithAnalytics);
     const dealsWithPage = dealsTrending.deals.slice(page * 10, page * 10 + 10);
     const { lastItem } = dealsTrending;
-
-    console.log('dealsWithPage1', dealsWithPage);
-    console.log('lastItem', lastItem);
 
     let hasMore = true;
     if (dealsWithPage.some((item) => item.id === lastItem.id)) {
@@ -817,7 +811,6 @@ export const Apps = () => {
     if (sortOrder === 'Trending') {
       setOrderByTrending(true);
       setOrderBy({ column: 'id', direction: 'desc' });
-      console.log('orderby1231');
     } else if (sortOrder === 'A-Z') {
       column = 'title';
       direction = 'asc';
@@ -835,9 +828,6 @@ export const Apps = () => {
       setOrderBy({ column, direction });
     }
   }, [sortOrder]);
-
-  console.log(sortOrder, 'sortOrder');
-  console.log('apps', apps.data);
 
   let pageTitle;
   let metaContent;
@@ -971,7 +961,7 @@ export const Apps = () => {
       setOpenToast(false);
     }, 2500);
   };
-  console.log('1112', orderBy.direction === 'desc', orderBy.column === 'id');
+
   return (
     <main>
       <Helmet>
