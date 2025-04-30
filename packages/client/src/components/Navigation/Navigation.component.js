@@ -155,9 +155,7 @@ export const Navigation = () => {
 
   const resultsHomeDeals = filterDealsBySearch(searchTerms);
   const resultsHomeApps = filterAppsBySearch(searchTerms);
-
   const resultsHomeTopics = filterTopicsBySearch(searchTerms);
-
   const resultsHomeCategories = filterCategoriesBySearch(searchTerms);
 
   const handleSearch = (event) => {

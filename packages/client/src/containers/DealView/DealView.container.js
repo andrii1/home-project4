@@ -754,6 +754,71 @@ export const DealView = () => {
             </div>
           )}
 
+          <div className="container-comments">
+            <h2 className="h-no-margin h-no-margin-bottom">Comments</h2>
+            {comments.length === 0 && (
+              <div>
+                <i>No comments yet. </i>
+                {user && <i>Add a first one below.</i>}
+              </div>
+            )}
+            {comments.length > 0 &&
+              comments.map((item) => (
+                <div className="form-container">
+                  <div className="comment-box submit-box-new-comment">
+                    <div>{item.content}</div>
+                    <div className="comment-author-date">{`by ${
+                      item.full_name
+                    } on ${getOnlyYearMonthDay(item.created_at)}`}</div>
+                  </div>
+                </div>
+              ))}
+            {!user && (
+              <div>
+                <i>
+                  <br />
+                  <Link to="/signup" className="simple-link">
+                    Sign up
+                  </Link>{' '}
+                  or{' '}
+                  <Link to="/login" className="simple-link">
+                    log in
+                  </Link>{' '}
+                  to add comments
+                </i>
+              </div>
+            )}
+            {user && (
+              <div className="form-container">
+                <div className="comment-box submit-box">
+                  <form onSubmit={handleSubmit}>
+                    <textarea
+                      className="form-input textarea-new-comment"
+                      value={comment}
+                      placeholder="Your comment..."
+                      onChange={commentHandler}
+                    />
+
+                    <Button
+                      primary
+                      className="btn-add-prompt"
+                      type="submit"
+                      label="Add comment"
+                    />
+                    {validForm && (
+                      <Modal
+                        title="Your comment has been submitted!"
+                        open={openConfirmationModal}
+                        toggle={() => setOpenConfirmationModal(false)}
+                      />
+                    )}
+                    {invalidForm && <p className="error-message">{error}</p>}
+                  </form>
+                </div>
+              </div>
+            )}
+          </div>
+
           <div className="container-description">
             <div className="container-title">
               <h2>{app.title}</h2>
@@ -836,6 +901,7 @@ export const DealView = () => {
                 <div>
                   <Link to={`/apps/${app.app_id}`} target="_blank">
                     <Button
+                      secondary
                       label={app.appTitle}
                       size="small"
                       icon={
@@ -855,6 +921,7 @@ export const DealView = () => {
                 <div>
                   <Link to={`/deals/topic/${app.topic_id}`} target="_blank">
                     <Button
+                      secondary
                       label={app.topicTitle}
                       size="small"
                       icon={
@@ -875,6 +942,7 @@ export const DealView = () => {
                     target="_blank"
                   >
                     <Button
+                      secondary
                       label={app.categoryTitle}
                       size="small"
                       icon={
@@ -943,70 +1011,7 @@ export const DealView = () => {
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-          <div className="container-comments">
-            <h2 className="h-no-margin h-no-margin-bottom">Reviews</h2>
-            {comments.length === 0 && (
-              <div>
-                <i>No reviews for {app.title}. </i>
-                {user && <i>Add a first one below.</i>}
-              </div>
-            )}
-            {comments.length > 0 &&
-              comments.map((item) => (
-                <div className="form-container">
-                  <div className="comment-box submit-box-new-comment">
-                    <div>{item.content}</div>
-                    <div className="comment-author-date">{`by ${
-                      item.full_name
-                    } on ${getOnlyYearMonthDay(item.created_at)}`}</div>
-                  </div>
-                </div>
-              ))}
-            {!user && (
-              <div>
-                <i>
-                  <br />
-                  <Link to="/signup" className="simple-link">
-                    Sign up
-                  </Link>{' '}
-                  or{' '}
-                  <Link to="/login" className="simple-link">
-                    log in
-                  </Link>{' '}
-                  to add reviews
-                </i>
-              </div>
-            )}
-            {user && (
-              <div className="form-container">
-                <div className="comment-box submit-box">
-                  <form onSubmit={handleSubmit}>
-                    <textarea
-                      className="form-input textarea-new-comment"
-                      value={comment}
-                      placeholder="Your review"
-                      onChange={commentHandler}
-                    />
 
-                    <Button
-                      primary
-                      className="btn-add-prompt"
-                      type="submit"
-                      label="Add review"
-                    />
-                    {validForm && (
-                      <Modal
-                        title="Your review has been submitted!"
-                        open={openConfirmationModal}
-                        toggle={() => setOpenConfirmationModal(false)}
-                      />
-                    )}
-                    {invalidForm && <p className="error-message">{error}</p>}
-                  </form>
-                </div>
-              </div>
-            )}
-          </div>
           <ContainerCta user={user} />
           {similarDealsFromApp.length > 0 && (
             <div className="container-alternatives">

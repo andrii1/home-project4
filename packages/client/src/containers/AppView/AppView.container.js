@@ -697,13 +697,13 @@ export const AppView = () => {
               <div className="badges">
                 <p>Topic: </p>
                 <div>
-                  <Button label={app.topicTitle} size="small" />
+                  <Button secondary label={app.topicTitle} size="small" />
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Button label={app.categoryTitle} size="small" />
+                  <Button secondary label={app.categoryTitle} size="small" />
                 </div>
               </div>
             </div>
