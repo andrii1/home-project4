@@ -431,19 +431,19 @@ export const DealView = () => {
   //   },
   // ];
 
-  if (loading) {
-    return (
-      <>
-        <Helmet>
-          <title>Loading...</title>
-          <meta name="description" content="Fetching deal details" />
-        </Helmet>
-        <main className="loading-container">
-          <Loading />
-        </main>
-      </>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <>
+  //       <Helmet>
+  //         <title>Loading...</title>
+  //         <meta name="description" content="Fetching deal details" />
+  //       </Helmet>
+  //       <main className="loading-container">
+  //         <Loading />
+  //       </main>
+  //     </>
+  //   );
+  // }
 
   if (error) {
     return (

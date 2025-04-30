@@ -200,7 +200,7 @@ ul li,
   }
   .search-icon.mobile {
     position: relative;
-    padding: 0rem;
+    padding: 0 0 0.3rem;
   }
 
   /* mobile search */
@@ -216,6 +216,7 @@ ul li,
   }
   .input-search-modal.mobile {
     min-width: 22rem !important;
+    font-size: 1.25rem;
   }
   .modal-close-btn {
     top: -2rem;

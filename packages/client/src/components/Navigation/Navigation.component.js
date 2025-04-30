@@ -18,6 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../Modal/Modal.Component';
 import { ProfileImage } from '../ProfileImage/ProfileImage.Component';
+import { House } from 'lucide-react';
 
 export const Navigation = () => {
   const { user, name, logout } = useUserContext();
@@ -207,6 +208,11 @@ export const Navigation = () => {
               <FontAwesomeIcon className="search-icon" icon={faSearch} />
             </li> */}
               <li>
+                <Link to="../../">
+                  <House size={32} />
+                </Link>
+              </li>
+              <li>
                 <form className="search-form-mobile">
                   <label>
                     <FontAwesomeIcon
@@ -393,7 +399,7 @@ export const Navigation = () => {
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              autoFocus
+              // autoFocus
               type="text"
               className="input-search-modal mobile"
               onChange={handleSearch}
