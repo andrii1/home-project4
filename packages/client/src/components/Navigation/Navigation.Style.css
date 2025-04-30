@@ -36,6 +36,26 @@ ul li,
   gap: 1.5rem;
 }
 
+.overlay-search .modal-content a {
+  text-decoration: none;
+}
+
+.dropdown-search-modal ul li:hover {
+  background-color: #ebe4e1;
+}
+
+.overlay-search .modal-container {
+  max-width: 900px;
+}
+
+.overlay-search .dropdown-search-modal {
+  min-width: 100%;
+}
+
+.modal-label {
+  position: relative;
+}
+
 .nav-buttons-login li {
   margin: 0rem !important;
 }
@@ -252,15 +272,20 @@ ul li,
 
 .dropdown-search-modal {
   position: relative;
-  background-color: #fff;
-  border: 1px dashed #946b54 !important;
+  /* background-color: #fff; */
+  /* border: 1px dashed #946b54 !important; */
   border-radius: 5px;
   min-width: 28rem;
   max-width: 28rem;
 }
 
 .dropdown-search-modal ul li {
+  border: #ccc;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
   margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffffff;
 }
 
 .img-logo {

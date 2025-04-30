@@ -1,7 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Navigation.Style.css';
 import { apiURL } from '../../apiURL';
 import { NavLink, Link } from 'react-router-dom';
@@ -32,6 +33,8 @@ export const Navigation = () => {
   const [resultsHome, setResultsHome] = useState([]);
   // const [resultsHomeApps, setResultsHomeApps] = useState([]);
   const [topics, setTopics] = useState([]);
+  const inputRef = useRef(null);
+
   const toggleModal = () => {
     setOpenModal(false);
     document.body.style.overflow = 'visible';
@@ -40,7 +43,8 @@ export const Navigation = () => {
     setOpenSearchModal(false);
     document.body.style.overflow = 'visible';
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     const down = (e) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
@@ -51,6 +55,12 @@ export const Navigation = () => {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
+
+  // useEffect(() => {
+  //   if (openSearchModal && window.innerWidth > 992 && inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [openSearchModal]);
 
   useEffect(() => {
     // async function fetchCategories() {
@@ -71,9 +81,9 @@ export const Navigation = () => {
     // }
 
     async function fetchApps() {
-      const responseApps = await fetch(`${apiURL()}/deals/`);
-      const responseAppsJson = await responseApps.json();
-      setApps(responseAppsJson);
+      const response = await fetch(`${apiURL()}/deals/`);
+      const data = await response.json();
+      setApps(data);
     }
 
     fetchApps();
@@ -85,6 +95,7 @@ export const Navigation = () => {
         (item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
           item.description?.toLowerCase().includes(searchTerms.toLowerCase()) ||
+          item.appTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
           item.topicTitle.toLowerCase().includes(searchTerms.toLowerCase()) ||
           item.categoryTitle.toLowerCase().includes(searchTerms.toLowerCase()),
       );
@@ -115,7 +126,7 @@ export const Navigation = () => {
     }
   }, [hamburgerOpen, hamburgerUserOpen]);
 
-  const dropDownResultsTopics = resultsHome.map((result) => {
+  const dropDownResultsTopics = resultsHome?.map((result) => {
     let finalResult;
     if (Object.keys(result).length > 2) {
       finalResult = (
@@ -140,13 +151,14 @@ export const Navigation = () => {
     }
     return finalResult;
   });
+
   const dropDownResultsApps = resultsHomeApps?.map((result) => (
     <Link
       to={`/deals/${result.id}`}
       /* state={{ frontPageItem: relatedTopics }} */
       onClick={() => toggleSearchModal()}
     >
-      <li key={result.id}>{result.title}</li>
+      <li key={result.id}>{`${result.appTitle}: ${result.title}`}</li>
     </Link>
   ));
   return (
@@ -392,19 +404,20 @@ export const Navigation = () => {
       <Modal
         open={openSearchModal}
         toggle={toggleSearchModal}
-        overlayClass="overlay-navigation"
+        overlayClass="overlay-navigation overlay-search"
       >
         <form>
-          <label>
+          <label className="modal-label">
             <FontAwesomeIcon className="search-icon" icon={faSearch} />
             <input
               // eslint-disable-next-line jsx-a11y/no-autofocus
-              // autoFocus
+              autoFocus
               type="text"
               className="input-search-modal mobile"
               onChange={handleSearch}
               /* onFocus={handleClick} */
               placeholder="Search"
+              ref={inputRef}
             />
           </label>
         </form>
