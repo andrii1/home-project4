@@ -1007,7 +1007,7 @@ export const Apps = () => {
           ''
         )} */}
       </div>
-      <section className={`container-topics ${showTopicsContainer && 'show'}`}>
+      <section className="container-topics-desktop">
         <Link to="/">
           <Button
             primary={!categoryIdParam}
@@ -1060,6 +1060,18 @@ export const Apps = () => {
             <FontAwesomeIcon icon={faList} />
           </div>
         </Button>
+      </section>
+      <section
+        className={`container-topics-mobile ${showTopicsContainer && 'show'}`}
+      >
+        <Link to="/">
+          <Button
+            primary={!categoryIdParam}
+            secondary={categoryIdParam}
+            label="All categories"
+          />
+        </Link>
+        {categoriesList}
       </section>
       <section
         className={`container-details-section ${
