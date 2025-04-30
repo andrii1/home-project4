@@ -30,9 +30,11 @@ export const Navigation = () => {
   const [modalTitle, setModalTitle] = useState('');
   const [searchTerms, setSearchTerms] = useState();
   const [apps, setApps] = useState([]);
+  const [deals, setDeals] = useState([]);
   const [resultsHome, setResultsHome] = useState([]);
   // const [resultsHomeApps, setResultsHomeApps] = useState([]);
   const [topics, setTopics] = useState([]);
+  const [categories, setCategories] = useState([]);
   const inputRef = useRef(null);
 
   const toggleModal = () => {
@@ -80,18 +82,39 @@ export const Navigation = () => {
     //   }
     // }
 
+    async function fetchTopics() {
+      const response = await fetch(`${apiURL()}/topics/`);
+      const data = await response.json();
+      setTopics(data);
+    }
+
+    async function fetchCategories() {
+      const response = await fetch(`${apiURL()}/categories/`);
+      const data = await response.json();
+      setCategories(data);
+    }
+
     async function fetchApps() {
-      const response = await fetch(`${apiURL()}/deals/`);
+      const response = await fetch(`${apiURL()}/apps/`);
       const data = await response.json();
       setApps(data);
     }
 
+    async function fetchDeals() {
+      const response = await fetch(`${apiURL()}/deals/`);
+      const data = await response.json();
+      setDeals(data);
+    }
+
+    fetchDeals();
     fetchApps();
+    fetchTopics();
+    fetchCategories();
   }, []);
 
-  const filterAppsBySearch = (search) => {
+  const filterDealsBySearch = (search) => {
     if (search) {
-      return apps.filter(
+      return deals.filter(
         (item) =>
           item.title.toLowerCase().includes(searchTerms.toLowerCase()) ||
           item.description?.toLowerCase().includes(searchTerms.toLowerCase()) ||
@@ -100,10 +123,42 @@ export const Navigation = () => {
           item.categoryTitle.toLowerCase().includes(searchTerms.toLowerCase()),
       );
     }
+    return deals;
+  };
+
+  const filterAppsBySearch = (search) => {
+    if (search) {
+      return apps.filter((item) =>
+        item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+    }
     return apps;
   };
 
+  const filterTopicsBySearch = (search) => {
+    if (search) {
+      return topics.filter((item) =>
+        item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+    }
+    return topics;
+  };
+
+  const filterCategoriesBySearch = (search) => {
+    if (search) {
+      return categories.filter((item) =>
+        item.title.toLowerCase().includes(searchTerms.toLowerCase()),
+      );
+    }
+    return categories;
+  };
+
+  const resultsHomeDeals = filterDealsBySearch(searchTerms);
   const resultsHomeApps = filterAppsBySearch(searchTerms);
+
+  const resultsHomeTopics = filterTopicsBySearch(searchTerms);
+
+  const resultsHomeCategories = filterCategoriesBySearch(searchTerms);
 
   const handleSearch = (event) => {
     setSearchTerms(event.target.value);
@@ -126,33 +181,37 @@ export const Navigation = () => {
     }
   }, [hamburgerOpen, hamburgerUserOpen]);
 
-  const dropDownResultsTopics = resultsHome?.map((result) => {
-    let finalResult;
-    if (Object.keys(result).length > 2) {
-      finalResult = (
-        <Link
-          to={`/deals/topic/${result.id}`}
-          /* state={{ frontPageItem: [result.id] }} */
-          onClick={() => toggleSearchModal()}
-        >
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    } else {
-      finalResult = (
-        <Link
-          to={`/deals/category/${result.id}`}
-          /* state={{ frontPageItem: relatedTopics }} */
-          onClick={() => toggleSearchModal()}
-        >
-          <li key={result.id}>{result.title}</li>
-        </Link>
-      );
-    }
-    return finalResult;
-  });
-
   const dropDownResultsApps = resultsHomeApps?.map((result) => (
+    <Link
+      to={`/deals/app/${result.id}`}
+      /* state={{ frontPageItem: relatedTopics }} */
+      onClick={() => toggleSearchModal()}
+    >
+      <li key={result.id}>{result.title}</li>
+    </Link>
+  ));
+
+  const dropDownResultsTopics = resultsHomeTopics?.map((result) => (
+    <Link
+      to={`/deals/topic/${result.id}`}
+      /* state={{ frontPageItem: relatedTopics }} */
+      onClick={() => toggleSearchModal()}
+    >
+      <li key={result.id}>{result.title}</li>
+    </Link>
+  ));
+
+  const dropDownResultsCategories = resultsHomeCategories?.map((result) => (
+    <Link
+      to={`/deals/category/${result.id}`}
+      /* state={{ frontPageItem: relatedTopics }} */
+      onClick={() => toggleSearchModal()}
+    >
+      <li key={result.id}>{result.title}</li>
+    </Link>
+  ));
+
+  const dropDownResultsDeals = resultsHomeDeals?.map((result) => (
     <Link
       to={`/deals/${result.id}`}
       /* state={{ frontPageItem: relatedTopics }} */
@@ -425,20 +484,33 @@ export const Navigation = () => {
           <div className="dropdown-search-modal">
             <h3>Deals</h3>
             <ul>
-              {dropDownResultsApps.length > 0 ? (
-                dropDownResultsApps
+              {dropDownResultsDeals.length > 0 ? (
+                dropDownResultsDeals
               ) : (
                 <li>No deals found :(</li>
               )}
             </ul>
-            <h3>Topics & categories</h3>
+            <h3>Apps</h3>
             <ul>
-              {dropDownResultsTopics.length > 0 ? (
-                dropDownResultsTopics
+              {dropDownResultsApps.length > 0 ? (
+                dropDownResultsApps
               ) : (
-                <li>No topics found :(</li>
+                <li>No apps found :(</li>
               )}
             </ul>
+            {dropDownResultsTopics.length > 0 && (
+              <>
+                <h3>Topics</h3>
+                <ul>{dropDownResultsTopics}</ul>
+              </>
+            )}
+
+            {dropDownResultsCategories.length > 0 && (
+              <>
+                <h3>Categories</h3>
+                <ul>{dropDownResultsCategories}</ul>
+              </>
+            )}
           </div>
         ) : (
           ''
