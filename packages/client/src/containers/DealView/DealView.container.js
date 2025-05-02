@@ -515,58 +515,6 @@ export const DealView = () => {
           {/* <ImageGallery items={images} /> */}
 
           <div className="container-deal-actions">
-            <div>
-              {user && favorites.some((x) => x.id === app.id) ? (
-                <button
-                  type="button"
-                  onClick={() => handleDeleteBookmarks(app.id)}
-                  onKeyDown={() => handleDeleteBookmarks(app.id)}
-                  className="button-bookmark"
-                >
-                  Remove deal from saved &nbsp;
-                  <FontAwesomeIcon icon={faHeartSolid} size="lg" />
-                </button>
-              ) : user ? (
-                <button
-                  type="button"
-                  onClick={() => addFavorite(app.id)}
-                  onKeyDown={() => addFavorite(app.id)}
-                  className="button-bookmark"
-                >
-                  Save this deal &nbsp;
-                  <FontAwesomeIcon icon={faHeart} size="lg" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOpenModal(true);
-                    setModalTitle('Sign up to add bookmarks');
-                  }}
-                  onKeyDown={() => addFavorite(app.id)}
-                  className="button-bookmark"
-                >
-                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
-                </button>
-              )}
-            </div>
-            <div className="container-appview-buttons">
-              {app.appUrl && (
-                <Link to={app.appUrl} target="_blank">
-                  <Button
-                    size="large"
-                    secondary
-                    icon={
-                      <FontAwesomeIcon
-                        icon={faArrowUpRightFromSquare}
-                        size="sm"
-                      />
-                    }
-                    label={`Visit ${app.appTitle} website`}
-                  />
-                </Link>
-              )}
-            </div>
             <div className="container-rating">
               Rating
               {user &&
@@ -609,6 +557,58 @@ export const DealView = () => {
                     allRatings.filter((rating) => rating.deal_id === app.id)
                       .length
                   }
+                </button>
+              )}
+            </div>
+            <div className="container-appview-buttons">
+              {app.appUrl && (
+                <Link to={app.appUrl} target="_blank">
+                  <Button
+                    size="large"
+                    secondary
+                    icon={
+                      <FontAwesomeIcon
+                        icon={faArrowUpRightFromSquare}
+                        size="sm"
+                      />
+                    }
+                    label={`Visit ${app.appTitle} website`}
+                  />
+                </Link>
+              )}
+            </div>
+            <div>
+              {user && favorites.some((x) => x.id === app.id) ? (
+                <button
+                  type="button"
+                  onClick={() => handleDeleteBookmarks(app.id)}
+                  onKeyDown={() => handleDeleteBookmarks(app.id)}
+                  className="button-bookmark"
+                >
+                  Remove deal from saved &nbsp;
+                  <FontAwesomeIcon icon={faHeartSolid} size="lg" />
+                </button>
+              ) : user ? (
+                <button
+                  type="button"
+                  onClick={() => addFavorite(app.id)}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save this deal &nbsp;
+                  <FontAwesomeIcon icon={faHeart} size="lg" />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Sign up to add bookmarks');
+                  }}
+                  onKeyDown={() => addFavorite(app.id)}
+                  className="button-bookmark"
+                >
+                  Save <FontAwesomeIcon icon={faHeart} size="lg" />
                 </button>
               )}
             </div>
