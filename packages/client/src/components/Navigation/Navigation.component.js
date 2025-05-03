@@ -345,6 +345,24 @@ export const Navigation = () => {
                     >
                       Add referral code
                     </NavLink>
+                    <NavLink
+                      onClick={toggleHamburgerUser}
+                      to={`mailto:agorh@icloud.com?subject=Support%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+                        user ? user?.email : ''
+                      }%0AI%20need%20help%20with...`}
+                      className="login nav-link"
+                    >
+                      Help
+                    </NavLink>
+                    <NavLink
+                      onClick={toggleHamburgerUser}
+                      to={`mailto:agorh@icloud.com?subject=Feature%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+                        user ? user?.email : ''
+                      }%0AMy%20feedback%20or%20feature%20idea%20is...`}
+                      className="login nav-link"
+                    >
+                      Feedback
+                    </NavLink>
                     <FontAwesomeIcon
                       onClick={logout}
                       className="share-icon logout-icon"
@@ -427,6 +445,20 @@ export const Navigation = () => {
                     Bookmarks
                   </NavLink>
                   <NavLink to="/codes/new">Add your referral code</NavLink>
+                  <NavLink
+                    to={`mailto:agorh@icloud.com?subject=Support%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+                      user ? user?.email : ''
+                    }%0AI%20need%20help%20with...`}
+                  >
+                    Help
+                  </NavLink>
+                  <NavLink
+                    to={`mailto:agorh@icloud.com?subject=Feature%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+                      user ? user?.email : ''
+                    }%0AMy%20feedback%20or%20feature%20idea%20is...`}
+                  >
+                    Feedback
+                  </NavLink>
                   <div className="div-logout" onClick={logout}>
                     Logout
                   </div>

@@ -207,6 +207,7 @@ ul li,
     text-decoration: underline;
   }
   .container-logged-in {
+    position: initial;
     flex-direction: column;
     gap: 1.5rem;
   }

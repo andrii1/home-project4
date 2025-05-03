@@ -14,7 +14,9 @@ export const Support = () => {
     <div className="support-container">
       <div className={`support-box ${open && 'open-support'}`}>
         <a
-          href={`mailto:agorh@icloud.com?subject=Support%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${user?.email}%0AI%20need%20help%20with...`}
+          href={`mailto:agorh@icloud.com?subject=Support%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+            user ? user?.email : ''
+          }%0AI%20need%20help%20with...`}
           title="Email our support team"
           className="support-text"
         >
@@ -22,7 +24,9 @@ export const Support = () => {
           Help
         </a>
         <a
-          href={`mailto:agorh@icloud.com?subject=Feature%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${user?.email}%0AMy%20feedback%20or%20feature%20idea%20is...`}
+          href={`mailto:agorh@icloud.com?subject=Feature%20Request%20TAD&body=Hi%20team%2C%0A%0AMy%20email%20is%3A%20${
+            user ? user?.email : ''
+          }%0AMy%20feedback%20or%20feature%20idea%20is...`}
           className="support-text"
         >
           <Info className="icon" />
