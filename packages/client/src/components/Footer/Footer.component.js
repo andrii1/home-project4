@@ -1,10 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Footer.styles.css';
+import { Support } from '../Support/Support.component';
 
 export const Footer = () => {
   return (
     <div className="footer">
+      <Support />
       <div className="menu">
         <ul>
           <li>
@@ -14,7 +16,7 @@ export const Footer = () => {
           </li>
         </ul>
       </div>
-      <span>&copy;2024</span>
+      <span>&copy;2025</span>
     </div>
   );
 };
