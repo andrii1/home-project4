@@ -133,6 +133,10 @@
   text-decoration: underline !important;
 }
 
+.badges p {
+  margin: 0rem !important;
+}
+
 .appview-image,
 .appview-icon {
   max-height: 15rem;

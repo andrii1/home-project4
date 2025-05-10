@@ -877,6 +877,20 @@ export const DealView = () => {
           </div>
 
           <div className="container-details container-badges">
+            {topicsFromDeals.length > 0 && (
+              <div className="container-tags">
+                <div className="badges">
+                  <p className="p-no-margin">Related topics: </p>
+                  <div className="badges-keywords">
+                    {topicsFromDeals.map((topic, index) => (
+                      <Link to={`../../${topic.url}`}>
+                        <Button secondary label={topic.title} size="small" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="container-tags">
               <div className="badges">
                 <p>App: </p>
@@ -938,21 +952,7 @@ export const DealView = () => {
                 </div>
               </div>
             </div>
-            {topicsFromDeals.length > 0 && (
-              <div className="container-description">
-                <strong>Related topics:</strong>
-                <p>
-                  {topicsFromDeals.map((topic, index) => (
-                    <>
-                      <Link className="underline" to={`../../${topic.url}`}>
-                        {topic.title}
-                      </Link>
-                      {index < topicsFromDeals.length - 1 && ', '}
-                    </>
-                  ))}
-                </p>
-              </div>
-            )}
+
             {keywords.length > 0 && (
               <div className="container-tags">
                 <div className="badges">
