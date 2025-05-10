@@ -838,62 +838,6 @@ export const DealView = () => {
             )}
           </div>
 
-          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
-            <div className="container-appview-box">
-              <h2>Download {app.appTitle} app</h2>
-              <div className="container-store-logos">
-                {app.appUrlAppStore && (
-                  <Link
-                    target="_blank"
-                    to={app.appUrlAppStore}
-                    className="simple-link"
-                  >
-                    <img
-                      src={appStoreLogo}
-                      alt="App Store logo"
-                      className="logo-store"
-                    />
-                  </Link>
-                )}
-                {app.appUrlGooglePlayStore && (
-                  <Link
-                    target="_blank"
-                    to={app.appUrlGooglePlayStore}
-                    className="simple-link"
-                  >
-                    <img
-                      src={googlePlayStoreLogo}
-                      alt="Google Play store logo"
-                      className="logo-store"
-                    />
-                  </Link>
-                )}
-              </div>
-            </div>
-          ) : (
-            ''
-          )}
-
-          {app.appAppleId && appAppStore && (
-            <div className="container-appview-box">
-              <h2>{app?.appTitle} app</h2>
-              <p className="app-description">{appAppStore?.description}</p>
-            </div>
-          )}
-          {app.contact && (
-            <div className="container-appview-box">
-              <h2>{app.title} support</h2>
-              <div>
-                <Link to={`mailto:${app.contact}`} target="_blank">
-                  <Button
-                    secondary
-                    icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
-                    label={`Contact ${app.appTitle} support`}
-                  />
-                </Link>
-              </div>
-            </div>
-          )}
           <div className="container-details container-badges">
             <div className="container-tags">
               <div className="badges">
@@ -969,6 +913,64 @@ export const DealView = () => {
               </div>
             )}
           </div>
+
+          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
+            <div className="container-appview-box">
+              <h2>Download {app.appTitle} app</h2>
+              <div className="container-store-logos">
+                {app.appUrlAppStore && (
+                  <Link
+                    target="_blank"
+                    to={app.appUrlAppStore}
+                    className="simple-link"
+                  >
+                    <img
+                      src={appStoreLogo}
+                      alt="App Store logo"
+                      className="logo-store"
+                    />
+                  </Link>
+                )}
+                {app.appUrlGooglePlayStore && (
+                  <Link
+                    target="_blank"
+                    to={app.appUrlGooglePlayStore}
+                    className="simple-link"
+                  >
+                    <img
+                      src={googlePlayStoreLogo}
+                      alt="Google Play store logo"
+                      className="logo-store"
+                    />
+                  </Link>
+                )}
+              </div>
+            </div>
+          ) : (
+            ''
+          )}
+
+          {app.appAppleId && appAppStore && (
+            <div className="container-appview-box">
+              <h2>{app?.appTitle} app</h2>
+              <p className="app-description">{appAppStore?.description}</p>
+            </div>
+          )}
+          {app.contact && (
+            <div className="container-appview-box">
+              <h2>{app.title} support</h2>
+              <div>
+                <Link to={`mailto:${app.contact}`} target="_blank">
+                  <Button
+                    secondary
+                    icon={<FontAwesomeIcon icon={faEnvelope} size="sm" />}
+                    label={`Contact ${app.appTitle} support`}
+                  />
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* <div className="container-related-searches">
             <h3>Related searches</h3>
             <div className="topics-div searches">
