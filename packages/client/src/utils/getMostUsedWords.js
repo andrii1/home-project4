@@ -17,6 +17,23 @@ export const getMostUsedWords = (text, topN = 10) => {
     'at',
     'by',
     'app',
+    'you',
+    'your',
+    'or',
+    'from',
+    'want',
+    'an',
+    'up',
+    'get',
+    'our',
+    'we',
+    'this',
+    'can',
+    'if',
+    'one',
+    'more',
+    'will',
+    'have',
   ]);
 
   const words = text
