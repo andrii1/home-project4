@@ -483,7 +483,13 @@ const getAppsBy = async ({
               .orWhereNotNull('apps.url_discord');
           }
           if (search !== undefined) {
-            queryBuilder.where('deals.description', 'like', `%${search}%`);
+            queryBuilder.where(function () {
+              this.where('deals.description', 'like', `%${search}%`).orWhere(
+                'deals.description_long',
+                'like',
+                `%${search}%`,
+              );
+            });
           }
         });
     const lastItem = await getModel()
