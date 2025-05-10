@@ -227,13 +227,8 @@ export const DealView = () => {
     async function fetchData() {
       setLoading(true);
       const results = [];
-      let words;
-      if (app?.description_long) {
-        const combinedText = `${app?.description} ${app?.description_long}`;
-        words = getMostUsedWords(combinedText, 5);
-      } else {
-        words = getMostUsedWords(app?.description, 5);
-      }
+      const combinedText = `${app?.description} ${app?.description_long} ${app?.appDescription}`;
+      const words = getMostUsedWords(combinedText, 10);
 
       for (const [word] of words) {
         try {
@@ -258,7 +253,7 @@ export const DealView = () => {
     if (app?.description) {
       fetchData();
     }
-  }, [app.description, app.description_long]);
+  }, [app.description, app.description_long, app.appDescription]);
 
   const cardItems = similarApps.map((item) => {
     // const relatedTopics = topics
