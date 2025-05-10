@@ -341,6 +341,7 @@ export const Apps = () => {
     filtersSubmitted,
     pathname,
     orderByTrending,
+    searchParam,
   ]);
 
   const fetchApps = async () => {

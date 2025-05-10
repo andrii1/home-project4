@@ -227,8 +227,14 @@ export const DealView = () => {
     async function fetchData() {
       setLoading(true);
       const results = [];
-      const words = getMostUsedWords(app?.description, 5);
-      console.log(words);
+      let words;
+      if (app?.description_long) {
+        const combinedText = `${app?.description} ${app?.description_long}`;
+        words = getMostUsedWords(combinedText, 5);
+      } else {
+        words = getMostUsedWords(app?.description, 5);
+      }
+      console.log('words', words);
 
       for (const [word] of words) {
         try {
@@ -253,7 +259,7 @@ export const DealView = () => {
     if (app?.description) {
       fetchData();
     }
-  }, [app.description]);
+  }, [app.description, app.description_long]);
 
   console.log(app.description);
   console.log(topicsFromDeals);

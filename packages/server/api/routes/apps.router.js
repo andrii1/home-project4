@@ -150,4 +150,12 @@ router.get('/:id', (req, res, next) => {
     .catch(next);
 });
 
+router.patch('/:id', (req, res, next) => {
+  const { token } = req.headers;
+  appsController
+    .editApp(token, req.params.id, req.body)
+    .then((result) => res.json(result))
+    .catch(next);
+});
+
 module.exports = router;

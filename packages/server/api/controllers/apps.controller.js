@@ -432,6 +432,27 @@ const createApps = async (token, body) => {
   }
 };
 
+// edit
+const editApp = async (token, updatedAppId, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+
+    if (!updatedAppId) {
+      throw new HttpError('updatedAppId should be a number', 400);
+    }
+
+    return knex('apps').where({ id: updatedAppId }).update({
+      description: body.description,
+    });
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getApps,
   getAppsPagination,
@@ -446,4 +467,5 @@ module.exports = {
   getAppById,
   getAppsAll,
   createApps,
+  editApp,
 };
