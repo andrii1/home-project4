@@ -43,7 +43,8 @@ router.get('/', (req, res, next) => {
     req.query.filteredCategories ||
     req.query.filteredApps ||
     req.query.filteredPricing ||
-    req.query.filteredDetails
+    req.query.filteredDetails ||
+    req.query.search
   ) {
     let arrayPricing;
     let arrayDetails;
@@ -66,6 +67,7 @@ router.get('/', (req, res, next) => {
         filteredApps: req.query.filteredApps,
         filteredPricing: arrayPricing,
         filteredDetails: arrayDetails,
+        search: req.query.search,
       })
       .then((result) => res.json(result))
       .catch(next);

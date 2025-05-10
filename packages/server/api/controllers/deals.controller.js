@@ -421,6 +421,7 @@ const getAppsBy = async ({
   filteredApps,
   filteredPricing,
   filteredDetails,
+  search,
 }) => {
   const lastItemDirection = getOppositeOrderDirection(direction);
   try {
@@ -480,6 +481,9 @@ const getAppsBy = async ({
             queryBuilder
               .whereNotNull('apps.url_x')
               .orWhereNotNull('apps.url_discord');
+          }
+          if (search !== undefined) {
+            queryBuilder.where('deals.description', 'like', `%${search}%`);
           }
         });
     const lastItem = await getModel()

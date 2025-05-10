@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 import React, { useEffect, useState, useCallback } from 'react';
@@ -44,6 +45,7 @@ import { apiURL } from '../../apiURL';
 import './DealView.styles.css';
 import { useUserContext } from '../../userContext';
 import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component';
+import { getMostUsedWords } from '../../utils/getMostUsedWords';
 
 export const DealView = () => {
   const { id } = useParams();
@@ -52,6 +54,7 @@ export const DealView = () => {
   const [openToast, setOpenToast] = useState(false);
   const [animation, setAnimation] = useState('');
   const [favorites, setFavorites] = useState([]);
+  const [topicsFromDeals, setTopicsFromDeals] = useState([]);
   const navigate = useNavigate();
   const [app, setApp] = useState({});
   const [dealCodes, setDealCodes] = useState([]);
@@ -219,6 +222,41 @@ export const DealView = () => {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
   };
+
+  useEffect(() => {
+    async function fetchData() {
+      setLoading(true);
+      const results = [];
+      const words = getMostUsedWords(app?.description, 5);
+      console.log(words);
+
+      for (const [word] of words) {
+        try {
+          const res = await fetch(
+            `${apiURL()}/deals?page=0&column=id&direction=desc&search=${encodeURIComponent(
+              word,
+            )}`,
+          );
+          const data = await res.json();
+          if (data.data.length > 1) {
+            const wordWithLink = { title: word, url: `deals/search/${word}` };
+            results.push(wordWithLink);
+          }
+        } catch (err) {
+          return;
+        }
+      }
+
+      setTopicsFromDeals(results);
+      setLoading(false);
+    }
+    if (app?.description) {
+      fetchData();
+    }
+  }, [app.description]);
+
+  console.log(app.description);
+  console.log(topicsFromDeals);
 
   const cardItems = similarApps.map((item) => {
     // const relatedTopics = topics
@@ -900,6 +938,21 @@ export const DealView = () => {
                 </div>
               </div>
             </div>
+            {topicsFromDeals.length > 0 && (
+              <div className="container-description">
+                <strong>Related topics:</strong>
+                <p>
+                  {topicsFromDeals.map((topic, index) => (
+                    <>
+                      <Link className="underline" to={`../../${topic.url}`}>
+                        {topic.title}
+                      </Link>
+                      {index < topicsFromDeals.length - 1 && ', '}
+                    </>
+                  ))}
+                </p>
+              </div>
+            )}
             {keywords.length > 0 && (
               <div className="container-tags">
                 <div className="badges">

@@ -1,0 +1,35 @@
+export const getMostUsedWords = (text, topN = 10) => {
+  const stopWords = new Set([
+    'the',
+    'is',
+    'and',
+    'a',
+    'of',
+    'to',
+    'in',
+    'that',
+    'it',
+    'on',
+    'for',
+    'as',
+    'with',
+    'was',
+    'at',
+    'by',
+  ]);
+
+  const words = text
+    ?.toLowerCase()
+    .replace(/[^\w\s]/g, '') // remove punctuation
+    .split(/\s+/) // split into words
+    .filter((word) => word && !stopWords.has(word));
+
+  const wordCount = {};
+  for (const word of words) {
+    wordCount[word] = (wordCount[word] || 0) + 1;
+  }
+
+  return Object.entries(wordCount)
+    .sort((a, b) => b[1] - a[1]) // sort by frequency
+    .slice(0, topN); // return top N
+};
