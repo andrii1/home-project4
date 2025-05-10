@@ -445,9 +445,13 @@ const editApp = async (token, updatedAppId, body) => {
       throw new HttpError('updatedAppId should be a number', 400);
     }
 
-    return knex('apps').where({ id: updatedAppId }).update({
+    await knex('apps').where({ id: updatedAppId }).update({
       description: body.description,
     });
+
+    return {
+      successful: true,
+    };
   } catch (error) {
     return error.message;
   }
