@@ -234,7 +234,6 @@ export const DealView = () => {
       } else {
         words = getMostUsedWords(app?.description, 5);
       }
-      console.log('words', words);
 
       for (const [word] of words) {
         try {
@@ -260,9 +259,6 @@ export const DealView = () => {
       fetchData();
     }
   }, [app.description, app.description_long]);
-
-  console.log(app.description);
-  console.log(topicsFromDeals);
 
   const cardItems = similarApps.map((item) => {
     // const relatedTopics = topics
