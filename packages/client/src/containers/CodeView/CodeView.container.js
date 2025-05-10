@@ -331,7 +331,7 @@ export const CodeView = () => {
                         size="sm"
                       />
                     }
-                    label="Use code!"
+                    label="Link"
                   />
                 </Link>
               )}

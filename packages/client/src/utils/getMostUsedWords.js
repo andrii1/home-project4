@@ -34,6 +34,16 @@ export const getMostUsedWords = (text, topN = 10) => {
     'more',
     'will',
     'have',
+    'has',
+    'what',
+    'where',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    'be',
+    'no',
   ]);
 
   const words = text

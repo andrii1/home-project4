@@ -690,7 +690,7 @@ export const DealView = () => {
                                     size="sm"
                                   />
                                 }
-                                label="Use code!"
+                                label="Link"
                               />
                             </Link>
                           )}
