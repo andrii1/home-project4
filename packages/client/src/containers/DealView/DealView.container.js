@@ -295,7 +295,7 @@ export const DealView = () => {
 
   const searchItems = searches.map((search) => {
     return (
-      <Link to={`../../deals/search/${search.id}`} target="_blank">
+      <Link to={`../../deals/searchterm/${search.id}`} target="_blank">
         <Button
           size="medium"
           secondary

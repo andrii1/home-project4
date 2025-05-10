@@ -129,6 +129,10 @@
   text-decoration: underline;
 }
 
+.underline {
+  text-decoration: underline !important;
+}
+
 .appview-image,
 .appview-icon {
   max-height: 15rem;

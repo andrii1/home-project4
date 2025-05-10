@@ -14,6 +14,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Modal from '../../components/Modal/Modal.Component';
 import Toast from '../../components/Toast/Toast.Component';
 import { useUserContext } from '../../userContext';
+import { capitalize } from '../../utils/capitalize';
 
 import {
   faSearch,
@@ -28,8 +29,13 @@ export const Apps = () => {
   const { user } = useUserContext();
   const location = useLocation();
   const { pathname } = location;
-  const { topicIdParam, categoryIdParam, appIdParam, searchTermIdParam } =
-    useParams();
+  const {
+    topicIdParam,
+    categoryIdParam,
+    appIdParam,
+    searchTermIdParam,
+    searchParam,
+  } = useParams();
   const [searchTerms, setSearchTerms] = useState();
   const [searchTermsDb, setSearchTermsDb] = useState([]);
 
@@ -164,7 +170,7 @@ export const Apps = () => {
         pathname.includes('/codes') ? `codes` : `deals`
       }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
         topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-      }${
+      }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
         categoryIdParam !== undefined
           ? `&filteredCategories=${categoryIdParam}`
           : ''
@@ -345,7 +351,7 @@ export const Apps = () => {
       pathname.includes('/codes') ? `codes` : `deals`
     }?page=${page}&column=${orderBy.column}&direction=${orderBy.direction}${
       topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-    }${
+    }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
       categoryIdParam !== undefined
         ? `&filteredCategories=${categoryIdParam}`
         : ''
@@ -861,6 +867,9 @@ export const Apps = () => {
       .filter((searchTerm) => searchTerm.id === parseInt(searchTermIdParam, 10))
       .map((item) => item.title)} - Top App Deals`;
     metaDescription = 'Find best app deals and referral codes';
+  } else if (searchParam) {
+    pageTitle = `${capitalize(searchParam)} App Deals`;
+    metaDescription = `Find best ${searchParam} app deals and referral codes`;
   } else {
     pageTitle = 'Top App Deals - best app deals';
     metaDescription = 'Find best app deals and referral codes';
@@ -971,7 +980,7 @@ export const Apps = () => {
       {/* <div className="hero"></div> */}
       <div className="hero apps">
         <h1 className="hero-header">
-          {categoryIdParam || topicIdParam || appIdParam
+          {categoryIdParam || topicIdParam || appIdParam || searchParam
             ? `${pageTitle}`
             : searchTermIdParam
             ? `${searchTermsDb
