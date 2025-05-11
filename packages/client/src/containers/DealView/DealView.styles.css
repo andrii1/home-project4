@@ -264,6 +264,24 @@ img.copy-referral-code.smaller-icon {
   box-shadow: none;
 }
 
+.thumbs-container {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.thumbs-container.up {
+  color: green;
+}
+
+.thumbs-container.down {
+  color: red;
+}
+
+.thumbs {
+  cursor: pointer;
+}
+
 @media only screen and (min-width: 769px) {
   .container-description h2 {
     margin-bottom: 0rem;

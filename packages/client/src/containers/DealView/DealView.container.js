@@ -19,6 +19,8 @@ import Toast from '../../components/Toast/Toast.Component';
 import Markdown from 'markdown-to-jsx';
 import { Loading } from '../../components/Loading/Loading.Component';
 import ImageGallery from 'react-image-gallery';
+import { useLikes } from '../../utils/hooks/useLikes';
+import { ThumbsUp, ThumbsDown } from 'lucide-react';
 
 import {
   faEnvelope,
@@ -74,6 +76,20 @@ export const DealView = () => {
   const [keywords, setKeywords] = useState([]);
   const [openAddCodeForm, setOpenAddCodeForm] = useState(false);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const {
+    likes: positiveLikes,
+    allLikes: allPositiveLikes,
+    addLike: addPositiveLike,
+    deleteLike: deletePositiveLike,
+  } = useLikes(user, 'positiveLikes');
+
+  const {
+    likes: negativeLikes,
+    allLikes: allNegativeLikes,
+    addLike: addNegativeLike,
+    deleteLike: deleteNegativeLike,
+  } = useLikes(user, 'negativeLikes');
+
   useEffect(() => {
     async function fetchSingleApp(appId) {
       const response = await fetch(`${apiURL()}/deals/${appId}`);
@@ -663,6 +679,14 @@ export const DealView = () => {
 
                 <div className="container-appview-codes-users">
                   {dealCodes.map((code) => {
+                    const positiveLikesCount = allPositiveLikes.filter(
+                      (like) => like.code_id === code.id,
+                    ).length;
+
+                    const negativeLikesCount = allNegativeLikes.filter(
+                      (like) => like.code_id === code.id,
+                    ).length;
+
                     return (
                       <div className="container-codes-users">
                         <div className="container-appview-codes">
@@ -707,57 +731,89 @@ export const DealView = () => {
                               label="View"
                             />
                           </Link>
+                          <div className="container-rating">
+                            {user &&
+                            positiveLikes.some(
+                              (like) => like.id === code.id,
+                            ) ? (
+                              <div className="thumbs-container up">
+                                <ThumbsUp
+                                  className="thumbs"
+                                  color="green"
+                                  size={20}
+                                  onClick={() => deletePositiveLike(code.id)}
+                                />
+                                {positiveLikesCount}
+                              </div>
+                            ) : user ? (
+                              <div className="thumbs-container up">
+                                <ThumbsUp
+                                  color="green"
+                                  className="thumbs"
+                                  size={20}
+                                  onClick={() => addPositiveLike(code.id)}
+                                />
+                                {positiveLikesCount}
+                              </div>
+                            ) : (
+                              <div className="thumbs-container up">
+                                <ThumbsUp
+                                  className="thumbs"
+                                  size={20}
+                                  color="green"
+                                  onClick={() => {
+                                    setOpenModal(true);
+                                    setModalTitle('Sign up to vote');
+                                  }}
+                                />
+                                {positiveLikesCount}
+                              </div>
+                            )}
+                          </div>
+                          <div className="container-rating">
+                            {user &&
+                            negativeLikes.some(
+                              (like) => like.id === code.id,
+                            ) ? (
+                              <div className="thumbs-container down">
+                                <ThumbsDown
+                                  className="thumbs"
+                                  color="red"
+                                  size={20}
+                                  onClick={() => deleteNegativeLike(code.id)}
+                                />
+                                {negativeLikesCount}
+                              </div>
+                            ) : user ? (
+                              <div className="thumbs-container down">
+                                <ThumbsDown
+                                  color="red"
+                                  className="thumbs"
+                                  size={20}
+                                  onClick={() => addNegativeLike(code.id)}
+                                />
+                                {negativeLikesCount}
+                              </div>
+                            ) : (
+                              <div className="thumbs-container down">
+                                <ThumbsDown
+                                  className="thumbs"
+                                  size={20}
+                                  color="red"
+                                  onClick={() => {
+                                    setOpenModal(true);
+                                    setModalTitle('Sign up to vote');
+                                  }}
+                                />
+                                {negativeLikesCount}
+                              </div>
+                            )}
+                          </div>
                         </div>
+
                         <span className="codes-added-by">
                           added by {code.userFullName}
                         </span>
-                        <div className="container-rating">
-                          Rating
-                          {user &&
-                          ratings.some((rating) => rating.id === app.id) ? (
-                            <button
-                              type="button"
-                              className="button-rating"
-                              onClick={(event) => deleteRating(app.id)}
-                            >
-                              <FontAwesomeIcon icon={faCaretUp} />
-                              {
-                                allRatings.filter(
-                                  (rating) => rating.deal_id === app.id,
-                                ).length
-                              }
-                            </button>
-                          ) : user ? (
-                            <button
-                              type="button"
-                              className="button-rating"
-                              onClick={(event) => addRating(app.id)}
-                            >
-                              <FontAwesomeIcon icon={faCaretUp} />
-                              {
-                                allRatings.filter(
-                                  (rating) => rating.deal_id === app.id,
-                                ).length
-                              }
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              className="button-rating"
-                              onClick={() => {
-                                setOpenModal(true);
-                                setModalTitle('Sign up to vote');
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faCaretUp} />
-                              {
-                                allRatings.filter(
-                                  (rating) => rating.deal_id === app.id,
-                                ).length
-                              }
-                            </button>
-                          )}
-                        </div>
                       </div>
                     );
                   })}
