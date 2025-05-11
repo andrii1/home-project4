@@ -55,6 +55,7 @@ export const getMostUsedWords = (text, topN = 10) => {
     'into',
     'any',
     'help',
+    'via',
   ]);
 
   const words = text
