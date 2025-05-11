@@ -711,6 +711,53 @@ export const DealView = () => {
                         <span className="codes-added-by">
                           added by {code.userFullName}
                         </span>
+                        <div className="container-rating">
+                          Rating
+                          {user &&
+                          ratings.some((rating) => rating.id === app.id) ? (
+                            <button
+                              type="button"
+                              className="button-rating"
+                              onClick={(event) => deleteRating(app.id)}
+                            >
+                              <FontAwesomeIcon icon={faCaretUp} />
+                              {
+                                allRatings.filter(
+                                  (rating) => rating.deal_id === app.id,
+                                ).length
+                              }
+                            </button>
+                          ) : user ? (
+                            <button
+                              type="button"
+                              className="button-rating"
+                              onClick={(event) => addRating(app.id)}
+                            >
+                              <FontAwesomeIcon icon={faCaretUp} />
+                              {
+                                allRatings.filter(
+                                  (rating) => rating.deal_id === app.id,
+                                ).length
+                              }
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              className="button-rating"
+                              onClick={() => {
+                                setOpenModal(true);
+                                setModalTitle('Sign up to vote');
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faCaretUp} />
+                              {
+                                allRatings.filter(
+                                  (rating) => rating.deal_id === app.id,
+                                ).length
+                              }
+                            </button>
+                          )}
+                        </div>
                       </div>
                     );
                   })}

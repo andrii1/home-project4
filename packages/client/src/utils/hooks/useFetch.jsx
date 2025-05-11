@@ -1,25 +1,23 @@
 import { useState, useEffect } from 'react';
 
-import { apiURL } from '../../apiURL';
-
-export function useFetch(fetchFn, initialValue) {
+export const useFetch = (fetchFn, initialValue, param) => {
   const [isFetching, setIsFetching] = useState();
   const [error, setError] = useState();
   const [fetchedData, setFetchedData] = useState(initialValue);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async (id) => {
       setIsFetching(true);
       try {
-        const data = await fetchFn();
+        const data = await fetchFn(id);
         setFetchedData(data);
       } catch (e) {
         setError({ message: e.message || 'Failed to fetch data.' });
       }
       setIsFetching(false);
-    }
-    fetchData();
-  }, [fetchFn]);
+    };
+    fetchData(param);
+  }, [fetchFn, param]);
 
-  return { isFetching, fetchedData, setFetchedData, error };
-}
+  return { isFetching, fetchedData, error };
+};
