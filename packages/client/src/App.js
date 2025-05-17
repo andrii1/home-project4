@@ -23,6 +23,8 @@ import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
 import { UserProvider } from './userContext';
+import { Questions } from './containers/Questions/Questions.Container';
+import { SubmitQuestion } from './containers/SubmitQuestion/SubmitQuestion.Container';
 
 function App() {
   return (
@@ -58,6 +60,12 @@ function App() {
             <Route exact path="/success" element={<StripeSuccess />} />
             <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />
+            <Route path="/community" element={<Questions />} />
+            <Route
+              path="/community/questions/new"
+              element={<SubmitQuestion />}
+            />
+            {/* <Route exact path="/community/:id" element={<QuestionView />} /> */}
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />

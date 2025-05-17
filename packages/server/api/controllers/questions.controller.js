@@ -14,6 +14,22 @@ const getQuestions = async () => {
   }
 };
 
+const getQuestionById = async (id) => {
+  if (!id) {
+    throw new HttpError('Id should be a number', 400);
+  }
+
+  try {
+    const questions = await knex('questions').where({ id });
+    if (questions.length === 0) {
+      throw new Error(`incorrect entry with the id of ${id}`, 404);
+    }
+    return questions;
+  } catch (error) {
+    return error.message;
+  }
+};
+
 // post
 const createQuestions = async (token, body) => {
   try {
@@ -37,5 +53,6 @@ const createQuestions = async (token, body) => {
 
 module.exports = {
   getQuestions,
+  getQuestionById,
   createQuestions,
 };

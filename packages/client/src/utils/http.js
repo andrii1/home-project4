@@ -81,3 +81,33 @@ export const fetchSingleTag = async (id) => {
   }
   return data[0];
 };
+
+export const fetchQuestions = async () => {
+  const response = await fetch(`${apiURL()}/questions/`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to fetch');
+  }
+  return data;
+};
+
+export const fetchSingleQuestion = async (id) => {
+  const response = await fetch(`${apiURL()}/questions/${id}`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to fetch');
+  }
+  return data[0];
+};
+
+export const fetchAnswersForQuestion = async (id) => {
+  const response = await fetch(`${apiURL()}/answers?question=${id}`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to fetch');
+  }
+  return data;
+};
