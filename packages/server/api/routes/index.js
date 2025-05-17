@@ -21,6 +21,8 @@ const analytics = require('./analytics.router');
 const positiveLikes = require('./positiveLikes.router');
 const negativeLikes = require('./negativeLikes.router');
 const questions = require('./questions.router');
+const answers = require('./answers.router');
+const ratingsForQuestions = require('./ratingsForQuestions.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -69,5 +71,7 @@ router.use('/analytics', analytics);
 router.use('/positiveLikes', positiveLikes);
 router.use('/negativeLikes', negativeLikes);
 router.use('/questions', questions);
+router.use('/answers', answers);
+router.use('/ratingsForQuestions', ratingsForQuestions);
 
 module.exports = router;
