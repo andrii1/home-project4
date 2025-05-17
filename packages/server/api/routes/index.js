@@ -20,6 +20,7 @@ const keywords = require('./keywords.router');
 const analytics = require('./analytics.router');
 const positiveLikes = require('./positiveLikes.router');
 const negativeLikes = require('./negativeLikes.router');
+const questions = require('./questions.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -67,5 +68,6 @@ router.use('/keywords', keywords);
 router.use('/analytics', analytics);
 router.use('/positiveLikes', positiveLikes);
 router.use('/negativeLikes', negativeLikes);
+router.use('/questions', questions);
 
 module.exports = router;
