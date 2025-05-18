@@ -4,35 +4,35 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 
-const getAnswers = async () => {
+const getReplies = async () => {
   try {
-    const answers = await knex('answers');
+    const replies = await knex('replies');
 
-    return answers;
+    return replies;
   } catch (error) {
     return error.message;
   }
 };
 
-// Get answers by Question
-const getAnswersByQuestion = async (question) => {
+// Get replies by Question
+const getRepliesByQuestion = async (question) => {
   try {
-    const answers = await knex('answers').where({ question_id: question });
-    return answers;
+    const replies = await knex('replies').where({ question_id: question });
+    return replies;
   } catch (error) {
     return error.message;
   }
 };
 
 // post
-const createAnswers = async (token, body, question) => {
+const createReplies = async (token, body, question) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    await knex('answers').insert({
+    await knex('replies').insert({
       title: body.title,
       content: body.content,
       user_id: user.id,
@@ -47,7 +47,7 @@ const createAnswers = async (token, body, question) => {
 };
 
 module.exports = {
-  getAnswers,
-  getAnswersByQuestion,
-  createAnswers,
+  getReplies,
+  getRepliesByQuestion,
+  createReplies,
 };

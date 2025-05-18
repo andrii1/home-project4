@@ -4,41 +4,41 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 
-const getQuestions = async () => {
+const getThreads = async () => {
   try {
-    const questions = await knex('questions');
+    const threads = await knex('threads');
 
-    return questions;
+    return threads;
   } catch (error) {
     return error.message;
   }
 };
 
-const getQuestionById = async (id) => {
+const getThreadById = async (id) => {
   if (!id) {
     throw new HttpError('Id should be a number', 400);
   }
 
   try {
-    const questions = await knex('questions').where({ id });
-    if (questions.length === 0) {
+    const threads = await knex('threads').where({ id });
+    if (threads.length === 0) {
       throw new Error(`incorrect entry with the id of ${id}`, 404);
     }
-    return questions;
+    return threads;
   } catch (error) {
     return error.message;
   }
 };
 
 // post
-const createQuestions = async (token, body) => {
+const createThreads = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    await knex('questions').insert({
+    await knex('threads').insert({
       title: body.title,
       content: body.content,
       user_id: user.id,
@@ -52,7 +52,7 @@ const createQuestions = async (token, body) => {
 };
 
 module.exports = {
-  getQuestions,
-  getQuestionById,
-  createQuestions,
+  getThreads,
+  getThreadById,
+  createThreads,
 };

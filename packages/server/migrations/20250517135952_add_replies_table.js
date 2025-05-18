@@ -3,13 +3,15 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable('questions', (table) => {
+  return knex.schema.createTable('replies', (table) => {
     table.increments();
-    table.text('title').notNullable();
-    table.text('content').nullable();
+    table.text('content').notNullable();
     table.integer('user_id').unsigned();
     table.foreign('user_id').references('id').inTable('users');
+    table.integer('thread_id').unsigned();
+    table.foreign('thread_id').references('id').inTable('threads');
     table.datetime('created_at', { precision: 6 }).defaultTo(knex.fn.now(6));
+    table.datetime('updated_at', { precision: 6 }).defaultTo(knex.fn.now(6));
   });
 };
 
@@ -18,5 +20,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable('questions');
+  return knex.schema.dropTable('replies');
 };

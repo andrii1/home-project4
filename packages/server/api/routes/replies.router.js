@@ -6,18 +6,18 @@ const express = require('express');
 const router = express.Router({ mergeParams: true });
 
 // controllers
-const answersController = require('../controllers/answers.controller');
+const repliesController = require('../controllers/replies.controller');
 
 router.get('/', (req, res, next) => {
   if (req.query.question) {
-    answersController
-      .getAnswersByQuestion(req.query.question)
+    repliesController
+      .getRepliesByQuestion(req.query.question)
       .then((result) => res.json(result))
       .catch(next);
   } else {
     try {
-      answersController
-        .getAnswers()
+      repliesController
+        .getReplies()
         .then((result) => res.json(result))
         .catch(next);
     } catch (error) {
@@ -28,8 +28,8 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
-  answersController
-    .createAnswers(token, req.body, req.query.question)
+  repliesController
+    .createReplies(token, req.body, req.query.reply)
     .then((result) => res.json(result))
     .catch(next);
 });
