@@ -46,9 +46,7 @@
   text-align: left;
 }
 
-/* .prompts-body {
-  padding: 0.8rem 0.8rem;
-} */
+/*
 .col-1,
 .col-2,
 .col-3,
@@ -56,8 +54,7 @@
 .col-5,
 .col-6,
 .col-7 {
-  /* padding: 0rem 0.1rem; */
-  /* border: 1px solid blue; */
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -135,7 +132,7 @@
 
 .fa-blank {
   visibility: hidden;
-}
+} */
 
 .tab-filter {
   background-color: #e3d5ca;

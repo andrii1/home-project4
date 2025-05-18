@@ -9,6 +9,7 @@ import { useFetch } from '../../utils/hooks/useFetch';
 import { fetchThreads } from '../../utils/http';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer.Container';
 import { ErrorContainer } from '../ErrorContainer/ErrorContainer.Container';
+import { getDateFromTimestamp } from '../../utils/getDateFromTimestamp';
 
 export const Threads = () => {
   const { user } = useUserContext();
@@ -38,18 +39,35 @@ export const Threads = () => {
         <h1 className="hero-header">Community</h1>
       </div>
 
-      <section className="container-scroll">
-        <div>
-          <div>Thread</div>
-          <div>Views</div>
-        </div>
-        {threads.map((thread) => {
-          return (
-            <div>
-              <div>{thread.title}</div>
+      <section className="threads-container">
+        <div className="threads-table">
+          <div className="header-row">
+            <div className="col-1">
+              <strong>Threads</strong>
             </div>
-          );
-        })}
+            <div className="col-2">
+              <strong>Views</strong>
+            </div>
+            <div className="col-3">
+              <strong>Date</strong>
+            </div>
+            <div className="col-4">
+              <strong>Votes</strong>
+            </div>
+          </div>
+          {threads.map((thread) => {
+            return (
+              <div className="table-row">
+                <div className="col-1">{thread.title}</div>
+                <div className="col-2">0</div>
+                <div className="col-3">
+                  {getDateFromTimestamp(thread.created_at)}
+                </div>
+                <div className="col-4">0</div>
+              </div>
+            );
+          })}
+        </div>
       </section>
     </main>
   );

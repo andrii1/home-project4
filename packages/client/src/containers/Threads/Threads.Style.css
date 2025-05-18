@@ -1,0 +1,26 @@
+.threads-container {
+  text-align: left;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.threads-table {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header-row,
+.table-row {
+  display: flex;
+}
+
+.col-1 {
+  flex: 0 0 70%;
+}
+
+.col-2,
+.col-3,
+.col-4 {
+  flex: 0 0 10%;
+}
