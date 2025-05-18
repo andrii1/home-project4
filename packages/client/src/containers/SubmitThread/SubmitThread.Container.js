@@ -7,28 +7,25 @@ import useInputValidation from '../../utils/hooks/useInputValidation';
 import TextFormTextarea from '../../components/Input/TextFormTextarea.component';
 import { Dropdown } from '../../components/Dropdown/Dropdown.Component';
 import { Button } from '../../components/Button/Button.component';
-import './SubmitQuestion.Style.css';
+import './SubmitThread.Style.css';
 import { useUserContext } from '../../userContext';
 import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component';
 
-export const SubmitQuestion = () => {
+export const SubmitThread = () => {
   const { user } = useUserContext();
   const [errorMessage, setErrorMessage] = useState('');
 
   const [validForm, setValidForm] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
-  const [questionTitle, questionTitleError, validateQuestionTitle] =
+  const [threadTitle, threadTitleError, validateThreadTitle] =
     useInputValidation('code');
-  const [
-    questionDescription,
-    questionDescriptionError,
-    validateQuestionDescription,
-  ] = useInputValidation('description');
+  const [threadDescription, threadDescriptionError, validateThreadDescription] =
+    useInputValidation('description');
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
 
-  const addQuestion = async (title, description) => {
-    const response = await fetch(`${apiURL()}/questions`, {
+  const addThread = async (title, description) => {
+    const response = await fetch(`${apiURL()}/threads`, {
       method: 'POST',
       headers: {
         token: `token ${user?.uid}`,
@@ -49,13 +46,13 @@ export const SubmitQuestion = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (questionTitleError || questionTitle.length === 0) {
+    if (threadTitleError || threadTitle.length === 0) {
       setInvalidForm(true);
       setValidForm(false);
     } else {
       setInvalidForm(false);
       setValidForm(true);
-      addQuestion(questionTitle, questionDescription);
+      addThread(threadTitle, threadDescription);
     }
   };
   return (
@@ -65,24 +62,24 @@ export const SubmitQuestion = () => {
       </Helmet>
       <main>
         <div className="hero">
-          <h1 className="hero-header">Ask your question</h1>
+          <h1 className="hero-header">New thread</h1>
         </div>
         <div className={`form-container add-app-container `}>
-          <div className={`form-box submit-box`}>
+          <div className="form-box submit-box">
             <form>
               <TextFormTextarea
-                value={questionTitle}
-                placeholder="Your question"
-                onChange={validateQuestionTitle}
-                error={questionTitleError}
+                value={threadTitle}
+                placeholder="Your thread"
+                onChange={validateThreadTitle}
+                error={threadTitleError}
                 required
               />
 
               <TextFormTextarea
-                value={questionDescription}
+                value={threadDescription}
                 placeholder="Description (optional)"
-                onChange={validateQuestionDescription}
-                error={questionDescriptionError}
+                onChange={validateThreadDescription}
+                error={threadDescriptionError}
               />
               <Button
                 primary
@@ -92,7 +89,7 @@ export const SubmitQuestion = () => {
               />
               {validForm && (
                 <Modal
-                  title="Your question has been submitted!"
+                  title="Your thread has been submitted!"
                   open={openConfirmationModal}
                   toggle={
                     (() => setOpenConfirmationModal(false),

@@ -82,8 +82,8 @@ export const fetchSingleTag = async (id) => {
   return data[0];
 };
 
-export const fetchQuestions = async () => {
-  const response = await fetch(`${apiURL()}/questions/`);
+export const fetchThreads = async () => {
+  const response = await fetch(`${apiURL()}/threads/`);
   const data = await response.json();
 
   if (!response.ok) {
@@ -92,8 +92,8 @@ export const fetchQuestions = async () => {
   return data;
 };
 
-export const fetchSingleQuestion = async (id) => {
-  const response = await fetch(`${apiURL()}/questions/${id}`);
+export const fetchSingleThread = async (id) => {
+  const response = await fetch(`${apiURL()}/threads/${id}`);
   const data = await response.json();
 
   if (!response.ok) {
@@ -102,8 +102,8 @@ export const fetchSingleQuestion = async (id) => {
   return data[0];
 };
 
-export const fetchAnswersForQuestion = async (id) => {
-  const response = await fetch(`${apiURL()}/answers?question=${id}`);
+export const fetchRepliesForThread = async (id) => {
+  const response = await fetch(`${apiURL()}/replies?thread=${id}`);
   const data = await response.json();
 
   if (!response.ok) {

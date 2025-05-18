@@ -2,22 +2,22 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './Questions.Style.css';
+import './Threads.Style.css';
 import { apiURL } from '../../apiURL';
 import { useUserContext } from '../../userContext';
 import { useFetch } from '../../utils/hooks/useFetch';
-import { fetchQuestions } from '../../utils/http';
+import { fetchThreads } from '../../utils/http';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer.Container';
 import { ErrorContainer } from '../ErrorContainer/ErrorContainer.Container';
 
-export const Questions = () => {
+export const Threads = () => {
   const { user } = useUserContext();
 
   const {
     isFetching: loading,
-    fetchedData: questions,
+    fetchedData: threads,
     error,
-  } = useFetch(fetchQuestions, []);
+  } = useFetch(fetchThreads, []);
 
   if (loading) {
     return <LoadingContainer />;
@@ -39,10 +39,14 @@ export const Questions = () => {
       </div>
 
       <section className="container-scroll">
-        {questions.map((question) => {
+        <div>
+          <div>Thread</div>
+          <div>Views</div>
+        </div>
+        {threads.map((thread) => {
           return (
             <div>
-              <div>{question.title}</div>
+              <div>{thread.title}</div>
             </div>
           );
         })}

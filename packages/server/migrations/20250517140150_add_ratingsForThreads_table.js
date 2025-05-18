@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable('likesForThreads', (table) => {
+  return knex.schema.createTable('ratingsForThreads', (table) => {
     table.increments();
     table.integer('user_id').unsigned();
     table.foreign('user_id').references('id').inTable('users');
@@ -18,5 +18,5 @@ exports.up = function (knex) {
  * @returns { Promise<void> }
  */
 exports.down = function (knex) {
-  return knex.schema.dropTable('likesForThreads');
+  return knex.schema.dropTable('ratingsForThreads');
 };

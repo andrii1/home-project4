@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router({ mergeParams: true });
-const likesForThreadsController = require('../controllers/likesForThreads.controller');
+const ratingsForThreadsController = require('../controllers/ratingsForThreads.controller');
 
 /**
  * @swagger
@@ -30,18 +30,18 @@ router.get('/', (req, res, next) => {
   const { token } = req.headers;
   // TO DO : once we will add authentication I will update it
   if (req.query.questionId && token) {
-    likesForThreadsController
-      .getLikesByThreadId(token, req.query.questionId)
+    ratingsForThreadsController
+      .getRatingsByThreadId(token, req.query.threadId)
       .then((result) => res.json(result))
       .catch(next);
   } else if (token) {
-    likesForThreadsController
-      .getLikesByUserId(token)
+    ratingsForThreadsController
+      .getRatingsByUserId(token)
       .then((result) => res.json(result))
       .catch(next);
   } else {
-    likesForThreadsController
-      .getAllLikes()
+    ratingsForThreadsController
+      .getAllRatings()
       .then((result) => res.json(result))
       .catch(next);
   }
@@ -81,8 +81,8 @@ router.get('/', (req, res, next) => {
  */
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
-  likesForThreadsController
-    .createLikes(token, req.body)
+  ratingsForThreadsController
+    .createRatings(token, req.body)
     .then((result) => res.json(result))
     .catch(next);
 });
@@ -116,8 +116,8 @@ router.post('/', (req, res, next) => {
 // });
 router.delete('/:id', (req, res, next) => {
   const { token } = req.headers;
-  likesForThreadsController
-    .deleteLikes(token, req.params.id)
+  ratingsForThreadsController
+    .deleteRatings(token, req.params.id)
     .then((result) => res.json(result))
     .catch(next);
 });
