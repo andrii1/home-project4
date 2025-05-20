@@ -25,6 +25,7 @@ import { Footer } from './components/Footer/Footer.component';
 import { UserProvider } from './userContext';
 import { Threads } from './containers/Threads/Threads.Container';
 import { SubmitThread } from './containers/SubmitThread/SubmitThread.Container';
+import { ThreadView } from './containers/ThreadView/ThreadView.container';
 
 function App() {
   return (
@@ -62,7 +63,11 @@ function App() {
             <Route exact path="/bookmarks" element={<Bookmarks />} />
             <Route path="/community" element={<Threads />} />
             <Route path="/community/threads/new" element={<SubmitThread />} />
-            {/* <Route exact path="community/threads/:id" element={<ThreadView />} /> */}
+            <Route
+              exact
+              path="community/threads/:id"
+              element={<ThreadView />}
+            />
             <Route exact path="/login" element={<Login />} />
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />

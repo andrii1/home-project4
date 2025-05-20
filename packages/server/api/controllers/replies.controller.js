@@ -14,10 +14,12 @@ const getReplies = async () => {
   }
 };
 
-// Get replies by Question
-const getRepliesByQuestion = async (question) => {
+// Get replies by Thread
+const getRepliesByThread = async (threadId) => {
   try {
-    const replies = await knex('replies').where({ question_id: question });
+    const replies = await knex('replies')
+      .join('users', 'replies.user_id', '=', 'users.id')
+      .where({ thread_id: threadId });
     return replies;
   } catch (error) {
     return error.message;
@@ -25,7 +27,7 @@ const getRepliesByQuestion = async (question) => {
 };
 
 // post
-const createReplies = async (token, body, question) => {
+const createReplies = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
@@ -33,10 +35,9 @@ const createReplies = async (token, body, question) => {
       throw new HttpError('User not found', 401);
     }
     await knex('replies').insert({
-      title: body.title,
       content: body.content,
       user_id: user.id,
-      question_id: question,
+      thread_id: body.thread_id,
     });
     return {
       successful: true,
@@ -48,6 +49,6 @@ const createReplies = async (token, body, question) => {
 
 module.exports = {
   getReplies,
-  getRepliesByQuestion,
+  getRepliesByThread,
   createReplies,
 };

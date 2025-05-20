@@ -9,9 +9,9 @@ const router = express.Router({ mergeParams: true });
 const repliesController = require('../controllers/replies.controller');
 
 router.get('/', (req, res, next) => {
-  if (req.query.question) {
+  if (req.query.threadId) {
     repliesController
-      .getRepliesByQuestion(req.query.question)
+      .getRepliesByThread(req.query.threadId)
       .then((result) => res.json(result))
       .catch(next);
   } else {
@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
   repliesController
-    .createReplies(token, req.body, req.query.reply)
+    .createReplies(token, req.body)
     .then((result) => res.json(result))
     .catch(next);
 });

@@ -64,7 +64,9 @@ export const Threads = () => {
           {threads.map((thread) => {
             return (
               <div className="table-row">
-                <div className="col-1">{thread.title}</div>
+                <div className="col-1">
+                  <Link to={`threads/${thread.id}`}>{thread.title}</Link>
+                </div>
                 <div className="col-2">0</div>
                 <div className="col-3">
                   {getDateFromTimestamp(thread.created_at)}
