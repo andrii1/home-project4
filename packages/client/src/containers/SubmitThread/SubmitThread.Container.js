@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { apiURL } from '../../apiURL';
 import Modal from '../../components/Modal/Modal.Component';
@@ -14,7 +14,7 @@ import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component'
 export const SubmitThread = () => {
   const { user } = useUserContext();
   const [errorMessage, setErrorMessage] = useState('');
-
+  const navigate = useNavigate();
   const [validForm, setValidForm] = useState(false);
   const [invalidForm, setInvalidForm] = useState(false);
   const [threadTitle, threadTitleError, validateThreadTitle] =
@@ -55,6 +55,11 @@ export const SubmitThread = () => {
       addThread(threadTitle, threadDescription);
     }
   };
+
+  const navigateBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <Helmet>
@@ -64,7 +69,7 @@ export const SubmitThread = () => {
         <div className="hero">
           <h1 className="hero-header">New thread</h1>
         </div>
-        <div className={`form-container add-app-container `}>
+        <div className="form-container add-app-container add-thread">
           <div className="form-box submit-box">
             <form>
               <TextFormTextarea
@@ -105,6 +110,7 @@ export const SubmitThread = () => {
               )}
             </form>
           </div>
+          <Button onClick={navigateBack} label="Back to threads" secondary />
         </div>
       </main>
     </>

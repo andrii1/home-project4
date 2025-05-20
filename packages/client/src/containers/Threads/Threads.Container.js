@@ -10,6 +10,7 @@ import { fetchThreads } from '../../utils/http';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer.Container';
 import { ErrorContainer } from '../ErrorContainer/ErrorContainer.Container';
 import { getDateFromTimestamp } from '../../utils/getDateFromTimestamp';
+import { Button } from '../../components/Button/Button.component';
 
 export const Threads = () => {
   const { user } = useUserContext();
@@ -40,6 +41,11 @@ export const Threads = () => {
       </div>
 
       <section className="threads-container">
+        <div className="new-thread-container">
+          <Link to="threads/new">
+            <Button primary label="New thread" />
+          </Link>
+        </div>
         <div className="threads-table">
           <div className="header-row">
             <div className="col-1">
