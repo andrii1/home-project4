@@ -11,6 +11,7 @@ import { LoadingContainer } from '../LoadingContainer/LoadingContainer.Container
 import { ErrorContainer } from '../ErrorContainer/ErrorContainer.Container';
 import { getDateFromTimestamp } from '../../utils/getDateFromTimestamp';
 import { Button } from '../../components/Button/Button.component';
+import { useRatings } from '../../utils/hooks/useRatings';
 
 export const Threads = () => {
   const { user } = useUserContext();
@@ -20,6 +21,8 @@ export const Threads = () => {
     fetchedData: threads,
     error,
   } = useFetch(fetchThreads, []);
+
+  const { allRatings } = useRatings(user, 'thread_id', 'ratingsForThreads');
 
   if (loading) {
     return <LoadingContainer />;
@@ -62,6 +65,9 @@ export const Threads = () => {
             </div>
           </div>
           {threads.map((thread) => {
+            const threadRatingsCount = allRatings.filter(
+              (rating) => rating.thread_id === thread.id,
+            ).length;
             return (
               <div className="table-row">
                 <div className="col-1">
@@ -73,7 +79,7 @@ export const Threads = () => {
                 <div className="col-3">
                   {getDateFromTimestamp(thread.created_at)}
                 </div>
-                <div className="col-4">0</div>
+                <div className="col-4">{threadRatingsCount}</div>
               </div>
             );
           })}

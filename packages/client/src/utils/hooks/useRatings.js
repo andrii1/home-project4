@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
 import { apiURL } from '../../apiURL';
 
-export const useRatings = (user) => {
+export const useRatings = (user, fieldName, table = 'ratings') => {
   const [ratings, setRatings] = useState([]);
   const [allRatings, setAllRatings] = useState([]);
 
   const fetchAllRatings = useCallback(async () => {
-    const url = `${apiURL()}/ratings`;
+    const url = `${apiURL()}/${table}`;
     const response = await fetch(url);
     const ratingsData = await response.json();
     setAllRatings(ratingsData);
-  }, []);
+  }, [table]);
 
   const fetchRatings = useCallback(async () => {
     if (!user?.uid) return;
-    const url = `${apiURL()}/ratings`;
+    const url = `${apiURL()}/${table}`;
     const response = await fetch(url, {
       headers: {
         token: `token ${user.uid}`,
@@ -22,7 +22,7 @@ export const useRatings = (user) => {
     });
     const ratingsData = await response.json();
     setRatings(Array.isArray(ratingsData) ? ratingsData : []);
-  }, [user]);
+  }, [user, table]);
 
   useEffect(() => {
     fetchAllRatings();
@@ -32,14 +32,14 @@ export const useRatings = (user) => {
     fetchRatings();
   }, [fetchRatings]);
 
-  const addRating = async (quoteId) => {
-    const response = await fetch(`${apiURL()}/ratings`, {
+  const addRating = async (id) => {
+    const response = await fetch(`${apiURL()}/${table}`, {
       method: 'POST',
       headers: {
         token: `token ${user?.uid}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ quote_id: quoteId }),
+      body: JSON.stringify({ [fieldName]: id }),
     });
     if (response.ok) {
       fetchRatings();
@@ -47,8 +47,8 @@ export const useRatings = (user) => {
     }
   };
 
-  const deleteRating = async (quoteId) => {
-    const response = await fetch(`${apiURL()}/ratings/${quoteId}`, {
+  const deleteRating = async (id) => {
+    const response = await fetch(`${apiURL()}/${table}/${id}`, {
       method: 'DELETE',
       headers: {
         token: `token ${user?.uid}`,

@@ -6,7 +6,7 @@ const HttpError = require('../lib/utils/http-error');
 
 const getThreads = async () => {
   try {
-    const threads = await knex('threads');
+    const threads = await knex('threads').orderBy('created_at', 'desc');
 
     return threads;
   } catch (error) {

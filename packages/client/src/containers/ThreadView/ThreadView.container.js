@@ -34,6 +34,7 @@ import './ThreadView.styles.css';
 import { useUserContext } from '../../userContext';
 import { fetchSingleThread } from '../../utils/http';
 import { useFetch } from '../../utils/hooks/useFetch';
+import { useRatings } from '../../utils/hooks/useRatings';
 
 export const ThreadView = () => {
   const { id } = useParams();
@@ -57,7 +58,11 @@ export const ThreadView = () => {
   // } = useFetch(fetchSingleThread, id);
   // const thread = fetchedData?.[0];
   // console.log(id, thread);
-
+  const { ratings, allRatings, addRating, deleteRating } = useRatings(
+    user,
+    'thread_id',
+    'ratingsForThreads',
+  );
   useEffect(() => {
     async function fetchSingleCode(codeId) {
       const response = await fetch(`${apiURL()}/threads/${codeId}`);
@@ -67,10 +72,6 @@ export const ThreadView = () => {
 
     fetchSingleCode(id);
   }, [id]);
-
-  const navigateBack = () => {
-    navigate(-1);
-  };
 
   const fetchRepliesByThreadId = useCallback(async (threadId) => {
     const response = await fetch(`${apiURL()}/replies?threadId=${threadId}`);
@@ -94,7 +95,6 @@ export const ThreadView = () => {
         thread_id: id,
       }),
     });
-    console.log(response);
 
     if (response.ok) {
       fetchRepliesByThreadId(id);
@@ -149,6 +149,10 @@ export const ThreadView = () => {
     }, 2500);
   };
 
+  const threadRatingsCount = allRatings.filter(
+    (rating) => rating.thread_id === thread.id,
+  ).length;
+
   return (
     <>
       <Helmet>
@@ -157,9 +161,42 @@ export const ThreadView = () => {
       </Helmet>
       <main>
         <section className="container-appview">
-          <div className="header">
+          <div className="header header-thread">
             <h1 className="hero-header">{thread.title}</h1>
-            {thread.description && <p>{thread.description}</p>}
+            {thread.content && <p className="no-margin">{thread.content}</p>}
+            <div className="container-rating">
+              {user && ratings.some((rating) => rating.id === thread.id) ? (
+                <button
+                  type="button"
+                  className="button-rating"
+                  onClick={(event) => deleteRating(thread.id)}
+                >
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {threadRatingsCount}
+                </button>
+              ) : user ? (
+                <button
+                  type="button"
+                  className="button-rating"
+                  onClick={(event) => addRating(thread.id)}
+                >
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {threadRatingsCount}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="button-rating"
+                  onClick={() => {
+                    setOpenModal(true);
+                    setModalTitle('Sign up to vote');
+                  }}
+                >
+                  <FontAwesomeIcon icon={faCaretUp} />
+                  {threadRatingsCount}
+                </button>
+              )}
+            </div>
           </div>
           <div className="container-comments replies-container">
             {replies.length === 0 && (
