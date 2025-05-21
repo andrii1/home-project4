@@ -236,13 +236,16 @@ export const ThreadView = () => {
                 )
               }
             />
+            <Toast open={openToast} overlayClass={`toast ${animation}`}>
+              <span>Copied to clipboard!</span>
+            </Toast>
             <FacebookShareButton url={`/threads/${thread.id}`}>
               <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
             </FacebookShareButton>
             <TwitterShareButton
               url={`https://www.topappdeals.com/threads/${thread.id}`}
-              title={`Check out this referral thread for ${thread.appTitle}: '${thread.title}'`}
-              hashtags={['Codes']}
+              title={`Check out this discussion: '${thread.title}'`}
+              hashtags={['AppDeals']}
             >
               <FontAwesomeIcon className="share-icon" icon={faTwitter} />
             </TwitterShareButton>
@@ -252,13 +255,16 @@ export const ThreadView = () => {
               <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
             </LinkedinShareButton>
             <EmailShareButton
-              subject={`${thread.appTitle} referral thread ${thread.title}`}
-              body={`Use this thread in ${thread.appTitle} app: ${thread.title}`}
+              subject={`${thread.title} - discussion`}
+              body={`Take a look: ${thread.title} https://www.topappdeals.com/threads/${thread.id}`}
               url={`https://www.topappdeals.com/threads/${thread.id}`}
             >
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
+          <Link to="../community">
+            <Button label="Go back" secondary />
+          </Link>
         </section>
         <Modal title={modalTitle} open={openModal} toggle={toggleModal}>
           <Link to="/signup">

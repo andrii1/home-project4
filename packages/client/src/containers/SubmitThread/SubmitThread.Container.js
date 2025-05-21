@@ -110,7 +110,7 @@ export const SubmitThread = () => {
               )}
             </form>
           </div>
-          <Button onClick={navigateBack} label="Back to threads" secondary />
+          <Button onClick={navigateBack} label="Go back" secondary />
         </div>
       </main>
     </>

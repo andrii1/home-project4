@@ -259,6 +259,15 @@ export const Navigation = () => {
                     </NavLink>
                   </li>
                   <li>
+                    <NavLink
+                      to="/community"
+                      onClick={toggleHamburger}
+                      className="nav-link"
+                    >
+                      Community
+                    </NavLink>
+                  </li>
+                  <li>
                     {!user && (
                       <NavLink
                         onClick={() => {
@@ -414,6 +423,11 @@ export const Navigation = () => {
             <li className="hide-on-tablet">
               <NavLink to="/all-apps" className="nav-link">
                 Apps
+              </NavLink>
+            </li>
+            <li className="hide-on-tablet">
+              <NavLink to="/community" className="nav-link">
+                Community
               </NavLink>
             </li>
           </ul>

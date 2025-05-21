@@ -65,7 +65,9 @@ export const Threads = () => {
             return (
               <div className="table-row">
                 <div className="col-1">
-                  <Link to={`threads/${thread.id}`}>{thread.title}</Link>
+                  <Link className="underline" to={`threads/${thread.id}`}>
+                    {thread.title}
+                  </Link>
                 </div>
                 <div className="col-2">0</div>
                 <div className="col-3">
