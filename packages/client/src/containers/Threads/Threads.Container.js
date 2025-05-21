@@ -75,7 +75,7 @@ export const Threads = () => {
                     {thread.title}
                   </Link>
                 </div>
-                <div className="col-2">0</div>
+                <div className="col-2">{thread.views}</div>
                 <div className="col-3">
                   {getDateFromTimestamp(thread.created_at)}
                 </div>

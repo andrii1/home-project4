@@ -51,8 +51,26 @@ const createThreads = async (token, body) => {
   }
 };
 
+// edit
+const editThread = async (updatedThreadId) => {
+  try {
+    if (!updatedThreadId) {
+      throw new HttpError('updatedThreadId should be a number', 400);
+    }
+
+    await knex('threads').where({ id: updatedThreadId }).increment('views', 1);
+
+    return {
+      successful: true,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getThreads,
   getThreadById,
   createThreads,
+  editThread,
 };

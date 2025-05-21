@@ -30,4 +30,11 @@ router.post('/', (req, res, next) => {
     .catch(next);
 });
 
+router.patch('/:id/views', (req, res, next) => {
+  threadsController
+    .editThread(req.params.id)
+    .then((result) => res.json(result))
+    .catch(next);
+});
+
 module.exports = router;

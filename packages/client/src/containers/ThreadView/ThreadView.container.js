@@ -64,13 +64,20 @@ export const ThreadView = () => {
     'ratingsForThreads',
   );
   useEffect(() => {
-    async function fetchSingleCode(codeId) {
-      const response = await fetch(`${apiURL()}/threads/${codeId}`);
+    async function fetchSingleCode(threadId) {
+      const response = await fetch(`${apiURL()}/threads/${threadId}`);
       const appResponse = await response.json();
       setThread(appResponse[0]);
     }
 
+    async function addViewCount(threadId) {
+      const response = await fetch(`${apiURL()}/threads/${threadId}/views`, {
+        method: 'PATCH',
+      });
+    }
+
     fetchSingleCode(id);
+    addViewCount(id);
   }, [id]);
 
   const fetchRepliesByThreadId = useCallback(async (threadId) => {
