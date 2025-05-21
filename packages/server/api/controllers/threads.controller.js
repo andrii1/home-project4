@@ -6,7 +6,10 @@ const HttpError = require('../lib/utils/http-error');
 
 const getThreads = async () => {
   try {
-    const threads = await knex('threads').orderBy('created_at', 'desc');
+    const threads = await knex('threads')
+      .select('threads.*', 'users.id as userId', 'users.full_name as full_name')
+      .join('users', 'threads.user_id', '=', 'users.id')
+      .orderBy('threads.created_at', 'desc');
 
     return threads;
   } catch (error) {
@@ -20,7 +23,9 @@ const getThreadById = async (id) => {
   }
 
   try {
-    const threads = await knex('threads').where({ id });
+    const threads = await knex('threads')
+      .join('users', 'threads.user_id', '=', 'users.id')
+      .where('threads.id', id);
     if (threads.length === 0) {
       throw new Error(`incorrect entry with the id of ${id}`, 404);
     }

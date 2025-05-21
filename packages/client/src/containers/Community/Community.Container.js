@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './Threads.Style.css';
+import './Community.Style.css';
 import { apiURL } from '../../apiURL';
 import { useUserContext } from '../../userContext';
 import { useFetch } from '../../utils/hooks/useFetch';
@@ -13,7 +13,7 @@ import { getDateFromTimestamp } from '../../utils/getDateFromTimestamp';
 import { Button } from '../../components/Button/Button.component';
 import { useRatings } from '../../utils/hooks/useRatings';
 
-export const Threads = () => {
+export const Community = () => {
   const { user } = useUserContext();
 
   const {

@@ -32,7 +32,6 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { apiURL } from '../../apiURL';
 import './ThreadView.styles.css';
 import { useUserContext } from '../../userContext';
-import { fetchSingleThread } from '../../utils/http';
 import { useFetch } from '../../utils/hooks/useFetch';
 import { useRatings } from '../../utils/hooks/useRatings';
 
@@ -64,10 +63,12 @@ export const ThreadView = () => {
     'ratingsForThreads',
   );
   useEffect(() => {
-    async function fetchSingleCode(threadId) {
+    async function fetchSingleThread(threadId) {
       const response = await fetch(`${apiURL()}/threads/${threadId}`);
-      const appResponse = await response.json();
-      setThread(appResponse[0]);
+      const data = await response.json();
+      console.log(data);
+
+      setThread(data[0]);
     }
 
     async function addViewCount(threadId) {
@@ -76,7 +77,7 @@ export const ThreadView = () => {
       });
     }
 
-    fetchSingleCode(id);
+    fetchSingleThread(id);
     addViewCount(id);
   }, [id]);
 
@@ -170,6 +171,7 @@ export const ThreadView = () => {
         <section className="container-appview">
           <div className="header header-thread">
             <h1 className="hero-header">{thread.title}</h1>
+            <i>{thread.full_name}</i>
             {thread.content && <p className="no-margin">{thread.content}</p>}
             <div className="container-rating">
               {user && ratings.some((rating) => rating.id === thread.id) ? (

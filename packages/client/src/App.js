@@ -23,7 +23,7 @@ import { PageNotFound } from './containers/PageNotFound/PageNotFound.Container';
 import { Navigation } from './components/Navigation/Navigation.component';
 import { Footer } from './components/Footer/Footer.component';
 import { UserProvider } from './userContext';
-import { Threads } from './containers/Threads/Threads.Container';
+import { Community } from './containers/Community/Community.Container';
 import { SubmitThread } from './containers/SubmitThread/SubmitThread.Container';
 import { ThreadView } from './containers/ThreadView/ThreadView.container';
 
@@ -61,7 +61,7 @@ function App() {
             <Route exact path="/success" element={<StripeSuccess />} />
             <Route exact path="/cancel" element={<StripeCancel />} />
             <Route exact path="/bookmarks" element={<Bookmarks />} />
-            <Route path="/community" element={<Threads />} />
+            <Route path="/community" element={<Community />} />
             <Route path="/community/threads/new" element={<SubmitThread />} />
             <Route
               exact
