@@ -66,8 +66,6 @@ export const ThreadView = () => {
     async function fetchSingleThread(threadId) {
       const response = await fetch(`${apiURL()}/threads/${threadId}`);
       const data = await response.json();
-      console.log(data);
-
       setThread(data[0]);
     }
 

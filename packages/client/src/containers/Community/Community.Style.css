@@ -37,3 +37,28 @@
 .col-4 {
   flex: 0 0 10%;
 }
+
+@media only screen and (max-width: 992px) {
+  .threads-container {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .col-1 {
+    flex: 0 0 55%;
+  }
+
+  .col-2 {
+    flex: 0 0 15%;
+  }
+
+  .col-3 {
+    flex: 0 0 20%;
+  }
+
+  .col-4 {
+    flex: 0 0 10%;
+  }
+  .new-thread-container {
+    text-align: center;
+  }
+}
