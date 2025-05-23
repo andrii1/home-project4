@@ -510,6 +510,59 @@ const createCodes = async (token, body) => {
   }
 };
 
+const createCodeNode = async (token, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+
+    // Optional: check for existing code
+    const existing = await knex('codes')
+      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .first();
+
+    if (existing) {
+      return {
+        successful: true,
+        existing: true,
+        codeId: existing.id,
+        codeTitle: body.title,
+      };
+    }
+
+    const existingDeal = await knex('deals')
+      .whereRaw('LOWER(title) = ?', [body.topicTitle.toLowerCase()])
+      .first();
+
+    const dealId = existingDeal.id;
+
+    // if (existingDeal) {
+    //   dealId = existingDeal.id;
+    // } else {
+    //   const [newDeal] = await knex('deals').insert({
+    //     title: body.dealTitle,
+    //   });
+    //   dealId = newDeal;
+    // }
+
+    const [codeId] = await knex('codes').insert({
+      title: body.title,
+      deal_id: dealId,
+      user_id: user.id,
+    });
+
+    return {
+      successful: true,
+      codeId,
+      codeTitle: body.title,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getApps,
   getAppsPagination,
@@ -524,4 +577,5 @@ module.exports = {
   createCodes,
   getAppsBySearchTerm,
   getCodesByDeal,
+  createCodeNode,
 };

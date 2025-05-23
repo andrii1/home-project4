@@ -112,11 +112,22 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
   const { token } = req.headers;
-
   codesController
     .createCodes(token, req.body)
     .then((result) => res.json(result))
     .catch(next);
+});
+
+router.post('/node', (req, res) => {
+  const { token } = req.headers;
+  codesController
+    .createCodeNode(token, req.body)
+    .then((result) => res.json(result))
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      res.status(400).send('Bad request').end();
+    });
 });
 
 /**
