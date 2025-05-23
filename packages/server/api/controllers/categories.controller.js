@@ -2,6 +2,7 @@
 Can be deleted as soon as the first real controller is added. */
 
 const knex = require('../../config/db');
+const HttpError = require('../lib/utils/http-error');
 
 const getCategories = async () => {
   try {
@@ -13,6 +14,42 @@ const getCategories = async () => {
       .join('deals', 'deals.app_id', '=', 'apps.id')
       .orderBy('categories.title');
     return categories;
+  } catch (error) {
+    return error.message;
+  }
+};
+
+const createCategory = async (token, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+
+    // Optional: check for existing author
+    const existing = await knex('categories')
+      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .first();
+
+    if (existing) {
+      return {
+        successful: true,
+        existing: true,
+        categoryId: existing.id,
+        categoryTitle: body.title,
+      };
+    }
+
+    const [categoryId] = await knex('categories').insert({
+      title: body.title,
+    });
+
+    return {
+      successful: true,
+      categoryId,
+      categoryTitle: body.title,
+    };
   } catch (error) {
     return error.message;
   }
