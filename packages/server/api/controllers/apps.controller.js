@@ -411,21 +411,76 @@ const getAppById = async (id) => {
 };
 
 // post
-const createApps = async (token, body) => {
+// const createApps = async (token, body) => {
+//   try {
+//     const userUid = token.split(' ')[1];
+//     const user = (await knex('users').where({ uid: userUid }))[0];
+//     if (!user) {
+//       throw new HttpError('User not found', 401);
+//     }
+//     await knex('apps').insert({
+//       title: body.title,
+//       description: body.description,
+//       topic_id: body.topic_id,
+//       user_id: user.id,
+//     });
+//     return {
+//       successful: true,
+//     };
+//   } catch (error) {
+//     return error.message;
+//   }
+// };
+
+const createAppNode = async (token, body) => {
   try {
     const userUid = token.split(' ')[1];
     const user = (await knex('users').where({ uid: userUid }))[0];
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    await knex('apps').insert({
+
+    // Optional: check for existing app
+    const existing = await knex('apps')
+      .whereRaw('LOWER(apple_id) = ?', [body.appAppleId.toLowerCase()])
+      .first();
+
+    if (existing) {
+      return {
+        successful: true,
+        existing: true,
+        appId: existing.id,
+        appTitle: body.title,
+        appAppleId: existing.apple_id,
+      };
+    }
+
+    const existingTopic = await knex('topics')
+      .whereRaw('LOWER(title) = ?', [body.topicTitle.toLowerCase()])
+      .first();
+
+    let topicId;
+
+    if (existingTopic) {
+      topicId = existingTopic.id;
+    } else {
+      const [newTopic] = await knex('topics').insert({
+        title: body.topicTitle,
+      });
+      topicId = newTopic;
+    }
+
+    const [appId] = await knex('apps').insert({
       title: body.title,
+      topic_id: topicId,
+      apple_id: body.apple_id,
       description: body.description,
-      topic_id: body.topic_id,
-      user_id: user.id,
     });
+
     return {
       successful: true,
+      appId,
+      appTitle: body.title,
     };
   } catch (error) {
     return error.message;
@@ -470,6 +525,7 @@ module.exports = {
   getAppsByCategory,
   getAppById,
   getAppsAll,
-  createApps,
+  // createApps,
   editApp,
+  createAppNode,
 };

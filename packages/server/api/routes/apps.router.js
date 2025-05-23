@@ -158,4 +158,16 @@ router.patch('/:id', (req, res, next) => {
     .catch(next);
 });
 
+router.post('/node', (req, res) => {
+  const { token } = req.headers;
+  appsController
+    .createAppNode(token, req.body)
+    .then((result) => res.json(result))
+    .catch((error) => {
+      // eslint-disable-next-line no-console
+      console.log(error);
+      res.status(400).send('Bad request').end();
+    });
+});
+
 module.exports = router;

@@ -2,6 +2,7 @@
 Can be deleted as soon as the first real controller is added. */
 
 const knex = require('../../config/db');
+const HttpError = require('../lib/utils/http-error');
 
 /* Get all topics */
 const getTopics = async () => {
@@ -33,7 +34,60 @@ const getTopicsByCategory = async (category) => {
   }
 };
 
+const createTopic = async (token, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+
+    // Optional: check for existing author
+    const existing = await knex('topics')
+      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .first();
+
+    if (existing) {
+      return {
+        successful: true,
+        existing: true,
+        topicId: existing.id,
+        topicTitle: body.title,
+      };
+    }
+
+    const existingCategory = await knex('categories')
+      .whereRaw('LOWER(title) = ?', [body.categoryTitle.toLowerCase()])
+      .first();
+
+    let categoryId;
+
+    if (existingCategory) {
+      categoryId = existingCategory.id;
+    } else {
+      const [newCategory] = await knex('categories').insert({
+        title: body.categoryTitle,
+      });
+      categoryId = newCategory;
+    }
+
+    const [topicId] = await knex('topics').insert({
+      title: body.title,
+      category_id: categoryId,
+    });
+
+    return {
+      successful: true,
+      topicId,
+      topicTitle: body.title,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getTopics,
   getTopicsByCategory,
+  createTopic,
 };

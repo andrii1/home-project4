@@ -3,6 +3,11 @@ Can be deleted as soon as the first real controller is added. */
 
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // make sure this is set in your .env
+});
 
 const getOppositeOrderDirection = (direction) => {
   let lastItemDirection;
@@ -563,6 +568,72 @@ const createApps = async (token, body) => {
   }
 };
 
+const createDealNode = async (token, body) => {
+  try {
+    const userUid = token.split(' ')[1];
+    const user = (await knex('users').where({ uid: userUid }))[0];
+    if (!user) {
+      throw new HttpError('User not found', 401);
+    }
+
+    // Optional: check for existing app
+    const existing = await knex('deals')
+      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .first();
+
+    if (existing) {
+      return {
+        successful: true,
+        existing: true,
+        dealId: existing.id,
+        dealTitle: body.title,
+      };
+    }
+
+    const existingApp = await knex('apps')
+      .whereRaw('LOWER(apple_id) = ?', [body.appAppleId.toLowerCase()])
+      .first();
+
+    const appId = existingApp.id;
+
+    // if (existingApp) {
+    //   appId = existingApp.id;
+    // } else {
+    //   const [newApp] = await knex('apps').insert({
+    //     title: body.topicTitle,
+    //   });
+    //   topicId = newTopic;
+    // }
+
+    // Generate a short description using OpenAI
+    const prompt = `Write a short, engaging 1 sentence description for deal ${body.title} for app ${existingApp.title}.`;
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
+      max_tokens: 100,
+    });
+
+    const description = completion.choices[0].message.content.trim();
+
+    const [dealId] = await knex('deals').insert({
+      title: body.title,
+      app_id: appId,
+      user_id: user.id,
+      description,
+    });
+
+    return {
+      successful: true,
+      dealId,
+      dealTitle: body.title,
+    };
+  } catch (error) {
+    return error.message;
+  }
+};
+
 module.exports = {
   getApps,
   getAppsPagination,
@@ -579,4 +650,5 @@ module.exports = {
   createApps,
   getAppsBySearchTerm,
   getDealsByApp,
+  createDealNode,
 };

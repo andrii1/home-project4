@@ -57,4 +57,5 @@ const createCategory = async (token, body) => {
 
 module.exports = {
   getCategories,
+  createCategory,
 };
