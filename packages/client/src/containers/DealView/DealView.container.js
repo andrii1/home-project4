@@ -546,7 +546,6 @@ export const DealView = () => {
             </h1>
             <h3>{app?.appTitle} deal</h3>
           </div>
-
           <img
             className={
               appAppStore?.artworkUrl512 ? 'appview-icon' : 'appview-image'
@@ -564,7 +563,6 @@ export const DealView = () => {
             }
           />
           {/* <ImageGallery items={images} /> */}
-
           <div className="container-deal-actions">
             <div className="container-rating">
               Rating
@@ -664,7 +662,6 @@ export const DealView = () => {
               )}
             </div>
           </div>
-
           <div className="container-codes">
             {dealCodes.length > 0 ? (
               <>
@@ -827,7 +824,6 @@ export const DealView = () => {
               </div>
             )}
           </div>
-
           {!user && (
             <div className="container-details cta">
               <div>
@@ -891,7 +887,6 @@ export const DealView = () => {
               )}
             </div>
           )}
-
           <div className="container-comments">
             <h2 className="h-no-margin h-no-margin-bottom">Comments</h2>
             {comments.length === 0 && (
@@ -956,7 +951,6 @@ export const DealView = () => {
               </div>
             )}
           </div>
-
           <div className="container-description">
             <div className="container-title">
               <h2>{app.title}</h2>
@@ -975,7 +969,6 @@ export const DealView = () => {
               </>
             )}
           </div>
-
           <div className="container-details container-badges">
             {topicsFromDeals.length > 0 && (
               <div className="container-tags">
@@ -1066,7 +1059,6 @@ export const DealView = () => {
               </div>
             )}
           </div>
-
           {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {app.appTitle} app</h2>
@@ -1102,11 +1094,18 @@ export const DealView = () => {
           ) : (
             ''
           )}
-
           {app.appAppleId && appAppStore && (
             <div className="container-appview-box">
               <h2>{app?.appTitle} app</h2>
               <p className="app-description">{appAppStore?.description}</p>
+            </div>
+          )}
+          {!app.appAppleId && app.appDescription && (
+            <div className="container-appview-box">
+              <h2>{app?.appTitle} app</h2>
+              <p className="app-description">
+                <Markdown>{app?.appDescription}</Markdown>
+              </p>
             </div>
           )}
           {app.contact && (
@@ -1123,7 +1122,6 @@ export const DealView = () => {
               </div>
             </div>
           )}
-
           {/* <div className="container-related-searches">
             <h3>Related searches</h3>
             <div className="topics-div searches">
@@ -1166,7 +1164,6 @@ export const DealView = () => {
               <FontAwesomeIcon icon={faEnvelope} />
             </EmailShareButton>
           </div>
-
           <ContainerCta user={user} />
           {similarDealsFromApp.length > 0 && (
             <div className="container-alternatives">
