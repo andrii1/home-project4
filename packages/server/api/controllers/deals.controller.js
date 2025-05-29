@@ -1,8 +1,10 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* TODO: This is an example controller to illustrate a server side controller.
 Can be deleted as soon as the first real controller is added. */
 
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
+const { normalizeUrl } = require('../lib/utils/normalizeUrl');
 const OpenAI = require('openai');
 
 const openai = new OpenAI({
@@ -576,7 +578,7 @@ const createDealNode = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
-    // Optional: check for existing app
+    // Optional: check for existing deal
     const existing = await knex('deals')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
       .first();
@@ -590,11 +592,19 @@ const createDealNode = async (token, body) => {
       };
     }
 
-    const existingApp = await knex('apps')
-      .whereRaw('LOWER(apple_id) = ?', [body.appAppleId.toLowerCase()])
-      .first();
-
-    const appId = existingApp.id;
+    let appTitle;
+    if (body.apple_id) {
+      const existingApp = await knex('apps')
+        .whereRaw('LOWER(apple_id) = ?', [body.apple_id.toLowerCase()])
+        .first();
+      appTitle = existingApp.title;
+    } else {
+      const normalizedUrl = normalizeUrl(body.url);
+      const existingApp = await knex('apps')
+        .where({ url: normalizedUrl })
+        .first();
+      appTitle = existingApp.title;
+    }
 
     // if (existingApp) {
     //   appId = existingApp.id;
@@ -605,21 +615,26 @@ const createDealNode = async (token, body) => {
     //   topicId = newTopic;
     // }
 
-    // Generate a short description using OpenAI
-    const prompt = `Write a short, engaging 1 sentence description for deal ${body.title} for app ${existingApp.title}.`;
+    let description;
+    if (body.description) {
+      description = body.description;
+    } else {
+      // Generate a short description using OpenAI
+      const prompt = `Write a short, engaging description for deal "${body.title}" for app "${appTitle}".`;
 
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [{ role: 'user', content: prompt }],
-      temperature: 0.7,
-      max_tokens: 100,
-    });
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 100,
+      });
 
-    const description = completion.choices[0].message.content.trim();
+      description = completion.choices[0].message.content.trim();
+    }
 
     const [dealId] = await knex('deals').insert({
       title: body.title,
-      app_id: appId,
+      app_id: body.app_id,
       user_id: user.id,
       description,
     });

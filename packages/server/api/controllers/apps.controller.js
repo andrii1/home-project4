@@ -1,8 +1,16 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* TODO: This is an example controller to illustrate a server side controller.
 Can be deleted as soon as the first real controller is added. */
 
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
+const { normalizeUrl } = require('../lib/utils/normalizeUrl');
+const fetch = require('node-fetch');
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // make sure this is set in your .env
+});
 
 const getOppositeOrderDirection = (direction) => {
   let lastItemDirection;
@@ -440,47 +448,108 @@ const createAppNode = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
-    // Optional: check for existing app
-    const existing = await knex('apps')
-      .whereRaw('LOWER(apple_id) = ?', [body.appAppleId.toLowerCase()])
-      .first();
+    if (body.apple_id) {
+      // Check for existing app
+      const existingApp = await knex('apps')
+        .whereRaw('LOWER(apple_id) = ?', [body.apple_id.toLowerCase()])
+        .first();
 
-    if (existing) {
+      if (existingApp) {
+        return {
+          successful: true,
+          existing: true,
+          appId: existingApp.id,
+          appTitle: body.title,
+          appAppleId: existingApp.apple_id,
+        };
+      }
+    } else {
+      const normalizedUrl = normalizeUrl(body.url);
+      const existingUrl = await knex('apps')
+        .where({ url: normalizedUrl })
+        .first();
+
+      if (existingUrl) {
+        return {
+          successful: true,
+          existing: true,
+          appId: existingUrl.id,
+          appTitle: body.title,
+          url: normalizedUrl,
+        };
+      }
+    }
+
+    // const existingTopic = await knex('topics')
+    //   .whereRaw('LOWER(title) = ?', [body.topicTitle.toLowerCase()])
+    //   .first();
+
+    // let topicId;
+
+    // if (existingTopic) {
+    //   topicId = existingTopic.id;
+    // } else {
+    //   const [newTopic] = await knex('topics').insert({
+    //     title: body.topicTitle,
+    //   });
+    //   topicId = newTopic;
+    // }
+    if (body.apple_id) {
+      const url = `https://itunes.apple.com/lookup?id=${body.apple_id}`;
+      const response = await fetch(url);
+      const data = await response.json();
+      const { description } = data.results[0];
+      let appId;
+      if (body.url) {
+        const normalizedUrl = normalizeUrl(body.url);
+        [appId] = await knex('apps').insert({
+          title: body.title,
+          topic_id: body.topic_id,
+          apple_id: body.apple_id,
+          description,
+          url: normalizedUrl,
+        });
+      } else {
+        [appId] = await knex('apps').insert({
+          title: body.title,
+          topic_id: body.topic_id,
+          apple_id: body.apple_id,
+          description,
+        });
+      }
+
       return {
         successful: true,
-        existing: true,
-        appId: existing.id,
+        appId,
         appTitle: body.title,
-        appAppleId: existing.apple_id,
+        appAppleId: body.apple_id,
       };
     }
 
-    const existingTopic = await knex('topics')
-      .whereRaw('LOWER(title) = ?', [body.topicTitle.toLowerCase()])
-      .first();
+    // Generate a short description using OpenAI
+    const prompt = `Write a short, engaging description for app "${body.title}" with website "${body.url}".`;
 
-    let topicId;
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
+      max_tokens: 500,
+    });
 
-    if (existingTopic) {
-      topicId = existingTopic.id;
-    } else {
-      const [newTopic] = await knex('topics').insert({
-        title: body.topicTitle,
-      });
-      topicId = newTopic;
-    }
+    const description = completion.choices[0].message.content.trim();
 
     const [appId] = await knex('apps').insert({
       title: body.title,
-      topic_id: topicId,
-      apple_id: body.apple_id,
-      description: body.description,
+      topic_id: body.topic_id,
+      url: body.url,
+      description,
     });
 
     return {
       successful: true,
       appId,
       appTitle: body.title,
+      url: body.url,
     };
   } catch (error) {
     return error.message;

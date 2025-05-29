@@ -56,24 +56,24 @@ const createTopic = async (token, body) => {
       };
     }
 
-    const existingCategory = await knex('categories')
-      .whereRaw('LOWER(title) = ?', [body.categoryTitle.toLowerCase()])
-      .first();
+    // const existingCategory = await knex('categories')
+    //   .whereRaw('LOWER(title) = ?', [body.categoryTitle.toLowerCase()])
+    //   .first();
 
-    let categoryId;
+    // let categoryId;
 
-    if (existingCategory) {
-      categoryId = existingCategory.id;
-    } else {
-      const [newCategory] = await knex('categories').insert({
-        title: body.categoryTitle,
-      });
-      categoryId = newCategory;
-    }
+    // if (existingCategory) {
+    //   categoryId = existingCategory.id;
+    // } else {
+    //   const [newCategory] = await knex('categories').insert({
+    //     title: body.categoryTitle,
+    //   });
+    //   categoryId = newCategory;
+    // }
 
     const [topicId] = await knex('topics').insert({
       title: body.title,
-      category_id: categoryId,
+      category_id: body.category_id,
     });
 
     return {

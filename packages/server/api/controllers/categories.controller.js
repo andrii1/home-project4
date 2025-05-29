@@ -41,9 +41,15 @@ const createCategory = async (token, body) => {
       };
     }
 
-    const [categoryId] = await knex('categories').insert({
+    const insertData = {
       title: body.title,
-    });
+    };
+
+    if (body.category_apple_id) {
+      insertData.category_apple_id = body.category_apple_id;
+    }
+
+    const [categoryId] = await knex('categories').insert(insertData);
 
     return {
       successful: true,

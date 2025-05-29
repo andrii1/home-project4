@@ -518,6 +518,10 @@ const createCodeNode = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
+    if (!body.deal_id) {
+      throw new HttpError('No deal_id', 401);
+    }
+
     // Optional: check for existing code
     const existing = await knex('codes')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
@@ -532,11 +536,11 @@ const createCodeNode = async (token, body) => {
       };
     }
 
-    const existingDeal = await knex('deals')
-      .whereRaw('LOWER(title) = ?', [body.topicTitle.toLowerCase()])
-      .first();
+    // const existingDeal = await knex('deals')
+    //   .whereRaw('LOWER(title) = ?', [body.dealTitle.toLowerCase()])
+    //   .first();
 
-    const dealId = existingDeal.id;
+    // const dealId = existingDeal.id;
 
     // if (existingDeal) {
     //   dealId = existingDeal.id;
@@ -549,7 +553,7 @@ const createCodeNode = async (token, body) => {
 
     const [codeId] = await knex('codes').insert({
       title: body.title,
-      deal_id: dealId,
+      deal_id: body.deal_id,
       user_id: user.id,
     });
 
