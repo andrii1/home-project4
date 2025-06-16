@@ -577,6 +577,8 @@ const createDealNode = async (token, body) => {
     if (!user) {
       throw new HttpError('User not found', 401);
     }
+
+    console.log('Received body:', body);
     if (!body.title) {
       throw new HttpError('Missing deal title', 400);
     }
