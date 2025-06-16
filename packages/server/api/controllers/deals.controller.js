@@ -593,7 +593,7 @@ const createDealNode = async (token, body) => {
     }
 
     let appTitle;
-    if (body.apple_id !== undefined) {
+    if (body.apple_id) {
       const existingApp = await knex('apps')
         .whereRaw('LOWER(apple_id) = ?', [body.apple_id.toLowerCase()])
         .first();

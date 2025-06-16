@@ -448,6 +448,8 @@ const createAppNode = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
+    const normalizedUrl = body.url ? normalizeUrl(body.url) : null;
+
     if (body.apple_id) {
       // Check for existing app
       const existingApp = await knex('apps')
@@ -464,7 +466,6 @@ const createAppNode = async (token, body) => {
         };
       }
     } else {
-      const normalizedUrl = normalizeUrl(body.url);
       const existingUrl = await knex('apps')
         .where({ url: normalizedUrl })
         .first();
@@ -501,7 +502,6 @@ const createAppNode = async (token, body) => {
       const { description } = data.results[0];
       let appId;
       if (body.url) {
-        const normalizedUrl = normalizeUrl(body.url);
         [appId] = await knex('apps').insert({
           title: body.title,
           topic_id: body.topic_id,
@@ -541,7 +541,7 @@ const createAppNode = async (token, body) => {
     const [appId] = await knex('apps').insert({
       title: body.title,
       topic_id: body.topic_id,
-      url: body.url,
+      url: normalizedUrl,
       description,
     });
 
