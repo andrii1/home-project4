@@ -468,6 +468,7 @@ const createAppNode = async (token, body) => {
     } else {
       const existingUrl = await knex('apps')
         .where({ url: normalizedUrl })
+        .orWhere({ title: body.title })
         .first();
 
       if (existingUrl) {
