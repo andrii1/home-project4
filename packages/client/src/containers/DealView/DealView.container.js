@@ -827,10 +827,7 @@ export const DealView = () => {
           {!user && (
             <div className="container-details cta">
               <div>
-                <h2>
-                  🔥 Add your{' '}
-                  {app.title_code ? app.title_code : 'referral code'}
-                </h2>
+                <h2>🔥 Add your {app.appTitle || ''} referral code</h2>
                 <p>Create an account to get started for free</p>
               </div>
               <div>
@@ -858,8 +855,7 @@ export const DealView = () => {
               )}
               <div className="container-header-referral-code">
                 <h2 className="h-no-margin h-no-margin-bottom">
-                  🔥 Add your{' '}
-                  {app.title_code ? app.title_code : 'referral code'}
+                  🔥 Add your {app.appTitle || ''} referral code
                 </h2>
               </div>
 
