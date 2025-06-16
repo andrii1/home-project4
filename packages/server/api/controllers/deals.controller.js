@@ -645,7 +645,7 @@ const createDealNode = async (token, body) => {
       dealTitle: body.title,
     };
   } catch (error) {
-    return { error: error.message, body };
+    return error.message;
   }
 };
 
