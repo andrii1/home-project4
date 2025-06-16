@@ -578,11 +578,6 @@ const createDealNode = async (token, body) => {
       throw new HttpError('User not found', 401);
     }
 
-    console.log('Received body:', body);
-    if (!body.title) {
-      throw new HttpError('Missing deal title', 400);
-    }
-
     // Optional: check for existing deal
     const existing = await knex('deals')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
@@ -598,7 +593,7 @@ const createDealNode = async (token, body) => {
     }
 
     let appTitle;
-    if (body.apple_id) {
+    if (body.apple_id !== undefined) {
       const existingApp = await knex('apps')
         .whereRaw('LOWER(apple_id) = ?', [body.apple_id.toLowerCase()])
         .first();
