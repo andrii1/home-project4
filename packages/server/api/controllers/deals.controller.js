@@ -577,7 +577,9 @@ const createDealNode = async (token, body) => {
     if (!user) {
       throw new HttpError('User not found', 401);
     }
-    console.log('title', body.title);
+    if (!body.title) {
+      throw new HttpError('Missing deal title', 400);
+    }
 
     // Optional: check for existing deal
     const existing = await knex('deals')
