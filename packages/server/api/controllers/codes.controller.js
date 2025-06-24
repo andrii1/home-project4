@@ -553,6 +553,7 @@ const createCodeNode = async (token, body) => {
 
     const [codeId] = await knex('codes').insert({
       title: body.title,
+      url: body.url,
       deal_id: body.deal_id,
       user_id: user.id,
     });
