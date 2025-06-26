@@ -110,7 +110,7 @@ async function insertDeal(title, appleId, appId) {
 const insertApps = async (appsParam) => {
   console.log(appsParam);
   for (const appItem of appsParam) {
-    const appleId = appItem[0].id;
+    const appleId = appItem.id;
 
     const app = await fetchAppByAppleId(appleId);
     const category = app.primaryGenreName;
@@ -139,7 +139,11 @@ const insertApps = async (appsParam) => {
     const newAppTitle = newApp.appTitle;
     console.log('Inserted app:', newApp);
 
-    const deal = `${newAppTitle} referral codes`;
+    // const deal = `${newAppTitle} referral codes`;
+
+    const match = newAppTitle.match(/^(.*?)(?:-|:)/);
+    const appName = match ? match[1].trim() : newAppTitle;
+    const deal = `${appName} referral codes`;
 
     const newDeal = await insertDeal(deal, appleId, appId);
     // const { dealId } = newDeal;
@@ -155,11 +159,14 @@ const insertApps = async (appsParam) => {
 
 Promise.all([
   store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    num: 20,
+    collection: store.collection.TOP_GROSSING_IOS,
+    num: 10,
   }),
 ])
-  .then(insertApps)
+  .then((results) => {
+    const allApps = results.flat(); // flatten arrays into one
+    return insertApps(allApps);
+  })
   .catch(console.log); // eslint-disable-line no-console
 
 // Promise.all([
