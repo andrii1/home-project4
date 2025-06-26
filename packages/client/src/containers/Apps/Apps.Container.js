@@ -15,6 +15,7 @@ import Modal from '../../components/Modal/Modal.Component';
 import Toast from '../../components/Toast/Toast.Component';
 import { useUserContext } from '../../userContext';
 import { capitalize } from '../../utils/capitalize';
+import { removeMarkdown } from '../../utils/removeMarkdown';
 
 import {
   faSearch,
@@ -1132,7 +1133,7 @@ export const Apps = () => {
                   title={
                     pathname.includes('/codes') ? app.dealTitle : app.title
                   }
-                  description={app.description}
+                  description={removeMarkdown(app?.description)}
                   referralCode={pathname.includes('/codes') ? app.title : null}
                   referralCodeOnClick={
                     pathname.includes('/codes')
