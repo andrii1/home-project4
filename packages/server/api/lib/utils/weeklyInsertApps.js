@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable import/no-extraneous-dependencies */
@@ -107,7 +108,7 @@ async function insertDeal(title, appleId, appId) {
 }
 
 const insertApps = async (appsParam) => {
-  // console.log(appsParam);
+  console.log(appsParam);
   for (const appItem of appsParam) {
     const appleId = appItem[0].id;
 
@@ -120,23 +121,23 @@ const insertApps = async (appsParam) => {
 
     const newCategory = await insertCategory(category, categoryAppleId);
     const { categoryId } = newCategory;
-    // console.log('Inserted category:', newCategory);
+    console.log('Inserted category:', newCategory);
 
     const createdTopic = await createTopicWithChatGpt(
       category,
       appTitle,
       appDescription,
     );
-    // console.log('createdTopic', createdTopic);
+    console.log('createdTopic', createdTopic);
 
     const newTopic = await insertTopic(createdTopic, categoryId);
     const { topicId } = newTopic;
-    // console.log('Inserted topic:', newTopic);
+    console.log('Inserted topic:', newTopic);
 
     const newApp = await insertApp({ appTitle, appleId, appUrl, topicId });
     const { appId } = newApp;
     const newAppTitle = newApp.appTitle;
-    // console.log('Inserted app:', newApp);
+    console.log('Inserted app:', newApp);
 
     const deal = `${newAppTitle} referral codes`;
 
