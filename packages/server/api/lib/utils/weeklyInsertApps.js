@@ -15,6 +15,14 @@ const openai = new OpenAI({
 const USER_UID = process.env.USER_UID_DEALS_PROD;
 const API_PATH = process.env.API_PATH_DEALS_PROD;
 
+// const today = new Date();
+// const isSunday = today.getDay() === 0; // 0 = Sunday
+
+// if (!isSunday) {
+//   console.log('Not Sunday, skipping weekly job.');
+//   process.exit(0);
+// }
+
 // fetch helpers
 
 async function fetchAppByAppleId(appleId) {
@@ -157,10 +165,85 @@ const insertApps = async (appsParam) => {
 
 // insertApps(apps).catch(console.error);
 
+// Promise.all([
+//   store.list({
+//     collection: store.collection.TOP_GROSSING_IOS,
+//     num: 10,
+//   }),
+// ])
+//   .then((results) => {
+//     const allApps = results.flat(); // flatten arrays into one
+//     return insertApps(allApps);
+//   })
+//   .catch(console.log); // eslint-disable-line no-console
+
 Promise.all([
   store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    num: 50,
+  }),
+  store.list({
     collection: store.collection.TOP_GROSSING_IOS,
-    num: 10,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_PAID_IOS,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.ENTERTAINMENT,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.FINANCE,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.LIFESTYLE,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.PHOTO_AND_VIDEO,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.SOCIAL_NETWORKING,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.HEALTH_AND_FITNESS,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.MUSIC,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.PRODUCTIVITY,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.BUSINESS,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.TRAVEL,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.UTILITIES,
+    num: 50,
   }),
 ])
   .then((results) => {
@@ -168,75 +251,3 @@ Promise.all([
     return insertApps(allApps);
   })
   .catch(console.log); // eslint-disable-line no-console
-
-// Promise.all([
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_GROSSING_IOS,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_PAID_IOS,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.ENTERTAINMENT,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.FINANCE,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.LIFESTYLE,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.PHOTO_AND_VIDEO,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.SOCIAL_NETWORKING,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.HEALTH_AND_FITNESS,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.MUSIC,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.PRODUCTIVITY,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.BUSINESS,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.TRAVEL,
-//     num: 50,
-//   }),
-//   store.list({
-//     collection: store.collection.TOP_FREE_IOS,
-//     category: store.category.UTILITIES,
-//     num: 50,
-//   }),
-// ])
-//   .then(insertApps)
-//   .catch(console.log); // eslint-disable-line no-console
