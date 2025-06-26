@@ -12,7 +12,7 @@ const openai = new OpenAI({
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_DEALS_PROD;
-const { API_PATH } = process.env;
+const API_PATH = process.env.API_PATH_DEALS_PROD;
 
 // fetch helpers
 
