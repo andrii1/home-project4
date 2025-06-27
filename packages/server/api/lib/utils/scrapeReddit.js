@@ -100,7 +100,7 @@ Another option, if you can't find related iOS app - then try to find appUrl - wh
     appUrl: 'https://example.com'
     dealDescription: '....'
   },
-]; NOW THIS IS IMPORTANT: code is required field, if you can't find code in message - skip it. Also, either appleId or appUrl is required. If neither appleId nor appUrl are not available, just skip. Just return array of objects in json. `;
+]; NOW THIS IS IMPORTANT: code is required field, if you can't find code in message - skip it. Also, either appleId or appUrl is required. If neither appleId nor appUrl are not available, just skip. Just return array of objects in json. Do not include any notes, comments, markdown, or additional explanation — only return a clean JSON array of objects, not wrapped inside any other array. `;
   // console.log(prompt);
 
   const completion = await openai.chat.completions.create({
@@ -116,7 +116,18 @@ Another option, if you can't find related iOS app - then try to find appUrl - wh
   try {
     const repairedJson = jsonrepair(cleanedReply);
     const parsed = JSON.parse(repairedJson);
-    return parsed;
+    // Normalize: if first element is an array and rest is noise, unwrap it
+    if (Array.isArray(parsed) && Array.isArray(parsed[0])) {
+      return parsed[0];
+    }
+
+    // If it's an array of objects, as expected
+    if (Array.isArray(parsed)) {
+      return parsed;
+    }
+
+    console.warn('Unexpected format from OpenAI:', parsed);
+    return [];
   } catch (error) {
     console.error('Failed to parse OpenAI reply:', error);
     console.log('Raw reply was:', rawReply);
