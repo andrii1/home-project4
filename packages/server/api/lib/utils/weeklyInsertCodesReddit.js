@@ -6,7 +6,7 @@
 
 require('dotenv').config();
 const OpenAI = require('openai');
-const formatReddit = require('./tadRedditScraper');
+const formatReddit = require('./scrapeReddit');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // make sure this is set in your .env
