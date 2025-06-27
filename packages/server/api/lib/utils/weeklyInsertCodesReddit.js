@@ -3,8 +3,8 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 // const fetch = require("node-fetch");
-
 require('dotenv').config();
+const fetch = require('node-fetch');
 const OpenAI = require('openai');
 const formatReddit = require('./scrapeReddit');
 
