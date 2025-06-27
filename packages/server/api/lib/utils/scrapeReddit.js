@@ -98,22 +98,15 @@ async function formatReddit() {
   const posts = await fetchRedditWithApi();
   const prompt = `${JSON.stringify(
     posts,
-  )} Here are top Reddit posts about referral codes. You need to change to different format. Two options: you can find related appleId or not. If you can find out that this is a referral code for iOS app, then get appleId. To get appleId, you can find link for app in app store. For example, if app is tiktok, then app store link is 'https://apps.apple.com/us/app/tiktok/id835599320' and appleId will be '835599320'. Only include appleId if you are quite sure. For dealDescription field generate related description based on deal and reddit text. If there is also a referral link, use it in codeUrl field, if not - then don't add it. For codeUrl, I don't need reddit link to the post. For codeUrl, I also don't need link to main website. Only include codeUrl, if it is specifically referral link. Use this format: [
+  )} Here are top Reddit posts about referral codes. You need to change to different format. 'code' field is a referral code from the user.
+Also find appUrl - which is an official website of the app. For dealDescription field generate related description based on deal and reddit text. If there is also a referral link, use it in codeUrl field, if not - then don't add it. For codeUrl, I don't need reddit link to the post. For codeUrl, I also don't need link to main website. Only include codeUrl, if it is specifically referral link. For codeUrl, I also don't need link to main website. Only include codeUrl, if it is specifically referral link. For appUrl, don't include link to reddit. Use this format: [
   {
     code: "3SKU73",
-    codeUrl: '',
-    appleId: "1578068536",
-    dealDescription: '....'
-  },
-];
-Another option, if you can't find related iOS app - then try to find appUrl - which is a website. If there is also a referral link, use it in codeUrl field, if not - then don't add it. For codeUrl, I also don't need link to main website. Only include codeUrl, if it is specifically referral link. For appUrl, don't include link to reddit. I need link to app or website related to referral code, if possible. [
-  {
-    code: "3SKU73",
-    codeUrl: '',
+    codeUrl: 'https://example.com/invite/YthS4h',
     appUrl: 'https://example.com'
     dealDescription: '....'
   },
-]; NOW THIS IS IMPORTANT: code is required field, if you can't find code in message - skip it. Also, either appleId or appUrl is required. If neither appleId nor appUrl are not available, just skip. Just return array of objects in json. Do not include any notes, comments, markdown, or additional explanation — only return a clean JSON array of objects, not wrapped inside any other array. `;
+]; NOW THIS IS IMPORTANT: code is required field, if you can't find code in message - skip it. Also, appUrl is required. If you can't find appUrl, just skip. Just return array of objects in json. Do not include any notes, comments, markdown, or additional explanation — only return a clean JSON array of objects, not wrapped inside any other array. `;
   // console.log(prompt);
 
   const completion = await openai.chat.completions.create({

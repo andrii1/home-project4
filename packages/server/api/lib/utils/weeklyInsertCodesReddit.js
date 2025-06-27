@@ -235,7 +235,7 @@ const insertCodes = async () => {
     const { topicId } = newTopic;
     console.log('Inserted topic:', newTopic);
 
-    const newApp = await insertApp({ appTitle, appleId, appUrl, topicId });
+    const newApp = await insertApp({ appTitle, appUrl, topicId });
     const { appId } = newApp;
     const newAppTitle = newApp.appTitle;
     console.log('Inserted app:', newApp);
