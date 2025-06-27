@@ -207,22 +207,19 @@ const insertCodes = async () => {
   for (const codeItem of codes) {
     const { code, codeUrl, appleId, appUrl, dealTitle, dealDescription } =
       codeItem;
-    let app;
-    let category;
-    let categoryAppleId;
-    let appTitle;
-    let appDescription;
 
-    if (appleId) {
-      app = await fetchAppByAppleId(appleId);
-      category = app.primaryGenreName;
-      categoryAppleId = app.primaryGenreId;
-      appTitle = app.trackName;
-      appDescription = app.description;
-    } else {
-      ({ category, appTitle, appDescription } =
-        await createWebsiteDataWithChatGpt(appUrl));
-    }
+    // if (appleId) {
+    //   app = await fetchAppByAppleId(appleId);
+    //   category = app.primaryGenreName;
+    //   categoryAppleId = app.primaryGenreId;
+    //   appTitle = app.trackName;
+    //   appDescription = app.description;
+    // } else {
+
+    // }
+
+    const { category, appTitle, appDescription } =
+      await createWebsiteDataWithChatGpt(appUrl);
 
     const newCategory = await insertCategory(category, categoryAppleId);
     const { categoryId } = newCategory;
