@@ -16,6 +16,14 @@ const openai = new OpenAI({
 const USER_UID = process.env.USER_UID_DEALS_PROD;
 const API_PATH = process.env.API_PATH_DEALS_PROD;
 
+const today = new Date();
+const isSunday = today.getDay() === 0; // 0 = Sunday
+
+if (!isSunday) {
+  console.log('Not Sunday, skipping weekly job.');
+  process.exit(0);
+}
+
 // const codes = [
 //   {
 //     code: "ieydypd",
@@ -161,19 +169,26 @@ async function insertApp({ appTitle, appleId, appUrl, topicId }) {
 }
 
 async function insertDeal({ deal, dealDescription, appleId, appUrl, appId }) {
+  const body = {
+    title: deal,
+    app_id: appId,
+    url: appUrl,
+  };
+
+  if (appleId) {
+    body.apple_id = appleId;
+  }
+
+  if (dealDescription) {
+    body.description = dealDescription;
+  }
   const res = await fetch(`${API_PATH}/deals/node`, {
     method: 'POST',
     headers: {
       token: `token ${USER_UID}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({
-      title: deal,
-      description: dealDescription,
-      apple_id: appleId,
-      url: appUrl,
-      app_id: appId,
-    }),
+    body: JSON.stringify(body),
   });
   const data = await res.json();
   return data; // assume it returns { id, full_name }
