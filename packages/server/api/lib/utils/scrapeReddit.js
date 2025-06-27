@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable new-cap */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-console */
@@ -37,19 +39,30 @@ const listOfSubreddits = [
 ];
 
 async function fetchRedditWithApi() {
-  const posts = await reddit
-    .getSubreddit('referralcodes')
-    .getTop({ time: 'week', limit: 7 });
-  const postsMap = posts.map((post) => ({
-    title: post.title,
-    url: `https://reddit.com${post.permalink}`,
-    author: post.author.name,
-    selftext: post.selftext,
-    upvotes: post.ups,
-    created_utc: post.created_utc,
-  }));
-  console.log(postsMap);
-  return postsMap;
+  const allPosts = [];
+
+  for (const subredditName of listOfSubreddits) {
+    try {
+      const subreddit = await reddit.getSubreddit(subredditName);
+      const posts = await subreddit.getTop({ time: 'week', limit: 10 });
+
+      const postsMap = posts.map((post) => ({
+        title: post.title,
+        url: `https://reddit.com${post.permalink}`,
+        author: post.author.name,
+        selftext: post.selftext,
+        upvotes: post.ups,
+        created_utc: post.created_utc,
+        subreddit: subredditName,
+      }));
+
+      allPosts.push(...postsMap);
+    } catch (err) {
+      console.error(`Failed to fetch from r/${subredditName}:`, err.message);
+    }
+  }
+
+  return allPosts;
 }
 
 // async function fetchReddit() {
