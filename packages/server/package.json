@@ -28,6 +28,7 @@
     "mysql2": "^2.3.3",
     "openai": "^4.103.0",
     "pg": "^8.10.0",
+    "snoowrap": "^1.23.0",
     "stripe": "^13.3.0",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.3.0",
