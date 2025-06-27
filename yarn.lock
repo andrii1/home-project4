@@ -16882,6 +16882,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonrepair@npm:^3.12.0":
+  version: 3.12.0
+  resolution: "jsonrepair@npm:3.12.0"
+  bin:
+    jsonrepair: bin/cli.js
+  checksum: 2575d9ae927635ed796020e7b18c5cdcf65e4303ff33a32ba3ce59618f8f5f8eb95a9f67b9bf6137faafde462d9db4865a2bea3f1983aeedf7229ef0e3df6866
+  languageName: node
+  linkType: hard
+
 "jsprim@npm:^1.2.2":
   version: 1.4.2
   resolution: "jsprim@npm:1.4.2"
@@ -22777,6 +22786,7 @@ __metadata:
     eslint-plugin-react-hooks: ^4.4.0
     express: ~4.17.3
     flatted: ^3.2.5
+    jsonrepair: ^3.12.0
     knex: ^2.4.2
     moment-timezone: ^0.5.35
     morgan: ~1.9.1
