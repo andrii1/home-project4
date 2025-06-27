@@ -108,14 +108,14 @@ async function createWebsiteDataWithChatGpt(url) {
   return { category, appTitle, appDescription };
 }
 
-async function insertCategory(title, categoryAppleId) {
+async function insertCategory(title) {
   const res = await fetch(`${API_PATH}/categories`, {
     method: 'POST',
     headers: {
       token: `token ${USER_UID}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ title, category_apple_id: categoryAppleId }),
+    body: JSON.stringify({ title }),
   });
   const data = await res.json();
   return data; // assume it returns { id, full_name }
@@ -221,7 +221,7 @@ const insertCodes = async () => {
     const { category, appTitle, appDescription } =
       await createWebsiteDataWithChatGpt(appUrl);
 
-    const newCategory = await insertCategory(category, categoryAppleId);
+    const newCategory = await insertCategory(category);
     const { categoryId } = newCategory;
     console.log('Inserted category:', newCategory);
 
