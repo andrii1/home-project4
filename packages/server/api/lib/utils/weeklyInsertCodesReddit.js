@@ -267,7 +267,6 @@ const insertCodes = async () => {
     const newDeal = await insertDeal({
       deal,
       dealDescription,
-      appleId,
       appUrl,
       appId,
     });
