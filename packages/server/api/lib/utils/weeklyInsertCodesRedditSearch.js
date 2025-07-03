@@ -7,7 +7,7 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
 const OpenAI = require('openai');
-const formatReddit = require('./scrapeReddit');
+const formatReddit = require('./scrapeRedditSearch');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // make sure this is set in your .env
@@ -54,13 +54,6 @@ async function fetchExistingTopics() {
   const data = await res.json();
   const topics = data.map((topic) => topic.title);
   return topics;
-}
-
-async function fetchAppByAppleId(appleId) {
-  const url = `https://itunes.apple.com/lookup?id=${appleId}`;
-  const response = await fetch(url);
-  const data = await response.json();
-  return data.results[0];
 }
 
 async function createTopicWithChatGpt(category, app, appDescription) {
