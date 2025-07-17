@@ -36,6 +36,7 @@ const listOfSubreddits = [
   'ReferalLinks',
   'Referral',
   'Referrals',
+  'ReferralAffiliateCode',
 ];
 
 async function fetchRedditWithApi() {

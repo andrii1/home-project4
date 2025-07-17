@@ -16,10 +16,10 @@ const USER_UID = process.env.USER_UID_DEALS_PROD;
 const API_PATH = process.env.API_PATH_DEALS_PROD;
 
 const today = new Date();
-const isSunday = today.getDay() === 0; // 0 = Sunday
+const isMonday = today.getDay() === 1; // 1 = Monday
 
-if (!isSunday) {
-  console.log('Not Sunday, skipping weekly job.');
+if (!isMonday) {
+  console.log('Not Monday, skipping weekly job.');
   process.exit(0);
 }
 
@@ -180,70 +180,48 @@ const insertApps = async (appsParam) => {
 Promise.all([
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    num: 200,
-  }),
-  store.list({
-    collection: store.collection.TOP_GROSSING_IOS,
-    num: 100,
-  }),
-  store.list({
-    collection: store.collection.TOP_PAID_IOS,
-    num: 100,
+    category: store.category.BOOKS,
+    num: 50,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.ENTERTAINMENT,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.FINANCE,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.LIFESTYLE,
+    category: store.category.EDUCATION,
     num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.PHOTO_AND_VIDEO,
+    category: store.category.FOOD_AND_DRINK,
+    num: 100,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.GAMES,
     num: 150,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.SOCIAL_NETWORKING,
+    category: store.category.MEDICAL,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.REFERENCE,
+    num: 50,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.SHOPPING,
+    num: 100,
+  }),
+  store.list({
+    collection: store.collection.TOP_FREE_IOS,
+    category: store.category.SPORTS,
     num: 150,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.HEALTH_AND_FITNESS,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.MUSIC,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.PRODUCTIVITY,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.BUSINESS,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.TRAVEL,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.UTILITIES,
-    num: 150,
+    category: store.category.WEATHER,
+    num: 50,
   }),
 ])
   .then((results) => {

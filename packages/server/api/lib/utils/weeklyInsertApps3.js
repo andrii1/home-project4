@@ -16,10 +16,10 @@ const USER_UID = process.env.USER_UID_DEALS_PROD;
 const API_PATH = process.env.API_PATH_DEALS_PROD;
 
 const today = new Date();
-const isSunday = today.getDay() === 0; // 0 = Sunday
+const isTuesday = today.getDay() === 2; // 2 = Tuesday
 
-if (!isSunday) {
-  console.log('Not Sunday, skipping weekly job.');
+if (!isTuesday) {
+  console.log('Not Tuesday, skipping weekly job.');
   process.exit(0);
 }
 
@@ -179,71 +179,54 @@ const insertApps = async (appsParam) => {
 
 Promise.all([
   store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    num: 200,
-  }),
-  store.list({
-    collection: store.collection.TOP_GROSSING_IOS,
+    collection: store.collection.TOP_MAC,
     num: 100,
   }),
   store.list({
-    collection: store.collection.TOP_PAID_IOS,
+    collection: store.collection.TOP_FREE_MAC,
     num: 100,
   }),
   store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.ENTERTAINMENT,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.FINANCE,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.LIFESTYLE,
+    collection: store.collection.TOP_FREE_IPAD,
     num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.PHOTO_AND_VIDEO,
-    num: 150,
+    country: 'gb',
+    num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.SOCIAL_NETWORKING,
     num: 150,
+    country: 'gb',
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.HEALTH_AND_FITNESS,
+    category: store.category.LIFESTYLE,
     num: 150,
+    country: 'gb',
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.MUSIC,
+    category: store.category.PHOTO_AND_VIDEO,
     num: 150,
+    country: 'gb',
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.PRODUCTIVITY,
-    num: 150,
+    country: 'de',
+    num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.BUSINESS,
-    num: 150,
+    country: 'in',
+    num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
-    category: store.category.TRAVEL,
-    num: 150,
-  }),
-  store.list({
-    collection: store.collection.TOP_FREE_IOS,
-    category: store.category.UTILITIES,
-    num: 150,
+    country: 'sg',
+    num: 100,
   }),
 ])
   .then((results) => {

@@ -166,7 +166,6 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/node', (req, res) => {
-  console.log('Incoming body:', req.body);
   const { token } = req.headers;
   dealsController
     .createDealNode(token, req.body)
