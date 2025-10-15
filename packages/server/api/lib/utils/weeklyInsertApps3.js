@@ -179,32 +179,28 @@ const insertApps = async (appsParam) => {
 
 Promise.all([
   store.list({
-    collection: store.collection.TOP_MAC,
-    num: 100,
-  }),
-  store.list({
     collection: store.collection.TOP_FREE_MAC,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IPAD,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     country: 'gb',
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.SOCIAL_NETWORKING,
-    num: 150,
+    num: 200,
     country: 'gb',
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.LIFESTYLE,
-    num: 150,
+    num: 200,
     country: 'gb',
   }),
   store.list({
@@ -216,17 +212,17 @@ Promise.all([
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     country: 'de',
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     country: 'in',
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     country: 'sg',
-    num: 100,
+    num: 200,
   }),
 ])
   .then((results) => {

@@ -67,7 +67,7 @@ export const Apps = () => {
   const [dealsTrending, setDealsTrending] = useState({});
   const [error, setError] = useState(false);
   const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
-  const [sortOrder, setSortOrder] = useState('Recent');
+  const [sortOrder, setSortOrder] = useState('Trending');
   const [orderByTrending, setOrderByTrending] = useState(false);
   const [codesPage, setCodesPage] = useState(false);
 
@@ -805,7 +805,13 @@ export const Apps = () => {
   });
 
   let sortOptions;
-  if (!appIdParam && !categoryIdParam && !searchTermIdParam && !topicIdParam) {
+  if (
+    !appIdParam &&
+    !categoryIdParam &&
+    !searchTermIdParam &&
+    !topicIdParam &&
+    !searchParam
+  ) {
     sortOptions = ['Recent', 'Trending', 'A-Z', 'Z-A'];
   } else {
     sortOptions = ['Recent', 'A-Z', 'Z-A'];

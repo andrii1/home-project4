@@ -181,32 +181,32 @@ Promise.all([
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.BOOKS,
-    num: 50,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.EDUCATION,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.FOOD_AND_DRINK,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.GAMES,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.MEDICAL,
-    num: 50,
+    num: 100,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.REFERENCE,
-    num: 50,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
@@ -216,12 +216,12 @@ Promise.all([
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.SPORTS,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.WEATHER,
-    num: 50,
+    num: 200,
   }),
 ])
   .then((results) => {

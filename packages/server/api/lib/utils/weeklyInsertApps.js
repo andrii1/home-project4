@@ -184,21 +184,21 @@ Promise.all([
   }),
   store.list({
     collection: store.collection.TOP_GROSSING_IOS,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_PAID_IOS,
-    num: 100,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.ENTERTAINMENT,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.FINANCE,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
@@ -208,42 +208,42 @@ Promise.all([
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.PHOTO_AND_VIDEO,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.SOCIAL_NETWORKING,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.HEALTH_AND_FITNESS,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.MUSIC,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.PRODUCTIVITY,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.BUSINESS,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.TRAVEL,
-    num: 150,
+    num: 200,
   }),
   store.list({
     collection: store.collection.TOP_FREE_IOS,
     category: store.category.UTILITIES,
-    num: 150,
+    num: 200,
   }),
 ])
   .then((results) => {
