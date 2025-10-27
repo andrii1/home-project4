@@ -3,8 +3,6 @@
 require('dotenv').config();
 const store = require('app-store-scraper');
 
-const queriesList = ['one', 'ai'];
-
 async function searchApps(queries) {
   const allApps = [];
 

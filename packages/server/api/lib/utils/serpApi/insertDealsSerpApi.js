@@ -15,7 +15,9 @@ const insertDeals = require('./insertDeals');
 const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-const allowedDays = [0, 3, 5]; // Sunday, Wednesday, Friday
+const allowedDays = [0, 1, 3, 4, 5, 6]; // Sunday, Wednesday, Friday
+const allowedDaysWeek = [0, 3, 5];
+const allowedDaysDay = [1, 4, 6];
 
 if (!allowedDays.includes(todayDay)) {
   console.log('Not an allowed day, skipping job.');
@@ -30,7 +32,7 @@ const API_PATH = process.env.API_PATH_DEALS_PROD;
 // fetch helpers
 
 async function insertQuery(queryObj) {
-  const res = await fetch(`${API_PATH}/queriesMrhack`, {
+  const res = await fetch(`${API_PATH}/queries`, {
     method: 'POST',
     headers: {
       token: `token ${USER_UID}`,
@@ -42,7 +44,15 @@ async function insertQuery(queryObj) {
 }
 
 const createPostMain = async () => {
-  const queries = await fetchSerpApi('7', true);
+  let queries;
+  if (allowedDaysWeek.includes(todayDay)) {
+    queries = await fetchSerpApi('7');
+  }
+
+  if (allowedDaysDay.includes(todayDay)) {
+    queries = await fetchSerpApi('1');
+  }
+
   console.log('queries', queries);
   const dedupedQueries = [];
   for (const query of queries) {
@@ -53,9 +63,7 @@ const createPostMain = async () => {
       continue;
     }
 
-    if (query.source.includes('app')) {
-      dedupedQueries.push(query.title);
-    }
+    dedupedQueries.push(query.title);
   }
 
   const apps = await searchApps(dedupedQueries);
