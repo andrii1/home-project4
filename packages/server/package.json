@@ -35,6 +35,9 @@
     "swagger-ui-express": "^4.3.0",
     "winston": "^3.7.2"
   },
+  "resolutions": {
+    "jwa": "1.4.2"
+  },
   "devDependencies": {
     "eslint": "^8.14.0",
     "eslint-config-airbnb": "^19.0.4",
