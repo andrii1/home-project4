@@ -5,6 +5,7 @@ Can be deleted as soon as the first real controller is added. */
 const knex = require('../../config/db');
 const HttpError = require('../lib/utils/http-error');
 const { normalizeUrl } = require('../lib/utils/normalizeUrl');
+const { getAppleId } = require('../lib/utils/getAppleIdByUrl');
 const fetch = require('node-fetch');
 const OpenAI = require('openai');
 
@@ -450,10 +451,12 @@ const createAppNode = async (token, body) => {
 
     const normalizedUrl = body.url ? normalizeUrl(body.url) : null;
 
-    if (body.apple_id) {
+    const appleId = await getAppleId(body);
+
+    if (appleId) {
       // Check for existing app
       const existingApp = await knex('apps')
-        .whereRaw('LOWER(apple_id) = ?', [body.apple_id.toLowerCase()])
+        .whereRaw('LOWER(apple_id) = ?', [String(appleId).toLowerCase()])
         .first();
 
       if (existingApp) {
@@ -496,8 +499,8 @@ const createAppNode = async (token, body) => {
     //   });
     //   topicId = newTopic;
     // }
-    if (body.apple_id) {
-      const url = `https://itunes.apple.com/lookup?id=${body.apple_id}`;
+    if (appleId) {
+      const url = `https://itunes.apple.com/lookup?id=${appleId}`;
       const response = await fetch(url);
       const data = await response.json();
       const { description } = data.results[0];
@@ -506,7 +509,7 @@ const createAppNode = async (token, body) => {
         [appId] = await knex('apps').insert({
           title: body.title,
           topic_id: body.topic_id,
-          apple_id: body.apple_id,
+          apple_id: appleId,
           description,
           url: normalizedUrl,
         });
@@ -514,7 +517,7 @@ const createAppNode = async (token, body) => {
         [appId] = await knex('apps').insert({
           title: body.title,
           topic_id: body.topic_id,
-          apple_id: body.apple_id,
+          apple_id: appleId,
           description,
         });
       }
@@ -523,7 +526,7 @@ const createAppNode = async (token, body) => {
         successful: true,
         appId,
         appTitle: body.title,
-        appAppleId: body.apple_id,
+        appAppleId: appleId,
       };
     }
 
