@@ -90,6 +90,7 @@ export const DealView = () => {
     addLike: addNegativeLike,
     deleteLike: deleteNegativeLike,
   } = useLikes(user, 'negativeLikes');
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
 
   useEffect(() => {
     async function fetchSingleApp(appId) {
@@ -501,6 +502,11 @@ export const DealView = () => {
     navigate(-1);
   };
 
+  useEffect(() => {
+    // React Router v6+ keeps track of navigation index
+    setHasPreviousPage(window.history.state && window.history.state.idx > 0);
+  }, []);
+
   if (error) {
     return (
       <>
@@ -539,13 +545,15 @@ export const DealView = () => {
       <main>
         <section className="container-appview">
           <div className="header">
-            <button
-              type="button"
-              onClick={handleGoBack}
-              className="btn-no-style"
-            >
-              ← Go back
-            </button>
+            {hasPreviousPage && (
+              <button
+                type="button"
+                onClick={handleGoBack}
+                className="btn-no-style"
+              >
+                ← Go back
+              </button>
+            )}
 
             <h1 className="hero-header">
               {`${app?.title}
