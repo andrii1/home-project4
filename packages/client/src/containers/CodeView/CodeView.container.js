@@ -74,7 +74,7 @@ export const CodeView = () => {
       const appsResponse = await response.json();
 
       const similarCodesArray = appsResponse
-        .filter((item) => item.appTopicId === code.topic_id)
+        .filter((item) => item.topic_id === code.topic_id)
         .filter((item) => item.appId !== code.appId)
         .filter((item) => item.id !== code.id);
       setSimilarCodes(similarCodesArray);

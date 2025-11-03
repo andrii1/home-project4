@@ -161,7 +161,7 @@ export const DealView = () => {
         const response = await fetch(`${apiURL()}/deals`);
         const appsResponse = await response.json();
         const similarAppsArray = appsResponse
-          .filter((item) => item.appTopicId === app.topic_id)
+          .filter((item) => item.topic_id === app.topic_id)
           .filter((item) => item.app_id !== app.app_id)
           .filter((item) => item.id !== app.id);
         setSimilarApps(similarAppsArray);

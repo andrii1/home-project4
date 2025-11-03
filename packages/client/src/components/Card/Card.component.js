@@ -86,13 +86,12 @@ export const Card = ({
       <div className={`card-body ${listCard ? 'list' : ''}`}>
         <div className="card-header">
           <div className="card-title">
-            <Link to={cardUrl} target="_blank">
+            <Link to={cardUrl}>
               <h2>{title}</h2>
             </Link>
-            <Link to={cardUrl} target="_blank">
+            <Link to={cardUrl}>
               <FontAwesomeIcon
                 className="icon-card"
-                icon={faArrowUpRightFromSquare}
                 style={{ color: '#e5989b' }}
                 size="lg"
               />
