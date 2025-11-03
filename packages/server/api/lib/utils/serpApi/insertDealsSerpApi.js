@@ -15,9 +15,7 @@ const insertDeals = require('./insertDeals');
 const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-const allowedDays = [0, 1, 3, 4, 5, 6];
-const allowedDaysWeek = [0, 3, 5];
-const allowedDaysDay = [1, 4, 6];
+const allowedDays = [0, 3, 5];
 
 if (!allowedDays.includes(todayDay)) {
   console.log('Not an allowed day, skipping job.');
@@ -44,14 +42,7 @@ async function insertQuery(queryObj) {
 }
 
 const createPostMain = async () => {
-  let queries;
-  if (allowedDaysWeek.includes(todayDay)) {
-    queries = await fetchSerpApi('7');
-  }
-
-  if (allowedDaysDay.includes(todayDay)) {
-    queries = await fetchSerpApi('1');
-  }
+  const queries = await fetchSerpApi('7');
 
   console.log('queries', queries);
   const dedupedQueries = [];

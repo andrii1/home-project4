@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { Categories } from './containers/Categories/Categories.Container';
 import { AllApps } from './containers/AllApps/AllApps.Container';
-import { Apps } from './containers/Apps/Apps.Container';
+import { Deals } from './containers/Deals/Deals.Container';
 import { LandingPage } from './containers/LandingPage/LandingPage.Container';
 import TestPage from './containers/TestPage/TestPage.Container';
 import { Prompts } from './containers/Prompts/Prompts.Container';
@@ -34,27 +34,35 @@ function App() {
         <UserProvider>
           <Navigation />
           <Routes>
-            <Route path="/" element={<Apps />} />
-            <Route path="/codes" element={<Apps />} />
+            <Route path="/" element={<Deals />} />
+            <Route path="/codes" element={<Deals />} />
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/test" element={<Prompts />} />
             <Route path="/all-apps" element={<AllApps />} />
             <Route path="/categories" element={<Categories />} />
             <Route exact path="/deals/:id" element={<DealView />} />
             <Route exact path="/apps/:id" element={<AppView />} />
-            <Route exact path="/deals/topic/:topicIdParam" element={<Apps />} />
+            <Route
+              exact
+              path="/deals/topic/:topicIdParam"
+              element={<Deals />}
+            />
             <Route
               exact
               path="/deals/category/:categoryIdParam"
-              element={<Apps />}
+              element={<Deals />}
             />
             <Route
               exact
               path="/deals/searchterm/:searchTermIdParam"
-              element={<Apps />}
+              element={<Deals />}
             />
-            <Route exact path="/deals/search/:searchParam" element={<Apps />} />
-            <Route exact path="/deals/app/:appIdParam" element={<Apps />} />
+            <Route
+              exact
+              path="/deals/search/:searchParam"
+              element={<Deals />}
+            />
+            <Route exact path="/deals/app/:appIdParam" element={<Deals />} />
             <Route exact path="/codes/:id" element={<CodeView />} />
             <Route exact path="/faq" element={<Faq />} />
             <Route exact path="/codes/new" element={<Submit />} />

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './Apps.Style.css';
+import './Deals.Style.css';
 import { apiURL } from '../../apiURL';
 import { Card } from '../../components/Card/Card.component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,7 +26,7 @@ import {
   faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 
-export const Apps = () => {
+export const Deals = () => {
   const { user } = useUserContext();
   const location = useLocation();
   const { pathname } = location;
