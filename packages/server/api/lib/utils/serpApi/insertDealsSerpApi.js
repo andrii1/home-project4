@@ -42,7 +42,19 @@ async function insertQuery(queryObj) {
 }
 
 const createPostMain = async () => {
-  const queries = await fetchSerpApi('7');
+  // const queries = await fetchSerpApi('7');
+  const queries = [
+    {
+      title: 'thriftbooks promo code',
+      value: 100,
+      source: 'promo code, daily, Books & Literature',
+    },
+    {
+      title: 'blick promo code',
+      value: 0.6,
+      source: 'promo code, daily, Visual Art & Design',
+    },
+  ];
 
   console.log('queries', queries);
   const dedupedQueries = [];
