@@ -23,6 +23,7 @@ const negativeLikes = require('./negativeLikes.router');
 const threads = require('./threads.router');
 const replies = require('./replies.router');
 const ratingsForThreads = require('./ratingsForThreads.router');
+const queries = require('./queries.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -73,5 +74,6 @@ router.use('/negativeLikes', negativeLikes);
 router.use('/threads', threads);
 router.use('/replies', replies);
 router.use('/ratingsForThreads', ratingsForThreads);
+router.use('/queries', queries);
 
 module.exports = router;

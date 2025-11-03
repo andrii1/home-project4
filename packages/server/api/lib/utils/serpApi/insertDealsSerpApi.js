@@ -15,7 +15,7 @@ const insertDeals = require('./insertDeals');
 const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-const allowedDays = [0, 3, 5];
+const allowedDays = [0, 1, 3, 5];
 
 if (!allowedDays.includes(todayDay)) {
   console.log('Not an allowed day, skipping job.');
@@ -25,6 +25,7 @@ if (!allowedDays.includes(todayDay)) {
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_DEALS_PROD;
 const API_PATH = process.env.API_PATH_DEALS_PROD;
+
 // WordPress Credentials (from .env)
 
 // fetch helpers
@@ -45,14 +46,24 @@ const createPostMain = async () => {
   // const queries = await fetchSerpApi('7');
   const queries = [
     {
-      title: 'thriftbooks promo code',
+      title: 'walgreens photo coupons',
       value: 100,
-      source: 'promo code, daily, Books & Literature',
+      source: 'promo code, daily, Business & Industrial',
     },
     {
-      title: 'blick promo code',
-      value: 0.6,
-      source: 'promo code, daily, Visual Art & Design',
+      title: 'clt airport parking promo code',
+      value: 4.5,
+      source: 'promo code, daily, Business & Industrial',
+    },
+    {
+      title: 'shutterfly',
+      value: 1.6,
+      source: 'promo code, daily, Business & Industrial',
+    },
+    {
+      title: 'subway promo code',
+      value: 1.3,
+      source: 'promo code, daily, Business & Industrial',
     },
   ];
 

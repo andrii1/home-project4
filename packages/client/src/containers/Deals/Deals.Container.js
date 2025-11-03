@@ -979,8 +979,6 @@ export const Deals = () => {
     }, 2500);
   };
 
-  console.log('apps', apps.data);
-
   return (
     <main>
       <Helmet>

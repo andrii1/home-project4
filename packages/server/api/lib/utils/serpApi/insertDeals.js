@@ -107,7 +107,7 @@ async function insertDeal(title, appleId, appId) {
 }
 
 const insertDeals = async (appsParam) => {
-  console.log(appsParam);
+  // console.log(appsParam);
   for (const appItem of appsParam) {
     const appleId = appItem.id;
 
@@ -127,7 +127,6 @@ const insertDeals = async (appsParam) => {
       appTitle,
       appDescription,
     );
-    console.log('createdTopic', createdTopic);
 
     const newTopic = await insertTopic(createdTopic, categoryId);
     const { topicId } = newTopic;
@@ -146,7 +145,7 @@ const insertDeals = async (appsParam) => {
 
     const newDeal = await insertDeal(deal, appleId, appId);
     // const { dealId } = newDeal;
-    // console.log('Inserted deal:', newDeal);
+    console.log('Inserted deal:', newDeal);
 
     // const newCode = await insertCode(code, dealId);
     // const codeId = newCode.codeId;

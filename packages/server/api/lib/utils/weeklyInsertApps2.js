@@ -136,7 +136,6 @@ const insertApps = async (appsParam) => {
       appTitle,
       appDescription,
     );
-    console.log('createdTopic', createdTopic);
 
     const newTopic = await insertTopic(createdTopic, categoryId);
     const { topicId } = newTopic;

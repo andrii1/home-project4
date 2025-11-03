@@ -20,7 +20,7 @@ async function searchApps(queries) {
     }
   }
 
-  console.log('✅ Total apps collected:', allApps);
+  console.log('✅ Total apps collected:', allApps.length);
   return allApps;
 }
 
