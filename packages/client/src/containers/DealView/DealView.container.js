@@ -497,6 +497,10 @@ export const DealView = () => {
   //   );
   // }
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   if (error) {
     return (
       <>
@@ -535,6 +539,14 @@ export const DealView = () => {
       <main>
         <section className="container-appview">
           <div className="header">
+            <button
+              type="button"
+              onClick={handleGoBack}
+              className="btn-no-style"
+            >
+              ← Go back
+            </button>
+
             <h1 className="hero-header">
               {`${app?.title}
                 ${

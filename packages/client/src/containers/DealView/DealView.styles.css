@@ -1,11 +1,24 @@
 .container-appview {
   text-align: left;
   max-width: 60rem;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
   align-items: start;
+}
+
+.container-appview .header h1,
+.container-appview .header h3 {
+  margin-top: 0rem;
+}
+
+.container-appview .header {
+  margin-top: 0rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
 }
 .container-bookmark {
   display: flex;
@@ -295,6 +308,14 @@ img.copy-referral-code.smaller-icon {
 .container-description p:last-child {
   margin-bottom: 0rem;
 }
+
+.btn-no-style {
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: auto;
+}
+
 @media only screen and (max-width: 768px) {
   .badges {
     align-items: self-start;
@@ -380,7 +401,7 @@ img.copy-referral-code.smaller-icon {
 @media only screen and (max-width: 992px) {
   .container-appview {
     width: 90%;
-    margin: 0 auto;
+    margin: 1.5rem auto 0 auto;
   }
   .container-appview h1 {
     font-size: 1.75rem;

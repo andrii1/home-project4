@@ -69,11 +69,7 @@ export const Card = ({
 
   return (
     <div className={listCard ? 'card-list' : 'card-category'}>
-      <Link
-        to={cardUrl}
-        target="_blank"
-        className={`card-image ${listCard ? 'list' : ''}`}
-      >
+      <Link to={cardUrl} className={`card-image ${listCard ? 'list' : ''}`}>
         <img
           className={`${listCard ? 'img-app-icon-list' : 'img-app-icon'} ${
             urlImageIcon ? 'icon-shadow' : ''
