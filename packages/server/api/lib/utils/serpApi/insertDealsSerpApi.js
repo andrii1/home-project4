@@ -16,6 +16,8 @@ const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
 const allowedDays = [0, 1, 3, 5];
+const allowedDaysWeek = [0, 3, 5];
+const allowedDaysDay = [1];
 
 if (!allowedDays.includes(todayDay)) {
   console.log('Not an allowed day, skipping job.');
@@ -44,28 +46,15 @@ async function insertQuery(queryObj) {
 
 const createPostMain = async () => {
   // const queries = await fetchSerpApi('7');
-  const queries = [
-    {
-      title: 'walgreens photo coupons',
-      value: 100,
-      source: 'promo code, daily, Business & Industrial',
-    },
-    {
-      title: 'clt airport parking promo code',
-      value: 4.5,
-      source: 'promo code, daily, Business & Industrial',
-    },
-    {
-      title: 'shutterfly',
-      value: 1.6,
-      source: 'promo code, daily, Business & Industrial',
-    },
-    {
-      title: 'subway promo code',
-      value: 1.3,
-      source: 'promo code, daily, Business & Industrial',
-    },
-  ];
+
+  let queries;
+  if (allowedDaysWeek.includes(todayDay)) {
+    queries = await fetchSerpApi('7');
+  }
+
+  if (allowedDaysDay.includes(todayDay)) {
+    queries = await fetchSerpApi('1');
+  }
 
   console.log('queries', queries);
   const dedupedQueries = [];
