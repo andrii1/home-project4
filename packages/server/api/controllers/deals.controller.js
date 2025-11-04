@@ -196,7 +196,7 @@ const getDealsTrending = async (page) => {
       .sort((a, b) => b.activeUsersWithCodes - a.activeUsersWithCodes);
 
     // Get only top 50 deals
-    const topDeals = dealsWithAnalytics.slice(0, 50);
+    const topDeals = dealsWithAnalytics.slice(0, 100);
 
     // ---- 6️⃣ Pagination (10 per page) ----
 
