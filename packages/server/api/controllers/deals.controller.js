@@ -196,12 +196,16 @@ const getDealsTrending = async (page) => {
       .sort((a, b) => b.activeUsersWithCodes - a.activeUsersWithCodes);
 
     // ---- 6️⃣ Pagination (10 per page) ----
+
+    // Lowest activeUsers among all deals
+    const lastItem = dealsWithAnalytics[dealsWithAnalytics.length - 1] || null;
+
     const limit = 10;
     const start = page * limit;
     const data = dealsWithAnalytics.slice(start, start + limit);
 
     // Last item (lowest activeUsers on the current page)
-    const lastItem = data[data.length - 1] || null;
+    // const lastItem = data[data.length - 1] || null;
 
     return {
       lastItem,
