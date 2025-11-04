@@ -10,7 +10,7 @@ const dealsController = require('../controllers/deals.controller');
 
 router.get('/trending', (req, res, next) => {
   dealsController
-    .getDealsTrending()
+    .getDealsTrending(req.query.page)
     .then((result) => res.json(result))
     .catch(next);
 });

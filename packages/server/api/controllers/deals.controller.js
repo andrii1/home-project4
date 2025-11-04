@@ -68,7 +68,7 @@ const getAppsAll = async () => {
   }
 };
 
-const getTopDealsPages = async () => {
+const getDealsTrending = async (page) => {
   try {
     const [response] = await analyticsDataClient.runReport({
       // eslint-disable-next-line prefer-template
@@ -94,7 +94,7 @@ const getTopDealsPages = async () => {
       ],
     });
     const regex = /\/deals\/\d+$/;
-    const filteredResponse = response.rows
+    const dealsAnalytics = response.rows
       .filter((item) => regex.test(item.dimensionValues[0].value))
       .map((item) => {
         return {
@@ -104,7 +104,52 @@ const getTopDealsPages = async () => {
         };
       });
 
-    return filteredResponse;
+    const allDeals = knex('deals')
+      .select(
+        'deals.*',
+        'apps.title as appTitle',
+        'apps.topic_id as topic_id',
+        'apps.description as appDescription',
+        'apps.url as appUrl',
+        'apps.apple_id as appAppleId',
+        'apps.url_image as appUrlImage',
+        'topics.title as topicTitle',
+        'topics.category_id as category_id',
+        'categories.title as categoryTitle',
+      )
+      .join('apps', 'deals.app_id', '=', 'apps.id')
+      .join('topics', 'apps.topic_id', '=', 'topics.id')
+      .join('categories', 'topics.category_id', '=', 'categories.id');
+
+    const dealsWithAnalytics = allDeals
+      .map((deal) => ({
+        ...deal,
+        activeUsers: dealsAnalytics?.some(
+          (e) => e.dealId.toString() === deal.id.toString(),
+        )
+          ? dealsAnalytics
+              .filter((item) => item.dealId.toString() === deal.id.toString())
+              .map((item) => item.activeUsers)
+              .toString()
+          : null,
+      }))
+      .filter((item) => item.activeUsers)
+      .sort((a, b) => {
+        return b.activeUsers - a.activeUsers;
+      });
+
+    // Pagination (10 per page)
+    const limit = 10;
+    const start = page * limit;
+    const data = dealsWithAnalytics.slice(start, start + limit);
+
+    // Last item (lowest activeUsers on the current page)
+    const lastItem = data[data.length - 1] || null;
+
+    return {
+      lastItem,
+      data,
+    };
   } catch (error) {
     return error.message;
   }
@@ -731,4 +776,5 @@ module.exports = {
   getAppsBySearchTerm,
   getDealsByApp,
   createDealNode,
+  getDealsTrending,
 };
