@@ -8,6 +8,12 @@ const router = express.Router({ mergeParams: true });
 // controllers
 const dealsController = require('../controllers/deals.controller');
 
+router.get('/trending', (req, res, next) => {
+  dealsController
+    .getDealsTrending()
+    .then((result) => res.json(result))
+    .catch(next);
+});
 /**
  * @swagger
  * /exampleResource:
