@@ -70,6 +70,7 @@ const getAppsAll = async () => {
 
 const getDealsTrending = async (page) => {
   try {
+    // ---- 1️⃣ Get DEAL analytics ----
     const [response] = await analyticsDataClient.runReport({
       // eslint-disable-next-line prefer-template
       property: 'properties/' + propertyId,
@@ -104,6 +105,25 @@ const getDealsTrending = async (page) => {
         };
       });
 
+    // ---- 2️⃣ Get CODE analytics ----
+    const [codeResponse] = await analyticsDataClient.runReport({
+      property: 'properties/' + propertyId,
+      dateRanges: [{ startDate: dayFormat, endDate: 'today' }],
+      dimensions: [{ name: 'pagePathPlusQueryString' }],
+      metrics: [{ name: 'activeUsers' }],
+    });
+
+    const codeRegex = /\/codes\/\d+$/;
+    const codesAnalytics =
+      codeResponse.rows
+        ?.filter((item) => codeRegex.test(item.dimensionValues[0].value))
+        .map((item) => ({
+          codeId: item.dimensionValues[0].value.split('codes/')[1],
+          url: item.dimensionValues[0].value,
+          activeUsers: Number(item.metricValues[0].value),
+        })) || [];
+
+    // ---- 3️⃣ Get all DEALS with their related info ----
     const allDeals = await knex('deals')
       .select(
         'deals.*',
@@ -121,24 +141,61 @@ const getDealsTrending = async (page) => {
       .join('topics', 'apps.topic_id', '=', 'topics.id')
       .join('categories', 'topics.category_id', '=', 'categories.id');
 
-    const dealsWithAnalytics = allDeals
-      .map((deal) => ({
-        ...deal,
-        activeUsers: dealsAnalytics?.some(
-          (e) => e.dealId.toString() === deal.id.toString(),
-        )
-          ? dealsAnalytics
-              .filter((item) => item.dealId.toString() === deal.id.toString())
-              .map((item) => item.activeUsers)
-              .toString()
-          : null,
-      }))
-      .filter((item) => item.activeUsers)
-      .sort((a, b) => {
-        return b.activeUsers - a.activeUsers;
-      });
+    // ---- 4️⃣ For each deal, fetch related CODES from DB ----
+    const allCodes = await knex('codes')
+      .select('codes.id', 'codes.deal_id')
+      .join('deals', 'codes.deal_id', '=', 'deals.id');
 
-    // Pagination (10 per page)
+    // const dealsWithAnalytics = allDeals
+    //   .map((deal) => ({
+    //     ...deal,
+    //     activeUsers: dealsAnalytics?.some(
+    //       (e) => e.dealId.toString() === deal.id.toString(),
+    //     )
+    //       ? dealsAnalytics
+    //           .filter((item) => item.dealId.toString() === deal.id.toString())
+    //           .map((item) => item.activeUsers)
+    //           .toString()
+    //       : null,
+    //   }))
+    //   .filter((item) => item.activeUsers)
+    //   .sort((a, b) => {
+    //     return b.activeUsers - a.activeUsers;
+    //   });
+
+    // ---- 5️⃣ Combine DEAL + CODE analytics ----
+    const dealsWithAnalytics = allDeals
+      .map((deal) => {
+        const dealMatch = dealsAnalytics.find(
+          (d) => d.dealId.toString() === deal.id.toString(),
+        );
+        const dealActive = dealMatch ? dealMatch.activeUsers : 0;
+
+        // Find related codes for this deal
+        const relatedCodes = allCodes.filter(
+          (c) => c.deal_id.toString() === deal.id.toString(),
+        );
+
+        // Sum activeUsers for those codes
+        const codeActiveSum = relatedCodes.reduce((sum, c) => {
+          const codeAnalytic = codesAnalytics.find(
+            (ca) => ca.codeId.toString() === c.id.toString(),
+          );
+          return sum + (codeAnalytic ? codeAnalytic.activeUsers : 0);
+        }, 0);
+
+        return {
+          ...deal,
+          activeUsers: dealActive,
+          activeUsersWithCodes: dealActive + codeActiveSum,
+        };
+      })
+      // Keep only deals with some engagement
+      .filter((item) => item.activeUsersWithCodes > 0)
+      // Sort by total active users (including codes)
+      .sort((a, b) => b.activeUsersWithCodes - a.activeUsersWithCodes);
+
+    // ---- 6️⃣ Pagination (10 per page) ----
     const limit = 10;
     const start = page * limit;
     const data = dealsWithAnalytics.slice(start, start + limit);

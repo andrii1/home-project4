@@ -93,7 +93,7 @@ const getTopCodesPages = async () => {
       .filter((item) => regex.test(item.dimensionValues[0].value))
       .map((item) => {
         return {
-          dealId: item.dimensionValues[0].value.split('deals/')[1],
+          codeId: item.dimensionValues[0].value.split('codes/')[1],
           url: item.dimensionValues[0].value,
           activeUsers: item.metricValues[0].value,
         };
