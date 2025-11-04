@@ -101,7 +101,7 @@ const getDealsTrending = async (page) => {
         return {
           dealId: item.dimensionValues[0].value.split('deals/')[1],
           url: item.dimensionValues[0].value,
-          activeUsers: item.metricValues[0].value,
+          activeUsers: Number(item.metricValues[0].value),
         };
       });
 
