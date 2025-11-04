@@ -104,7 +104,7 @@ const getDealsTrending = async (page) => {
         };
       });
 
-    const allDeals = knex('deals')
+    const allDeals = await knex('deals')
       .select(
         'deals.*',
         'apps.title as appTitle',

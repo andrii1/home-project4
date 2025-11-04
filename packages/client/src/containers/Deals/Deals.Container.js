@@ -68,7 +68,7 @@ export const Deals = () => {
   const [error, setError] = useState(false);
   const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
   const [sortOrder, setSortOrder] = useState('Trending');
-  const [orderByTrending, setOrderByTrending] = useState(false);
+  const [orderByTrending, setOrderByTrending] = useState(true);
   const [codesPage, setCodesPage] = useState(false);
 
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
@@ -167,29 +167,68 @@ export const Deals = () => {
     setLoadingFirstFetch(true);
 
     async function fetchData() {
-      const url = `${apiURL()}/${
-        pathname.includes('/codes') ? `codes` : `deals`
-      }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
-        topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-      }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
-        categoryIdParam !== undefined
-          ? `&filteredCategories=${categoryIdParam}`
-          : ''
-      }${
-        searchTermIdParam !== undefined
-          ? `&searchTerm=${searchTermIdParam}`
-          : ''
-      }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
-        filtersSubmitted && filteredPricing.length > 0
-          ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
-          : ''
-      }${
-        filtersSubmitted && filteredDetails.length > 0
-          ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
-          : ''
-      }`;
+      // const url = `${apiURL()}/${
+      //   pathname.includes('/codes') ? `codes` : `deals`
+      // }?page=0&column=${orderBy.column}&direction=${orderBy.direction}${
+      //   topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
+      // }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
+      //   categoryIdParam !== undefined
+      //     ? `&filteredCategories=${categoryIdParam}`
+      //     : ''
+      // }${
+      //   searchTermIdParam !== undefined
+      //     ? `&searchTerm=${searchTermIdParam}`
+      //     : ''
+      // }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
+      //   filtersSubmitted && filteredPricing.length > 0
+      //     ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
+      //     : ''
+      // }${
+      //   filtersSubmitted && filteredDetails.length > 0
+      //     ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
+      //     : ''
+      // }`;
+
+      const endpoint = pathname.includes('/codes') ? 'codes' : 'deals';
+      const url = new URL(`${apiURL()}/${endpoint}`);
+
+      const params = new URLSearchParams();
+
+      // Always include page
+      params.append('page', 0);
+
+      // If trending mode — only include trending flag
+      if (orderByTrending && pathname === '/') {
+        params.append('trending', 'true');
+      } else {
+        // Regular sorting mode
+        params.append('column', orderBy.column);
+        params.append('direction', orderBy.direction);
+
+        if (topicIdParam !== undefined)
+          params.append('filteredTopics', topicIdParam);
+        if (searchParam !== undefined) params.append('search', searchParam);
+        if (categoryIdParam !== undefined)
+          params.append('filteredCategories', categoryIdParam);
+        if (searchTermIdParam !== undefined)
+          params.append('searchTerm', searchTermIdParam);
+        if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
+
+        if (filtersSubmitted && filteredPricing.length > 0)
+          params.append('filteredPricing', JSON.stringify(filteredPricing));
+        if (filtersSubmitted && filteredDetails.length > 0)
+          params.append('filteredDetails', JSON.stringify(filteredDetails));
+      }
+
+      // Build final URL
+      url.search = params.toString();
+
+      console.log('firsturl', url);
+
       const response = await fetch(url);
       const json = await response.json();
+
+      console.log('json', json);
 
       let hasMore = true;
       if (
@@ -306,11 +345,13 @@ export const Deals = () => {
       setLoadingFirstFetch(false);
     }
 
-    if (pathname === '/' && orderByTrending) {
-      fetchDataTrending();
-    } else {
-      fetchData();
-    }
+    fetchData();
+
+    // if (pathname === '/' && orderByTrending) {
+    //   fetchDataTrending();
+    // } else {
+    //   fetchData();
+    // }
     // if (
     //   topicIdParam !== undefined ||
     //   categoryIdParam !== undefined ||
@@ -349,25 +390,59 @@ export const Deals = () => {
     setLoading(true);
     setError(null);
 
-    const url = `${apiURL()}/${
-      pathname.includes('/codes') ? `codes` : `deals`
-    }?page=${page}&column=${orderBy.column}&direction=${orderBy.direction}${
-      topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
-    }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
-      categoryIdParam !== undefined
-        ? `&filteredCategories=${categoryIdParam}`
-        : ''
-    }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
-      searchTermIdParam !== undefined ? `&searchTerm=${searchTermIdParam}` : ''
-    }${
-      filtersSubmitted && filteredPricing.length > 0
-        ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
-        : ''
-    }${
-      filtersSubmitted && filteredDetails.length > 0
-        ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
-        : ''
-    }`;
+    // const url = `${apiURL()}/${
+    //   pathname.includes('/codes') ? `codes` : `deals`
+    // }?page=${page}&column=${orderBy.column}&direction=${orderBy.direction}${
+    //   topicIdParam !== undefined ? `&filteredTopics=${topicIdParam}` : ''
+    // }${searchParam !== undefined ? `&search=${searchParam}` : ''}${
+    //   categoryIdParam !== undefined
+    //     ? `&filteredCategories=${categoryIdParam}`
+    //     : ''
+    // }${appIdParam !== undefined ? `&filteredApps=${appIdParam}` : ''}${
+    //   searchTermIdParam !== undefined ? `&searchTerm=${searchTermIdParam}` : ''
+    // }${
+    //   filtersSubmitted && filteredPricing.length > 0
+    //     ? `&filteredPricing=${encodeURIComponent(filteredPricing)}`
+    //     : ''
+    // }${
+    //   filtersSubmitted && filteredDetails.length > 0
+    //     ? `&filteredDetails=${encodeURIComponent(filteredDetails)}`
+    //     : ''
+    // }`;
+
+    const endpoint = pathname.includes('/codes') ? 'codes' : 'deals';
+    const url = new URL(`${apiURL()}/${endpoint}`);
+
+    const params = new URLSearchParams();
+
+    // Always include page
+    params.append('page', page);
+
+    // If trending mode — only include trending flag
+    if (orderByTrending) {
+      params.append('trending', 'true');
+    } else {
+      // Regular sorting mode
+      params.append('column', orderBy.column);
+      params.append('direction', orderBy.direction);
+
+      if (topicIdParam !== undefined)
+        params.append('filteredTopics', topicIdParam);
+      if (searchParam !== undefined) params.append('search', searchParam);
+      if (categoryIdParam !== undefined)
+        params.append('filteredCategories', categoryIdParam);
+      if (searchTermIdParam !== undefined)
+        params.append('searchTerm', searchTermIdParam);
+      if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
+
+      if (filtersSubmitted && filteredPricing.length > 0)
+        params.append('filteredPricing', JSON.stringify(filteredPricing));
+      if (filtersSubmitted && filteredDetails.length > 0)
+        params.append('filteredDetails', JSON.stringify(filteredDetails));
+    }
+
+    // Build final URL
+    url.search = params.toString();
 
     const response = await fetch(url);
     const json = await response.json();
@@ -819,6 +894,8 @@ export const Deals = () => {
 
   // replace with function
 
+  console.log('sort', sortOrder, orderByTrending);
+
   useEffect(() => {
     let column;
     let direction;
@@ -1125,7 +1202,7 @@ export const Deals = () => {
         <section className="container-scroll">
           <InfiniteScroll
             dataLength={apps.data.length}
-            next={orderByTrending ? fetchAppsTrending : fetchApps}
+            next={fetchApps}
             hasMore={apps.hasMore} // Replace with a condition based on your data source
             loader={<p>Loading...</p>}
             endMessage={<p>No more data to load.</p>}

@@ -111,6 +111,11 @@ router.get('/', (req, res, next) => {
       )
       .then((result) => res.json(result))
       .catch(next);
+  } else if (req.query.trending) {
+    dealsController
+      .getDealsTrending(req.query.page)
+      .then((result) => res.json(result))
+      .catch(next);
   } else if (req.query.page) {
     dealsController
       .getApps(req.query.page, req.query.column, req.query.direction)
