@@ -190,7 +190,8 @@ export const Deals = () => {
       // }`;
 
       const endpoint = pathname.includes('/codes') ? 'codes' : 'deals';
-      const url = new URL(`${apiURL()}/${endpoint}`);
+      // const url = new URL(`${apiURL()}/${endpoint}`);
+      let url = `${apiURL()}/${endpoint}`;
 
       const params = new URLSearchParams();
 
@@ -221,7 +222,9 @@ export const Deals = () => {
       }
 
       // Build final URL
-      url.search = params.toString();
+      // url.search = params.toString();
+
+      url += `?${params.toString()}`;
 
       const response = await fetch(url);
       const json = await response.json();
@@ -407,7 +410,8 @@ export const Deals = () => {
     // }`;
 
     const endpoint = pathname.includes('/codes') ? 'codes' : 'deals';
-    const url = new URL(`${apiURL()}/${endpoint}`);
+    // const url = new URL(`${apiURL()}/${endpoint}`);
+    let url = `${apiURL()}/${endpoint}`;
 
     const params = new URLSearchParams();
 
@@ -438,7 +442,9 @@ export const Deals = () => {
     }
 
     // Build final URL
-    url.search = params.toString();
+    // url.search = params.toString();
+
+    url += `?${params.toString()}`;
 
     const response = await fetch(url);
     const json = await response.json();
