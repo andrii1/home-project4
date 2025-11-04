@@ -314,6 +314,7 @@ img.copy-referral-code.smaller-icon {
   background: none;
   cursor: pointer;
   width: auto;
+  color: black;
 }
 
 @media only screen and (max-width: 768px) {
