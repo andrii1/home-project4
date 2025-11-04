@@ -223,12 +223,8 @@ export const Deals = () => {
       // Build final URL
       url.search = params.toString();
 
-      console.log('firsturl', url);
-
       const response = await fetch(url);
       const json = await response.json();
-
-      console.log('json', json);
 
       let hasMore = true;
       if (
@@ -893,8 +889,6 @@ export const Deals = () => {
   }
 
   // replace with function
-
-  console.log('sort', sortOrder, orderByTrending);
 
   useEffect(() => {
     let column;
