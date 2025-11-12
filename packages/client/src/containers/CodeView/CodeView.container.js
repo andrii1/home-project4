@@ -23,7 +23,7 @@ import {
   faTwitter,
   faLinkedinIn,
 } from '@fortawesome/free-brands-svg-icons';
-import { faCopy } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faCopy } from '@fortawesome/free-regular-svg-icons';
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -31,7 +31,7 @@ import {
   EmailShareButton,
 } from 'react-share';
 import appImage from '../../assets/images/app-placeholder.svg';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+
 import { useLikes } from '../../utils/hooks/useLikes';
 
 import { apiURL } from '../../apiURL';
