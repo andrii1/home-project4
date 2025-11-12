@@ -17,6 +17,7 @@ export const Button = ({
   icon,
   type = 'button',
   children,
+  disabled,
   ...props
 }) => {
   let mode;
@@ -31,6 +32,7 @@ export const Button = ({
   }
   return (
     <button
+      disabled={disabled}
       /* eslint-disable react/button-has-type */
       type={type}
       /* eslint-enable react/button-has-type */
@@ -59,6 +61,7 @@ Button.propTypes = {
   secondary: PropTypes.bool,
   icon: PropTypes.element,
   children: PropTypes.element,
+  disabled: PropTypes.bool,
 
   /**
    * What background color to use
@@ -91,6 +94,7 @@ Button.defaultProps = {
   primary: false,
   lighterBg: false,
   secondary: false,
+  disabled: false,
   size: 'medium',
   onClick: undefined,
   type: 'button',

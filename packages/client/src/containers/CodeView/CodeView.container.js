@@ -286,6 +286,8 @@ export const CodeView = () => {
       setOpenToast(false);
     }, 2500);
   };
+  console.log('code1', code);
+
   return (
     <>
       <Helmet>
@@ -535,14 +537,14 @@ export const CodeView = () => {
                 <p>Deal: </p>
                 <div>
                   <Link to={`/deals/${code.deal_id}`} target="_blank">
-                    <Button label={code.dealTitle} size="small" />
+                    <Button secondary label={code.dealTitle} size="small" />
                   </Link>
                 </div>
               </div>
               <div className="badges">
                 <p>App: </p>
                 <div>
-                  <Badge label={code.appTitle} size="small" />
+                  <Button secondary label={code.appTitle} size="small" />
                 </div>
               </div>
             </div>
@@ -550,13 +552,13 @@ export const CodeView = () => {
               <div className="badges">
                 <p>Tagged: </p>
                 <div>
-                  <Badge label={code.topicTitle} size="small" />
+                  <Button secondary label={code.topicTitle} size="small" />
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Badge label={code.categoryTitle} size="small" />
+                  <Button secondary label={code.categoryTitle} size="small" />
                 </div>
               </div>
             </div>

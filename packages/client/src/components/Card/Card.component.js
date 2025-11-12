@@ -60,8 +60,18 @@ export const Card = ({
           </Link>
         </div>
         <div className="topics-bookmark--small">
-          <Badge tertiary label={topic} size="small" />
-          {appTitle && <Badge primary label={appTitle} size="small" />}
+          <Badge
+            className="storybook-badge--transparent"
+            label={topic}
+            size="small"
+          />
+          {appTitle && (
+            <Badge
+              className="storybook-badge--transparent"
+              label={appTitle}
+              size="small"
+            />
+          )}
         </div>
       </Link>
     );
