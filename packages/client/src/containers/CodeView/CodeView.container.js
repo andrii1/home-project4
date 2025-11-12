@@ -564,14 +564,36 @@ export const CodeView = () => {
                 <p>Deal: </p>
                 <div>
                   <Link to={`/deals/${code.deal_id}`} target="_blank">
-                    <Button secondary label={code.dealTitle} size="small" />
+                    <Button
+                      secondary
+                      label={code.dealTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
                   </Link>
                 </div>
               </div>
               <div className="badges">
                 <p>App: </p>
                 <div>
-                  <Button secondary label={code.appTitle} size="small" />
+                  <Link to={`/apps/${code.appId}`} target="_blank">
+                    <Button
+                      secondary
+                      label={code.appTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -579,13 +601,40 @@ export const CodeView = () => {
               <div className="badges">
                 <p>Tagged: </p>
                 <div>
-                  <Button secondary label={code.topicTitle} size="small" />
+                  <Link to={`/deals/topic/${code.topic_id}`} target="_blank">
+                    <Button
+                      secondary
+                      label={code.topicTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
               <div className="badges">
                 <p>Category: </p>
                 <div>
-                  <Button secondary label={code.categoryTitle} size="small" />
+                  <Link
+                    to={`/deals/category/${code.category_id}`}
+                    target="_blank"
+                  >
+                    <Button
+                      secondary
+                      label={code.categoryTitle}
+                      size="small"
+                      icon={
+                        <FontAwesomeIcon
+                          icon={faArrowUpRightFromSquare}
+                          size="sm"
+                        />
+                      }
+                    />
+                  </Link>
                 </div>
               </div>
             </div>
