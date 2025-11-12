@@ -320,7 +320,6 @@ export const CodeView = () => {
   const negativeLikesCount = allNegativeLikes.filter(
     (like) => like.code_id === code.id,
   ).length;
-  console.log('code1', code);
 
   return (
     <>
