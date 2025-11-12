@@ -1,0 +1,5 @@
+@media only screen and (max-width: 768px) {
+  .container-code .container-bookmark {
+    align-items: flex-start;
+  }
+}

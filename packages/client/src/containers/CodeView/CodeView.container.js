@@ -58,6 +58,7 @@ export const CodeView = () => {
   const [allRatings, setAllRatings] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState(false);
   useEffect(() => {
     async function fetchSingleCode(codeId) {
       const response = await fetch(`${apiURL()}/codes/${codeId}`);
@@ -152,6 +153,15 @@ export const CodeView = () => {
   const getOnlyYearMonthDay = (dateString) => {
     const date = new Date(dateString);
     return date.toISOString().split('T')[0];
+  };
+
+  useEffect(() => {
+    // React Router v6+ keeps track of navigation index
+    setHasPreviousPage(window.history.state && window.history.state.idx > 0);
+  }, []);
+
+  const handleGoBack = () => {
+    navigate(-1);
   };
 
   // const fetchFavorites = useCallback(async () => {
@@ -304,8 +314,17 @@ export const CodeView = () => {
         />
       </Helmet>
       <main>
-        <section className="container-appview">
+        <section className="container-appview container-code">
           <div className="header">
+            {hasPreviousPage && (
+              <button
+                type="button"
+                onClick={handleGoBack}
+                className="btn-no-style"
+              >
+                ← Go back
+              </button>
+            )}
             <h1 className="hero-header">{`${
               code.dealTitleCode ? code.dealTitleCode : code.dealTitle
             } (${code.title})`}</h1>
@@ -354,36 +373,8 @@ export const CodeView = () => {
               <Toast open={openToast} overlayClass={`toast ${animation}`}>
                 <span>Copied to clipboard!</span>
               </Toast>
-
-              {code.appUrl && (
-                <Link to={code.appUrl} target="_blank">
-                  <Button
-                    size="large"
-                    secondary
-                    icon={
-                      <FontAwesomeIcon
-                        icon={faArrowUpRightFromSquare}
-                        size="sm"
-                      />
-                    }
-                    label={`Visit ${code.appTitle} website`}
-                  />
-                </Link>
-              )}
-              <Link to={`/deals/${code.deal_id}`} target="_blank">
-                <Button
-                  size="large"
-                  secondary
-                  icon={
-                    <FontAwesomeIcon
-                      icon={faArrowUpRightFromSquare}
-                      size="sm"
-                    />
-                  }
-                  label={`All ${code.dealTitle}`}
-                />
-              </Link>
             </div>
+
             {/* <div>
               {user && favorites.some((x) => x.id === app.id) ? (
                 <button
@@ -481,6 +472,24 @@ export const CodeView = () => {
               {code.dealDescription}
             </p>
           </div>
+          <div className="container-appview-box">
+            <h2>All {code.appTitle} codes </h2>
+            <div>
+              <Link to={`/deals/${code.deal_id}`} target="_blank">
+                <Button
+                  size="large"
+                  secondary
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faArrowUpRightFromSquare}
+                      size="sm"
+                    />
+                  }
+                  label={`All ${code.dealTitle}`}
+                />
+              </Link>
+            </div>
+          </div>
           {code.appUrlAppStore || code.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {code.appTitle} app</h2>
@@ -515,6 +524,24 @@ export const CodeView = () => {
             </div>
           ) : (
             ''
+          )}
+
+          {code.appUrl && (
+            <div className="container-appview-box">
+              <Link to={code.appUrl} target="_blank">
+                <Button
+                  size="large"
+                  secondary
+                  icon={
+                    <FontAwesomeIcon
+                      icon={faArrowUpRightFromSquare}
+                      size="sm"
+                    />
+                  }
+                  label={`Visit ${code.appTitle} website`}
+                />
+              </Link>
+            </div>
           )}
 
           {/* {code.contact && (

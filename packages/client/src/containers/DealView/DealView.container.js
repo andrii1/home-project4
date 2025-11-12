@@ -1070,7 +1070,7 @@ export const DealView = () => {
                   <p className="p-no-margin">Tags: </p>
                   <div className="badges-keywords">
                     {keywords.map((keyword) => (
-                      <Badge secondary label={keyword.title} size="small" />
+                      <Badge primary label={keyword.title} size="small" />
                     ))}
                   </div>
                 </div>
