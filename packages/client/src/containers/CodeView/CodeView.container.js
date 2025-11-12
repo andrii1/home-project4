@@ -23,6 +23,7 @@ import {
   faTwitter,
   faLinkedinIn,
 } from '@fortawesome/free-brands-svg-icons';
+import { faCopy } from '@fortawesome/free-regular-svg-icons';
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -383,13 +384,7 @@ export const CodeView = () => {
               <Button
                 size="large"
                 secondary
-                icon={
-                  <img
-                    src={iconCopy}
-                    alt="copy"
-                    className="icon-copy copy-referral-code"
-                  />
-                }
+                icon={<FontAwesomeIcon icon={faCopy} />}
                 label={code.title}
                 onClick={() => copyToClipboard(code.title)}
               />
@@ -854,7 +849,7 @@ export const CodeView = () => {
           </div>
           {similarCodesFromDeal.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Other {code.dealTitle}s</h2>
+              <h2>🔎 Other {code.dealTitle}</h2>
               <div className="container-cards small-cards">
                 {similarCodesFromDeal.map((item) => {
                   return (
@@ -875,9 +870,9 @@ export const CodeView = () => {
               </div>
             </div>
           )}
-          {similarCodesFromApp.length > 0 && (
+          {/* {similarCodesFromApp.length > 0 && (
             <div className="container-alternatives">
-              <h2>🔎 Other codes from {code.appTitle}s</h2>
+              <h2>🔎 Other codes from {code.appTitle}</h2>
               <div className="container-cards small-cards">
                 {similarCodesFromApp.map((item) => {
                   return (
@@ -897,7 +892,7 @@ export const CodeView = () => {
                 })}
               </div>
             </div>
-          )}
+          )} */}
           {similarCodes.length > 0 && (
             <div className="container-alternatives">
               <h2>🔎 Other codes in {code.topicTitle}</h2>
@@ -913,7 +908,7 @@ export const CodeView = () => {
                       urlImage={
                         item.url_image === null ? 'deal' : item.url_image
                       }
-                      topic={item.topicTitle}
+                      // topic={item.topicTitle}
                       appTitle={item.appTitle}
                       smallCard
                     />
