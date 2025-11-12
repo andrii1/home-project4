@@ -302,7 +302,6 @@ export const DealView = () => {
         url={item.url}
         urlImage={item.url_image === null ? 'deal' : item.url_image}
         topic={item.topicTitle}
-        appTitle={item.appTitle}
         smallCard
       />
     );
