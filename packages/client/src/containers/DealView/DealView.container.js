@@ -827,11 +827,10 @@ export const DealView = () => {
                               </div>
                             )}
                           </div>
+                          <span className="codes-added-by">
+                            added by {code.userFullName}
+                          </span>
                         </div>
-
-                        <span className="codes-added-by">
-                          added by {code.userFullName}
-                        </span>
                       </div>
                     );
                   })}

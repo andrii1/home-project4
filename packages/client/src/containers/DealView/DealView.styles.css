@@ -353,6 +353,7 @@ img.copy-referral-code.smaller-icon {
   .container-appview-codes {
     /* flex-direction: column; */
     align-items: center;
+    flex-wrap: wrap;
   }
 
   .appview-image,

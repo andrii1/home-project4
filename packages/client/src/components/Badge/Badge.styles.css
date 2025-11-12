@@ -10,8 +10,14 @@
   color: white;
   background-color: #946b54;
 }
-.storybook-badge--secondary {
+/* .storybook-badge--secondary {
   color: #e5989b !important;
+  background-color: transparent;
+  box-shadow: rgb(0 0 0 / 15%) 0 0 0 1px inset;
+} */
+
+.storybook-badge--secondary {
+  color: #333;
   background-color: transparent;
   box-shadow: rgb(0 0 0 / 15%) 0 0 0 1px inset;
 }
@@ -29,7 +35,7 @@
   font-size: 12px;
   padding: 4px 8px;
   /* background-color: #000; */
-  color: #fff;
+  /* color: #fff; */
 }
 .storybook-badge--medium {
   font-size: 14px;
