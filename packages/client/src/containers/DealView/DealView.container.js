@@ -285,7 +285,7 @@ export const DealView = () => {
         description={item.description}
         url={item.url}
         urlImage={item.url_image === null ? 'deal' : item.url_image}
-        topic={item.topicTitle}
+        // topic={item.topicTitle}
         appTitle={item.appTitle}
         smallCard
       />
