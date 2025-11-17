@@ -419,7 +419,7 @@ export const Deals = () => {
     params.append('page', page);
 
     // If trending mode — only include trending flag
-    if (orderByTrending) {
+    if (orderByTrending && pathname === '/') {
       params.append('trending', 'true');
     } else {
       // Regular sorting mode
@@ -670,6 +670,10 @@ export const Deals = () => {
   useEffect(() => {
     setPage(0);
   }, [location]);
+
+  useEffect(() => {
+    setPage(0);
+  }, [pathname]);
 
   useEffect(() => {
     setPage(0);
