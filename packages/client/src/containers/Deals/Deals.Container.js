@@ -1216,7 +1216,9 @@ export const Deals = () => {
                   title={
                     pathname.includes('/codes') ? app.dealTitle : app.title
                   }
-                  description={removeMarkdown(app?.description)}
+                  description={
+                    app?.description_short || removeMarkdown(app?.description)
+                  }
                   referralCode={pathname.includes('/codes') ? app.title : null}
                   referralCodeOnClick={
                     pathname.includes('/codes')

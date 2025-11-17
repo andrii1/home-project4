@@ -754,8 +754,13 @@ const createDealNode = async (token, body) => {
     }
 
     // Optional: check for existing deal
+    // const existing = await knex('deals')
+    //   .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+    //   .first();
+
     const existing = await knex('deals')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .orWhere('app_id', body.app_id)
       .first();
 
     if (existing) {

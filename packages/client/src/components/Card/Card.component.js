@@ -1,6 +1,7 @@
+/* eslint-disable prefer-template */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Button } from '../Button/Button.component';
@@ -41,6 +42,20 @@ export const Card = ({
   bookmarkOnClick,
 }) => {
   const { user } = useUserContext();
+
+  const formattedDescription = useMemo(() => {
+    if (!description) return '';
+
+    if (description.length <= 50) {
+      return description;
+    }
+
+    const words = description.split(' ');
+    const limit = referralCode !== null ? (title.length > 21 ? 8 : 15) : 17;
+
+    return words.slice(0, limit).join(' ') + '...';
+  }, [description, referralCode, title]);
+
   if (smallCard) {
     return (
       <Link
@@ -127,15 +142,7 @@ export const Card = ({
           {/* <Badge label={appTitle} size="small" /> */}
         </div>
         {description && (
-          <div className="card-description">
-            {`${description
-              .split(' ')
-              .slice(
-                0,
-                `${referralCode !== null ? (title.length > 21 ? 8 : 15) : 17}`,
-              )
-              .join(' ')}...`}
-          </div>
+          <div className="card-description">{formattedDescription}</div>
         )}
         <div className="topics-bookmark">
           <div className="container-topic-app">
