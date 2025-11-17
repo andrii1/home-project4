@@ -735,7 +735,7 @@ export const DealView = () => {
                               />
                             </Link>
                           )}
-                          <Link to={`../../codes/${code.id}`} target="_blank">
+                          <Link to={`../../codes/${code.id}`}>
                             <Button
                               size="medium"
                               secondary
