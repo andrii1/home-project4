@@ -667,9 +667,9 @@ export const Deals = () => {
   //   fetchApps();
   // }, [fetchApps]);
 
-  useEffect(() => {
-    setPage(0);
-  }, [location]);
+  // useEffect(() => {
+  //   setPage(0);
+  // }, [location]);
 
   useEffect(() => {
     setPage(0);
