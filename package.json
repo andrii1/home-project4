@@ -6,7 +6,7 @@
   ],
   "engines": {
     "yarn": ">= 1.19.1 <2",
-    "node": ">= 17.3.0"
+    "node": "18.x"
   },
   "scripts": {
     "build": "script/build",
