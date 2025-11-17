@@ -108,8 +108,19 @@ export const CodeView = () => {
       setSimilarCodesFromDeal(similarCodesFromDealArray);
     }
 
+    async function fetchAppAppStore(appleId) {
+      try {
+        const response = await fetch(`${apiURL()}/appsAppStore/${appleId}`);
+        const example = await response.json();
+        setAppAppStore(example.results[0]);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data' });
+      }
+    }
+
     fetchSimilarApps();
-  }, [code.topic_id, code.id, code.app_id, code.deal_id, code.appId]);
+    code.appAppleId && fetchAppAppStore(code.appAppleId);
+  }, [code.topic_id, code.id, code.deal_id, code.appId, code.appAppleId]);
 
   const fetchCommentsByAppId = useCallback(async (appId) => {
     const response = await fetch(`${apiURL()}/comments?appId=${appId}`);
@@ -354,14 +365,23 @@ export const CodeView = () => {
             } (${code.title})`}</h1>
             {/* <h3>{app.appTitle} code</h3> */}
           </div>
-
           <img
+            className={
+              appAppStore?.artworkUrl512 ? 'appview-icon' : 'appview-image'
+            }
+            alt={`${code.title}`}
+            src={
+              appAppStore?.artworkUrl512 ||
+              `http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/deal.svg`
+            }
+          />
+          {/* <img
             className="appview-image"
             alt={`${code.title}`}
             src={`http://res.cloudinary.com/dgarvanzw/image/upload/q_auto,f_auto/deals/${
               code.url_image === null ? 'deal' : code.url_image
             }.${code.url_image === null ? 'svg' : 'png'}`}
-          />
+          /> */}
 
           <div className="container-bookmark">
             <div className="container-appview-buttons">
