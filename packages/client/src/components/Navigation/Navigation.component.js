@@ -418,20 +418,21 @@ export const Navigation = () => {
                 </label>
               </form>
             </li>
-            <li className="hide-on-tablet">
-              <NavLink to="/categories" className="nav-link">
-                Categories
-              </NavLink>
-            </li>
-            <li className="hide-on-tablet">
-              <NavLink to="/all-apps" className="nav-link">
-                Apps
-              </NavLink>
-            </li>
-            <li className="hide-on-tablet">
-              <NavLink to="/community" className="nav-link">
-                Community
-              </NavLink>
+            <li className="hide-on-tablet menu-dropdown">
+              Menu
+              <div className="dropdown-content dropdown-menu">
+                <NavLink to="/categories" className="nav-link">
+                  Categories
+                </NavLink>
+
+                <NavLink to="/all-apps" className="nav-link">
+                  Apps
+                </NavLink>
+
+                <NavLink to="/community" className="nav-link">
+                  Community
+                </NavLink>
+              </div>
             </li>
           </ul>
         </div>
@@ -457,7 +458,7 @@ export const Navigation = () => {
             {user ? (
               <div className="container-logged-in">
                 <ProfileImage name={name || user?.displayName || user?.email} />
-                <div className="dropdown-content">
+                <div className="dropdown-content dropdown-profile">
                   <NavLink to="/bookmarks" className="login">
                     Bookmarks
                   </NavLink>
