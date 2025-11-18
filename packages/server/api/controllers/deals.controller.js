@@ -668,6 +668,7 @@ const getAppsBy = async ({
             queryBuilder.where(function () {
               this.where('deals.description', 'like', `%${search}%`)
                 .orWhere('deals.description_long', 'like', `%${search}%`)
+                .orWhere('deals.title', 'like', `%${search}%`)
                 .orWhere('apps.description', 'like', `%${search}%`);
             });
           }

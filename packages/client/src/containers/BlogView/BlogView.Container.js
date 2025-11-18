@@ -45,6 +45,19 @@ import { useUserContext } from '../../userContext';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer.Container';
 import { ErrorContainer } from '../ErrorContainer/ErrorContainer.Container';
 
+const cleanBrand = (str) => {
+  return (
+    str
+      .toLowerCase()
+      // remove promo/invite/referral + code(s)
+      .replace(/\b(invite|promo|referral)\s*codes?\b/g, '')
+      // remove standalone code/codes
+      .replace(/\bcodes?\b/g, '')
+      .trim()
+      .replace(/\s+/g, ' ')
+  );
+};
+
 export const BlogView = () => {
   const { user } = useUserContext();
   const { slugParam } = useParams();
@@ -52,6 +65,8 @@ export const BlogView = () => {
   const [loading, setLoading] = useState();
   const [error, setError] = useState();
   const [similarBlogs, setSimilarBlogs] = useState([]);
+  const [recentBlogs, setRecentBlogs] = useState([]);
+  const [relatedDeals, setRelatedDeals] = useState([]);
 
   useEffect(() => {
     async function fetchSingleBlog(blogSlug) {
@@ -74,16 +89,67 @@ export const BlogView = () => {
     fetchSingleBlog(slugParam);
   }, [slugParam]);
 
-  const readTime = getEstimatedReadTime(blog?.content);
-  const hasImagesContainer = /<div\s+class=["']images-blog-container["']/.test(
-    blog?.content,
-  );
+  useEffect(() => {
+    async function fetchBlogs() {
+      setLoading(true);
+      try {
+        const url = `${apiURL()}/blogs?page=0&column=id&direction=desc`;
 
-  const cardItems = similarBlogs.map((item) => (
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch');
+        }
+        setRecentBlogs(data.data.slice(0, 3));
+        setError(null);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data.' });
+      }
+      setLoading(false);
+    }
+
+    fetchBlogs();
+  }, []);
+
+  useEffect(() => {
+    async function fetchRelatedDeals() {
+      setLoading(true);
+      try {
+        const url = `${apiURL()}/deals?page=0&column=id&direction=desc&search=${encodeURIComponent(
+          cleanBrand(blog.title),
+        )}`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch');
+        }
+        setRelatedDeals(data.data);
+        setError(null);
+      } catch (e) {
+        setError({ message: e.message || 'Failed to fetch data.' });
+      }
+      setLoading(false);
+    }
+
+    fetchRelatedDeals();
+  }, [blog.title]);
+
+  const readTime = getEstimatedReadTime(blog?.content);
+
+  const cardItems = recentBlogs?.map((item) => (
     <Link to={`../blog/${item.slug}`} className="card-blog">
       <h2>{item.title}</h2>
-      <div className="blog-preview">{`${item.content.slice(0, 200)}...`}</div>
+      <div className="blog-preview">{`${item.summary}`}</div>
       <div className="date">{getDateFromTimestamp(item.created_at)}</div>
+    </Link>
+  ));
+
+  const cardItemsDeals = relatedDeals?.map((item) => (
+    <Link to={`../deals/${item.id}`} className="card-blog card-deal">
+      <h3>{item.title}</h3>
     </Link>
   ));
 
@@ -111,6 +177,14 @@ export const BlogView = () => {
         <main>
           <article>
             <p className="read-time">{readTime} min read</p>
+            {relatedDeals.length > 0 && (
+              <div className="container-alternatives">
+                <h3>👉 Available deals & codes</h3>
+                <div className="container-cards small-cards">
+                  {cardItemsDeals}
+                </div>
+              </div>
+            )}
             {/* {hasImagesContainer ? (
               <Markdown
                 options={{
@@ -240,9 +314,9 @@ export const BlogView = () => {
             </footer>
           </article>
         </main>
-        {similarBlogs.length > 0 && (
+        {recentBlogs.length > 0 && (
           <div className="container-alternatives">
-            <h3>🔎 Similar to {blog.title}</h3>
+            <h3>⏳ Recent blogs</h3>
             <div className="container-cards small-cards">{cardItems}</div>
           </div>
         )}
