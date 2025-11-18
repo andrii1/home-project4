@@ -418,17 +418,15 @@ export const Navigation = () => {
                 </label>
               </form>
             </li>
-            <li className="hide-on-tablet menu-dropdown">
+            <li className="menu-dropdown">
               Menu
               <div className="dropdown-content dropdown-menu">
                 <NavLink to="/categories" className="nav-link">
                   Categories
                 </NavLink>
-
                 <NavLink to="/all-apps" className="nav-link">
                   Apps
                 </NavLink>
-
                 <NavLink to="/community" className="nav-link">
                   Community
                 </NavLink>

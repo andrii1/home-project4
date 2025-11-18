@@ -311,6 +311,20 @@ ul li,
   border-radius: 0.5rem;
 }
 
+/* First item hover matches top border radius */
+.dropdown-content a:first-child:hover,
+.dropdown-content div:first-child:hover {
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+}
+
+/* Last item hover matches bottom border radius */
+.dropdown-content a:last-child:hover,
+.dropdown-content div:last-child:hover {
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+}
+
 .dropdown-content.dropdown-profile {
   position: absolute;
   top: 2.4rem;
@@ -319,8 +333,8 @@ ul li,
 
 .dropdown-content.dropdown-menu {
   position: absolute;
-  top: 3.4rem;
-  right: 8rem;
+  top: 1.25rem;
+  right: 0rem;
 }
 
 /* Links inside the dropdown */
@@ -352,6 +366,10 @@ ul li,
 
 .menu-dropdown:hover .dropdown-content {
   display: block;
+}
+
+.menu-dropdown {
+  position: relative;
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
