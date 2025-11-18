@@ -977,7 +977,14 @@ export const DealView = () => {
             <p className="app-description main-description">
               <Markdown>{app.description}</Markdown>
             </p>
-
+            {app.description_short && (
+              <>
+                <h3>Benefits</h3>
+                <p className="app-description">
+                  <Markdown>{app.description_short}</Markdown>
+                </p>
+              </>
+            )}
             {app.description_long && (
               <>
                 <h3>Deal details</h3>
