@@ -11,6 +11,7 @@ import iconCopy from '../../assets/images/icons8-copy-24.png';
 import appStoreLogo from '../../assets/images/download-on-the-app-store-apple-logo.svg';
 import googlePlayStoreLogo from '../../assets/images/google-play-badge-logo.svg';
 import Toast from '../../components/Toast/Toast.Component';
+import { FormNewCode } from '../../components/FormNewCode/FormNewCode.component';
 import {
   faEnvelope,
   faLink,
@@ -62,6 +63,7 @@ export const CodeView = () => {
   const [ratings, setRatings] = useState([]);
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [hasPreviousPage, setHasPreviousPage] = useState(false);
+  const [openAddCodeForm, setOpenAddCodeForm] = useState(false);
   const {
     likes: positiveLikes,
     allLikes: allPositiveLikes,
@@ -602,6 +604,65 @@ export const CodeView = () => {
               </Link>
             </div>
           </div>
+          {!user && (
+            <div className="container-details cta">
+              <div>
+                <h2>🔥 Add your {code.dealTitle || ''} referral code</h2>
+                <p>Create an account to get started for free</p>
+              </div>
+              <div>
+                <Link target="_blank" to="/signup">
+                  <Button primary label="Create my account 👌" />
+                </Link>
+              </div>
+            </div>
+          )}
+          {user && (
+            <div
+              className={`container-details cta cta-gap ${
+                openAddCodeForm ? 'cta-code-form' : ''
+              }`}
+            >
+              {openAddCodeForm && (
+                <Button
+                  secondary
+                  type="button"
+                  onClick={() => setOpenAddCodeForm(false)}
+                  className="button-container-add-code"
+                >
+                  X
+                </Button>
+              )}
+              <div className="container-header-referral-code">
+                <h2 className="h-no-margin h-no-margin-bottom">
+                  🔥 Add your {code.dealTitle || ''} referral code
+                </h2>
+              </div>
+
+              {!openAddCodeForm && (
+                <div>
+                  <Button
+                    primary
+                    onClick={() => setOpenAddCodeForm(true)}
+                    label="Add a code 👌"
+                  />
+                </div>
+              )}
+
+              {openAddCodeForm && (
+                <>
+                  <FormNewCode
+                    selectedOptionValue1={[code.appTitle]}
+                    selectedOptionValue2={[code.dealTitle]}
+                    className="form-code-appview"
+                  />
+                  <Link target="_blank" className="link" to="/codes/new">
+                    Add a code to another app
+                  </Link>
+                </>
+              )}
+            </div>
+          )}
           {code.appUrlAppStore || code.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {code.appTitle} app</h2>

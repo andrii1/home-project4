@@ -995,6 +995,16 @@ export const DealView = () => {
               </>
             )}
           </div>
+          {app.description_how_to_redeem && (
+            <div className="container-description">
+              <div className="container-title">
+                <h2>How to redeem?</h2>
+              </div>
+              <p className="app-description main-description">
+                <Markdown>{app.description_how_to_redeem}</Markdown>
+              </p>
+            </div>
+          )}
           <div className="container-details container-badges">
             {topicsFromDeals.length > 0 && (
               <div className="container-tags">

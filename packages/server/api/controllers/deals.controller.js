@@ -44,6 +44,35 @@ const getOppositeOrderDirection = (direction) => {
   return lastItemDirection;
 };
 
+function safeJsonParse(text) {
+  try {
+    // Remove ```json or ``` and trailing ```
+    const cleaned = text.replace(/```json\s*|```/g, '').trim();
+    return JSON.parse(cleaned);
+  } catch (err) {
+    console.error('Failed to parse JSON from OpenAI:', err, text);
+    return null;
+  }
+}
+
+async function useChatGptForData(prompt) {
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0,
+    });
+
+    const rawText = completion.choices[0].message.content;
+    const data = safeJsonParse(rawText) || {}; // ✅ parse safely
+
+    return data;
+  } catch (error) {
+    console.error('OpenAI API error:', error);
+    return {}; // fallback if API call fails
+  }
+}
+
 const getAppsAll = async () => {
   try {
     const apps = knex('deals')
@@ -813,11 +842,27 @@ const createDealNode = async (token, body) => {
       description = completion.choices[0].message.content.trim();
     }
 
+    const [descriptionData] = await Promise.all([
+      useChatGptForData(`
+Given deal "${body.title}" for app "${appTitle}".
+
+Return JSON with keys:
+{
+  "description_how_to_redeem": "write a short guide how to redeem this deal either in app or website"
+}
+
+Respond ONLY with valid JSON.
+  `),
+    ]);
+
+    console.log('descriptionData', descriptionData);
+
     const [dealId] = await knex('deals').insert({
       title: body.title,
       app_id: body.app_id,
       user_id: user.id,
       description,
+      ...descriptionData,
     });
 
     return {
