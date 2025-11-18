@@ -104,8 +104,8 @@ export const Blog = () => {
   return (
     <>
       <Helmet>
-        <title>Blog - motivately</title>
-        <meta name="description" content="motivately blog" />
+        <title>Blog - Top App Deals</title>
+        <meta name="description" content="Top App Deals blog" />
       </Helmet>
       {/* <div className="hero"></div> */}
       <div className="container-blog">

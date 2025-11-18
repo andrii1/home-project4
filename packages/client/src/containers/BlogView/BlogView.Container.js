@@ -99,7 +99,10 @@ export const BlogView = () => {
     <>
       <Helmet>
         <title>{blog.title}</title>
-        <meta name="description" content={blog.summary || 'motivately blog'} />
+        <meta
+          name="description"
+          content={blog.summary || 'Top App Deals blog'}
+        />
       </Helmet>
       <div className="container-single-blog">
         <header>
@@ -181,7 +184,7 @@ export const BlogView = () => {
                   className="button-copy"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `https://www.motivately.co/blog/${blog.slug}`,
+                      `https://www.topappdeals.com/blog/${blog.slug}`,
                     );
                   }}
                 />
@@ -192,40 +195,40 @@ export const BlogView = () => {
                   <FontAwesomeIcon className="share-icon" icon={faPinterest} />
                 </PinterestShareButton>
                 <FacebookShareButton
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                 >
                   <FontAwesomeIcon className="share-icon" icon={faFacebookF} />
                 </FacebookShareButton>
                 <TwitterShareButton
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                   title={`'${blog.title}'`}
                   hashtags={['quotes', 'inspirational']}
                 >
                   <FontAwesomeIcon className="share-icon" icon={faTwitter} />
                 </TwitterShareButton>
                 <LinkedinShareButton
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                 >
                   <FontAwesomeIcon className="share-icon" icon={faLinkedinIn} />
                 </LinkedinShareButton>
                 <EmailShareButton
                   subject="Check out this blog!"
                   body={`It is so inspirational: '${blog.title}'`}
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                 >
                   <FontAwesomeIcon icon={faEnvelope} />
                 </EmailShareButton>
               </div>
               <div>
                 <FacebookShareCount
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                 >
                   {(shareCount) => (
                     <span className="myShareCountWrapper">{shareCount}</span>
                   )}
                 </FacebookShareCount>
                 <PinterestShareCount
-                  url={`https://www.motivately.co/blog/${blog.slug}`}
+                  url={`https://www.topappdeals.com/blog/${blog.slug}`}
                 >
                   {(shareCount) =>
                     shareCount > 0 && (
