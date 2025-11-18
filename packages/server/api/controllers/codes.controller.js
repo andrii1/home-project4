@@ -449,6 +449,7 @@ const getAppById = async (id) => {
         'deals.title as dealTitle',
         'deals.title_code as dealTitleCode',
         'deals.description as dealDescription',
+        'deals.description_how_to_redeem as dealDescriptionHowToRedeem',
         'apps.title as appTitle',
         'apps.id as appId',
         'apps.description as appDescription',

@@ -335,6 +335,8 @@ export const CodeView = () => {
     (like) => like.code_id === code.id,
   ).length;
 
+  console.log('code123', code);
+
   return (
     <>
       <Helmet>
@@ -585,6 +587,14 @@ export const CodeView = () => {
             <p className="app-description main-description">
               {code.dealDescription}
             </p>
+            {code.dealDescriptionHowToRedeem && (
+              <>
+                <h3>How to redeem code</h3>
+                <p className="app-description">
+                  {code.dealDescriptionHowToRedeem}
+                </p>
+              </>
+            )}
           </div>
           <div className="container-appview-box">
             <h2>All {code.appTitle} codes </h2>
