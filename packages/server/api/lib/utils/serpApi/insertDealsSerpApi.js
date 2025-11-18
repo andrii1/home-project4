@@ -20,7 +20,7 @@ const openai = new OpenAI({
 const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-const allowedDays = [0, 1, 2, 3, 5];
+const allowedDays = [0, 1, 3, 5];
 const allowedDaysWeek = [0, 3, 5];
 const allowedDaysDay = [1];
 
@@ -30,14 +30,13 @@ if (!allowedDays.includes(todayDay)) {
 }
 
 // Credentials (from .env)
-const USER_UID = process.env.USER_UID_DEALS_LOCAL;
-const API_PATH = process.env.API_PATH_DEALS_LOCAL;
+const USER_UID = process.env.USER_UID_DEALS_PROD;
+const API_PATH = process.env.API_PATH_DEALS_PROD;
 
-const queries = [
-  { title: 'nvidia promo code' },
-  { title: 'amd promo code' },
-  { title: 'umax promo codes' },
-];
+// const queries = [
+//   { title: 'emochi ai promo code' },
+//   { title: 'meta viewpoints referral codes' },
+// ];
 
 // fetch helpers
 
@@ -60,7 +59,7 @@ async function insertQuery(queryObj) {
 async function createBlogContent(queryParam) {
   // Generate a short description using OpenAI
 
-  const prompt = `Create a blog, based on query ${queryParam}. Treat ${queryParam} as main keyword - it should be spread in the blog. Also, you should mention and link to topappdeals.com - as a source of promo codes, referral codes. At least 1300 words. Do not include published by [Your Name] or Published on [Date]. Do not include title of the blog. Output with markdown.`;
+  const prompt = `Create a blog, based on query ${queryParam}. Treat ${queryParam} as main keyword - it should be spread in the blog. Also, you should mention and link to topappdeals.com - as a source of promo codes, referral codes. At least 1300 words. Do not include published by [Your Name] or Published on [Date]. Do not include title, headline, h1, h2 of the blog, just content of the article. Output with markdown.`;
   // console.log(prompt);
 
   const completion = await openai.chat.completions.create({
@@ -101,14 +100,14 @@ const createPost = async (postDataParam) => {
 const createPostMain = async () => {
   // const queries = await fetchSerpApi('7');
 
-  // let queries;
-  // if (allowedDaysWeek.includes(todayDay)) {
-  //   queries = await fetchSerpApi('7');
-  // }
+  let queries;
+  if (allowedDaysWeek.includes(todayDay)) {
+    queries = await fetchSerpApi('7');
+  }
 
-  // if (allowedDaysDay.includes(todayDay)) {
-  //   queries = await fetchSerpApi('1');
-  // }
+  if (allowedDaysDay.includes(todayDay)) {
+    queries = await fetchSerpApi('1');
+  }
 
   console.log('queries', queries);
   const dedupedQueries = [];
