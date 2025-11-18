@@ -11,6 +11,11 @@ require('dotenv').config();
 const fetchSerpApi = require('./serpApi');
 const searchApps = require('./searchApps');
 const insertDeals = require('./insertDeals');
+const OpenAI = require('openai');
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // make sure this is set in your .env
+});
 
 const today = new Date();
 const todayDay = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
@@ -26,11 +31,15 @@ if (!allowedDays.includes(todayDay)) {
 
 // Credentials (from .env)
 const USER_UID = process.env.USER_UID_DEALS_PROD;
-const API_PATH = process.env.API_PATH_DEALS_PROD;
+const API_PATH = process.env.API_PATH_DEALS_LOCAL;
 
 // WordPress Credentials (from .env)
 
 // fetch helpers
+
+function capitalizeFirstWord(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 async function insertQuery(queryObj) {
   const res = await fetch(`${API_PATH}/queries`, {
@@ -43,6 +52,47 @@ async function insertQuery(queryObj) {
   });
   return await res.json(); // assume it returns { id, title }
 }
+
+async function createBlogContent(queryParam) {
+  // Generate a short description using OpenAI
+
+  const prompt = `Create a blog, based on query ${queryParam}. Treat ${queryParam} as main keyword - it should be spread in the blog. At least 1300 words. Do not include published by [Your Name] or Published on [Date]. Output with markdown.`;
+  // console.log(prompt);
+
+  const completion = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.7,
+    max_tokens: 3000,
+  });
+
+  const reply = completion.choices[0].message.content.trim();
+  return reply;
+}
+
+const createPost = async (postDataParam) => {
+  try {
+    const response = await fetch(`${API_PATH}/blogs`, {
+      method: 'POST',
+      headers: {
+        token: `token ${USER_UID}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(postDataParam),
+    });
+
+    // Check if the response is OK (status code 200-299)
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+
+    // Parse the JSON response
+    const data = await response.json();
+    console.log('Post created successfully:', data);
+  } catch (error) {
+    console.error('Error creating post:', error);
+  }
+};
 
 const createPostMain = async () => {
   // const queries = await fetchSerpApi('7');
@@ -59,14 +109,32 @@ const createPostMain = async () => {
   console.log('queries', queries);
   const dedupedQueries = [];
   for (const query of queries) {
-    const newQuery = await insertQuery(query);
+    try {
+      const newQuery = await insertQuery(query);
 
-    if (newQuery.existing) {
-      console.log('Duplicate query skipped:', query.title);
-      continue;
+      if (newQuery.existing) {
+        console.log('Duplicate query skipped:', query.title);
+        continue;
+      }
+
+      dedupedQueries.push(query.title);
+
+      // CREATE BLOG
+
+      const blogTitle = capitalizeFirstWord(query.title);
+      const blogContent = await createBlogContent(query.title);
+
+      const postData = {
+        title: blogTitle,
+        content: blogContent,
+        status: 'published',
+        user_id: '1',
+      };
+
+      await createPost(postData);
+    } catch (err) {
+      console.error(`Error processing query "${query.title}":`, err);
     }
-
-    dedupedQueries.push(query.title);
   }
 
   const apps = await searchApps(dedupedQueries);
