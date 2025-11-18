@@ -24,6 +24,7 @@ const threads = require('./threads.router');
 const replies = require('./replies.router');
 const ratingsForThreads = require('./ratingsForThreads.router');
 const queries = require('./queries.router');
+const blogs = require('./blogs.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -75,5 +76,6 @@ router.use('/threads', threads);
 router.use('/replies', replies);
 router.use('/ratingsForThreads', ratingsForThreads);
 router.use('/queries', queries);
+router.use('/blogs', blogs);
 
 module.exports = router;

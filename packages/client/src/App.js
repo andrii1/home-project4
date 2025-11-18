@@ -26,6 +26,8 @@ import { UserProvider } from './userContext';
 import { Community } from './containers/Community/Community.Container';
 import { SubmitThread } from './containers/SubmitThread/SubmitThread.Container';
 import { ThreadView } from './containers/ThreadView/ThreadView.container';
+import { Blog } from './containers/Blog/Blog.Container';
+import { BlogView } from './containers/BlogView/BlogView.Container';
 
 function App() {
   return (
@@ -80,6 +82,8 @@ function App() {
             <Route exact path="/signup" element={<Signup />} />
             <Route exact path="/reset" element={<Reset />} />
             <Route exact path="/dashboard" element={<Dashboard />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route exact path="/blog/:slugParam" element={<BlogView />} />
             <Route path="*" element={<PageNotFound />} />
           </Routes>
           <Footer />
