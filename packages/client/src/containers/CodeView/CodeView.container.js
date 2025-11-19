@@ -335,8 +335,6 @@ export const CodeView = () => {
     (like) => like.code_id === code.id,
   ).length;
 
-  console.log('code123', code);
-
   return (
     <>
       <Helmet>
