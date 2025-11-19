@@ -68,19 +68,19 @@ const uploadToS3 = async (key, body) => {
       ...codes.map((a) => ({ url: `/codes/${a.id}`, changefreq: 'weekly' })),
     );
     urls.push(
-      ...categories.map((c) => ({
-        url: `/deals/categories/${c.slug}`,
+      ...categories.map((a) => ({
+        url: `/deals/categories/${a.id}`,
         changefreq: 'weekly',
       })),
     );
     urls.push(
-      ...topics.map((c) => ({
-        url: `/deals/topics/${c.slug}`,
+      ...topics.map((a) => ({
+        url: `/deals/topics/${a.id}`,
         changefreq: 'weekly',
       })),
     );
     urls.push(
-      ...deals.map((a) => ({ url: `/blogs/${a.slug}`, changefreq: 'weekly' })),
+      ...blogs.map((a) => ({ url: `/blog/${a.slug}`, changefreq: 'weekly' })),
     );
 
     console.log(`Total URLs collected: ${urls.length}`);
