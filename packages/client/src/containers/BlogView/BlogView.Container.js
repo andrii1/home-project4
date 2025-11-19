@@ -179,7 +179,7 @@ export const BlogView = () => {
             <p className="read-time">{readTime} min read</p>
             {relatedDeals.length > 0 && (
               <div className="container-alternatives">
-                <h3>👉 Available deals & codes</h3>
+                <h3>👉 Related deals & codes</h3>
                 <div className="container-cards small-cards">
                   {cardItemsDeals}
                 </div>
