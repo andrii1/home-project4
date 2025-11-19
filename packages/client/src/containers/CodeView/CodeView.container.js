@@ -617,7 +617,7 @@ export const CodeView = () => {
           {!user && (
             <div className="container-details cta">
               <div>
-                <h2>🔥 Add your {code.dealTitle || ''} referral code</h2>
+                <h2>🔥 Add your {code.dealTitle || ''}</h2>
                 <p>Create an account to get started for free</p>
               </div>
               <div>
@@ -645,7 +645,7 @@ export const CodeView = () => {
               )}
               <div className="container-header-referral-code">
                 <h2 className="h-no-margin h-no-margin-bottom">
-                  🔥 Add your {code.dealTitle || ''} referral code
+                  🔥 Add your {code.dealTitle || ''}
                 </h2>
               </div>
 

@@ -1,0 +1,134 @@
+/* eslint-disable no-await-in-loop */
+require('dotenv').config();
+const {
+  SitemapStream,
+  SitemapIndexStream,
+  streamToPromise,
+} = require('sitemap');
+const AWS = require('aws-sdk');
+
+// const today = new Date();
+// const isSunday = today.getDay() === 0; // 0 = Sunday
+
+// if (!isSunday) {
+//   console.log('Not Sunday, skipping weekly job.');
+//   process.exit(0);
+// }
+
+const MAX_URLS = 50000; // Google limit
+const host = 'https://www.topappdeals.com';
+
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_REGION,
+});
+
+const s3 = new AWS.S3();
+const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
+const FOLDER_NAME = 'topappdeals';
+
+// Upload helper
+const uploadToS3 = async (key, body) => {
+  return s3
+    .putObject({
+      Bucket: BUCKET_NAME,
+      Key: key,
+      Body: body,
+      ContentType: 'application/xml',
+    })
+    .promise();
+};
+
+(async () => {
+  try {
+    console.log('Fetching dynamic data...');
+
+    const api = (path) => fetch(`${host}/api/${path}`).then((r) => r.json());
+
+    // Fetch all data
+    const [deals, codes, categories, topics, blogs] = await Promise.all([
+      api('deals'),
+      api('codes'),
+      api('categories'),
+      api('topics'),
+      api('blogs'),
+    ]);
+
+    // Collect URLs
+    let urls = [];
+
+    const staticRoutes = ['/', '/deals', '/faq', '/login', '/signup'];
+    urls.push(...staticRoutes.map((r) => ({ url: r })));
+
+    urls.push(
+      ...deals.map((a) => ({ url: `/deals/${a.id}`, changefreq: 'weekly' })),
+    );
+    urls.push(
+      ...codes.map((a) => ({ url: `/codes/${a.id}`, changefreq: 'weekly' })),
+    );
+    urls.push(
+      ...categories.map((c) => ({
+        url: `/deals/categories/${c.slug}`,
+        changefreq: 'weekly',
+      })),
+    );
+    urls.push(
+      ...topics.map((c) => ({
+        url: `/deals/topics/${c.slug}`,
+        changefreq: 'weekly',
+      })),
+    );
+    urls.push(
+      ...deals.map((a) => ({ url: `/blogs/${a.slug}`, changefreq: 'weekly' })),
+    );
+
+    console.log(`Total URLs collected: ${urls.length}`);
+
+    // Split into 50k chunks
+    const chunks = [];
+    while (urls.length) chunks.push(urls.splice(0, MAX_URLS));
+
+    console.log(`Total sitemap parts: ${chunks.length}`);
+
+    const sitemapIndexItems = [];
+
+    // Generate each sitemap part
+    for (let i = 0; i < chunks.length; i++) {
+      const part = i + 1;
+      const filename = `sitemap-${part}.xml`;
+      const key = `${FOLDER_NAME}/${filename}`;
+
+      const smStream = new SitemapStream({ hostname: host });
+      chunks[i].forEach((url) => smStream.write(url));
+      smStream.end();
+
+      const xml = await streamToPromise(smStream);
+
+      console.log(`Uploading ${filename} ...`);
+      await uploadToS3(key, xml.toString());
+
+      sitemapIndexItems.push({
+        url: `${host}/api/sitemaps/${filename}`, // absolute URL
+      });
+    }
+
+    // Create sitemap index
+    console.log('Building sitemap index...');
+
+    const indexStream = new SitemapIndexStream();
+
+    sitemapIndexItems.forEach((item) => indexStream.write(item));
+    indexStream.end();
+
+    const indexXml = await streamToPromise(indexStream);
+    const indexKey = `${FOLDER_NAME}/sitemap-index.xml`; // main index filename
+
+    console.log('Uploading sitemap-index.xml (index)...');
+    await uploadToS3(indexKey, indexXml.toString());
+
+    console.log('Sitemap generation completed successfully!');
+  } catch (err) {
+    console.error('Error generating sitemap:', err);
+  }
+})();

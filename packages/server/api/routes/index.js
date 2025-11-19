@@ -25,6 +25,7 @@ const replies = require('./replies.router');
 const ratingsForThreads = require('./ratingsForThreads.router');
 const queries = require('./queries.router');
 const blogs = require('./blogs.router');
+const sitemaps = require('./sitemaps.router');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -77,5 +78,6 @@ router.use('/replies', replies);
 router.use('/ratingsForThreads', ratingsForThreads);
 router.use('/queries', queries);
 router.use('/blogs', blogs);
+router.use('/sitemaps', sitemaps);
 
 module.exports = router;
