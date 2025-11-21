@@ -4,6 +4,7 @@ import './Footer.styles.css';
 import { Support } from '../Support/Support.component';
 
 export const Footer = () => {
+  const year = new Date().getFullYear();
   return (
     <div className="footer">
       <Support />
@@ -16,7 +17,7 @@ export const Footer = () => {
           </li>
         </ul>
       </div>
-      <span>&copy;2025</span>
+      <span>&copy;{year}</span>
     </div>
   );
 };

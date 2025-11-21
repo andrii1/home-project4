@@ -8,17 +8,17 @@ require('dotenv').config();
 const USER_UID = process.env.USER_UID_DEALS_PROD;
 
 const getQueries = async ({ token, days = null, column, direction }) => {
-  const userUid = token.split(' ')[1];
-  const correctUser = userUid === USER_UID;
-  // const user = (await knex('users').where({ uid: userUid }))[0];
+  // const userUid = token.split(' ')[1];
+  // const correctUser = userUid === USER_UID;
+  // // const user = (await knex('users').where({ uid: userUid }))[0];
 
-  if (!token) {
-    throw new HttpError('There are not users', 401);
-  }
+  // if (!token) {
+  //   throw new HttpError('There are not users', 401);
+  // }
 
-  if (!correctUser) {
-    throw new HttpError('Access denined for user', 401);
-  }
+  // if (!correctUser) {
+  //   throw new HttpError('Access denined for user', 401);
+  // }
 
   try {
     let queryBuilder = knex('queries');
