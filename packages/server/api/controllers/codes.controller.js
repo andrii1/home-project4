@@ -495,6 +495,15 @@ const createCodes = async (token, body) => {
       throw new HttpError('Error - too many codes added by user', 404);
     }
 
+    const existing = await knex('codes')
+      .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .andWhere('deal_id', body.deal_id)
+      .first();
+
+    if (existing) {
+      throw new HttpError('Error - code already exists', 404);
+    }
+
     await knex('codes').insert({
       title: body.title,
       description: body.description,
