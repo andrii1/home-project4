@@ -241,37 +241,37 @@ export const DealView = () => {
     return date.toISOString().split('T')[0];
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const results = [];
-      const combinedText = `${app?.description} ${app?.description_long} ${app?.appDescription}`;
-      const words = getMostUsedWords(combinedText, 10);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     setLoading(true);
+  //     const results = [];
+  //     const combinedText = `${app?.description} ${app?.description_long} ${app?.appDescription}`;
+  //     const words = getMostUsedWords(combinedText, 10);
 
-      for (const [word] of words) {
-        try {
-          const res = await fetch(
-            `${apiURL()}/deals?page=0&column=id&direction=desc&search=${encodeURIComponent(
-              word,
-            )}`,
-          );
-          const data = await res.json();
-          if (data.data.length > 1) {
-            const wordWithLink = { title: word, url: `deals/search/${word}` };
-            results.push(wordWithLink);
-          }
-        } catch (err) {
-          return;
-        }
-      }
+  //     for (const [word] of words) {
+  //       try {
+  //         const res = await fetch(
+  //           `${apiURL()}/deals?page=0&column=id&direction=desc&search=${encodeURIComponent(
+  //             word,
+  //           )}`,
+  //         );
+  //         const data = await res.json();
+  //         if (data.data.length > 1) {
+  //           const wordWithLink = { title: word, url: `deals/search/${word}` };
+  //           results.push(wordWithLink);
+  //         }
+  //       } catch (err) {
+  //         return;
+  //       }
+  //     }
 
-      setTopicsFromDeals(results);
-      setLoading(false);
-    }
-    if (app?.description) {
-      fetchData();
-    }
-  }, [app.description, app.description_long, app.appDescription]);
+  //     setTopicsFromDeals(results);
+  //     setLoading(false);
+  //   }
+  //   if (app?.description) {
+  //     fetchData();
+  //   }
+  // }, [app.description, app.description_long, app.appDescription]);
 
   const cardItems = similarApps.map((item) => {
     // const relatedTopics = topics
