@@ -26,7 +26,8 @@ const getCommentsByAppId = async (id) => {
   try {
     const comments = await knex('comments')
       .join('users', 'comments.user_id', '=', 'users.id')
-      .where('comments.deal_id', '=', `${id}`);
+      .where('comments.deal_id', '=', `${id}`)
+      .orderBy('comments.created_at', 'desc');
 
     return comments;
   } catch (error) {

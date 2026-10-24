@@ -974,9 +974,11 @@ export const DealView = () => {
             <div className="container-title">
               <h2>{app.title}</h2>
             </div>
-            <p className="app-description main-description">
-              <Markdown>{app.description}</Markdown>
-            </p>
+            {!app.description?.startsWith('Unlock') && (
+              <p className="app-description main-description">
+                <Markdown>{app.description}</Markdown>
+              </p>
+            )}
             {app.description_short && (
               <>
                 <h3>Benefits</h3>
@@ -995,6 +997,7 @@ export const DealView = () => {
               </>
             )}
           </div>
+          {/*
           {app.description_how_to_redeem && (
             <div className="container-description">
               <div className="container-title">
@@ -1005,6 +1008,7 @@ export const DealView = () => {
               </p>
             </div>
           )}
+          */}
           <div className="container-details container-badges">
             {topicsFromDeals.length > 0 && (
               <div className="container-tags">

@@ -825,22 +825,22 @@ const createDealNode = async (token, body) => {
     //   topicId = newTopic;
     // }
 
-    let description;
-    if (body.description) {
-      description = body.description;
-    } else {
-      // Generate a short description using OpenAI
-      const prompt = `Write a short, engaging description for deal "${body.title}" for app "${appTitle}".`;
+    // let description;
+    // if (body.description) {
+    //   description = body.description;
+    // } else {
+    //   // Generate a short description using OpenAI
+    //   const prompt = `Write a short, engaging description for deal "${body.title}" for app "${appTitle}".`;
 
-      const completion = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-        max_tokens: 100,
-      });
+    //   const completion = await openai.chat.completions.create({
+    //     model: 'gpt-4o-mini',
+    //     messages: [{ role: 'user', content: prompt }],
+    //     temperature: 0.7,
+    //     max_tokens: 100,
+    //   });
 
-      description = completion.choices[0].message.content.trim();
-    }
+    //   description = completion.choices[0].message.content.trim();
+    // }
 
     const [descriptionData] = await Promise.all([
       useChatGptForData(`
@@ -861,7 +861,7 @@ Respond ONLY with valid JSON.
       title: body.title,
       app_id: body.app_id,
       user_id: user.id,
-      description,
+      description: body.description,
       ...descriptionData,
     });
 
