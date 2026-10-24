@@ -523,9 +523,9 @@ const createCodeNode = async (token, body) => {
       throw new HttpError('No deal_id', 401);
     }
 
-    // Optional: check for existing code
     const existing = await knex('codes')
       .whereRaw('LOWER(title) = ?', [body.title.toLowerCase()])
+      .andWhere('deal_id', body.deal_id)
       .first();
 
     if (existing) {
