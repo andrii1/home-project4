@@ -1095,14 +1095,14 @@ export const DealView = () => {
               </div>
             )}
           </div>
-          {app.appUrlAppStore || app.appUrlGooglePlayStore ? (
+          {app.appAppleId || app.appUrlGooglePlayStore ? (
             <div className="container-appview-box">
               <h2>Download {app.appTitle} app</h2>
               <div className="container-store-logos">
-                {app.appUrlAppStore && (
+                {app.appAppleId && (
                   <Link
                     target="_blank"
-                    to={app.appUrlAppStore}
+                    to={`https://apps.apple.com/app/id${app.appAppleId}`}
                     className="simple-link"
                   >
                     <img
@@ -1130,13 +1130,13 @@ export const DealView = () => {
           ) : (
             ''
           )}
-          {app.appAppleId && appAppStore && (
+          {/* {app.appAppleId && appAppStore && (
             <div className="container-appview-box">
               <h2>{app?.appTitle} app</h2>
               <p className="app-description">{appAppStore?.description}</p>
             </div>
-          )}
-          {!app.appAppleId && app.appDescription && (
+          )} */}
+          {app.appDescription && (
             <div className="container-appview-box">
               <h2>{app?.appTitle} app</h2>
               <p className="app-description">
