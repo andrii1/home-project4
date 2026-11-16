@@ -181,7 +181,7 @@ export const Navigation = () => {
 
   const dropDownResultsApps = resultsHomeApps?.map((result) => (
     <Link
-      to={`/deals/app/${result.id}`}
+      to={`/apps/${result.id}`}
       /* state={{ frontPageItem: relatedTopics }} */
       onClick={() => toggleSearchModal()}
     >
