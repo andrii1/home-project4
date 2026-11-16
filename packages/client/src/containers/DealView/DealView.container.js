@@ -545,13 +545,9 @@ export const DealView = () => {
         <section className="container-appview">
           <div className="header">
             {hasPreviousPage && (
-              <button
-                type="button"
-                onClick={handleGoBack}
-                className="btn-no-style"
-              >
+              <Button secondary onClick={handleGoBack}>
                 ← Go back
-              </button>
+              </Button>
             )}
 
             <h1 className="hero-header">
