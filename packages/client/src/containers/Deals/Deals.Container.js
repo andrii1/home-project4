@@ -67,8 +67,8 @@ export const Deals = () => {
   const [dealsTrending, setDealsTrending] = useState({});
   const [error, setError] = useState(false);
   const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
-  const [sortOrder, setSortOrder] = useState('Trending');
-  const [orderByTrending, setOrderByTrending] = useState(true);
+  const [sortOrder, setSortOrder] = useState('Recent');
+  const [orderByTrending, setOrderByTrending] = useState(false);
   const [codesPage, setCodesPage] = useState(false);
 
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
