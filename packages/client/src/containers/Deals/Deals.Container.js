@@ -26,6 +26,8 @@ import {
   faBookOpen,
 } from '@fortawesome/free-solid-svg-icons';
 
+const sortOptions = ['Recent', 'Trending', 'A-Z', 'Z-A'];
+
 export const Deals = () => {
   const { user } = useUserContext();
   const location = useLocation();
@@ -68,7 +70,6 @@ export const Deals = () => {
   const [error, setError] = useState(false);
   const [orderBy, setOrderBy] = useState({ column: 'id', direction: 'desc' });
   const [sortOrder, setSortOrder] = useState('Recent');
-  const [orderByTrending, setOrderByTrending] = useState(false);
   const [codesPage, setCodesPage] = useState(false);
 
   const [pricingOptionsChecked, setPricingOptionsChecked] = useState([
@@ -198,28 +199,23 @@ export const Deals = () => {
       // Always include page
       params.append('page', 0);
 
-      // If trending mode — only include trending flag
-      if (orderByTrending && pathname === '/') {
-        params.append('trending', 'true');
-      } else {
-        // Regular sorting mode
-        params.append('column', orderBy.column);
-        params.append('direction', orderBy.direction);
+      // Regular sorting mode
+      params.append('column', orderBy.column);
+      params.append('direction', orderBy.direction);
 
-        if (topicIdParam !== undefined)
-          params.append('filteredTopics', topicIdParam);
-        if (searchParam !== undefined) params.append('search', searchParam);
-        if (categoryIdParam !== undefined)
-          params.append('filteredCategories', categoryIdParam);
-        if (searchTermIdParam !== undefined)
-          params.append('searchTerm', searchTermIdParam);
-        if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
+      if (topicIdParam !== undefined)
+        params.append('filteredTopics', topicIdParam);
+      if (searchParam !== undefined) params.append('search', searchParam);
+      if (categoryIdParam !== undefined)
+        params.append('filteredCategories', categoryIdParam);
+      if (searchTermIdParam !== undefined)
+        params.append('searchTerm', searchTermIdParam);
+      if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
 
-        if (filtersSubmitted && filteredPricing.length > 0)
-          params.append('filteredPricing', JSON.stringify(filteredPricing));
-        if (filtersSubmitted && filteredDetails.length > 0)
-          params.append('filteredDetails', JSON.stringify(filteredDetails));
-      }
+      if (filtersSubmitted && filteredPricing.length > 0)
+        params.append('filteredPricing', JSON.stringify(filteredPricing));
+      if (filtersSubmitted && filteredDetails.length > 0)
+        params.append('filteredDetails', JSON.stringify(filteredDetails));
 
       // Build final URL
       // url.search = params.toString();
@@ -376,12 +372,10 @@ export const Deals = () => {
     searchTermIdParam,
     orderBy.column,
     orderBy.direction,
-    orderBy.trending,
     filteredDetails,
     filteredPricing,
     filtersSubmitted,
     pathname,
-    orderByTrending,
     searchParam,
   ]);
 
@@ -418,28 +412,23 @@ export const Deals = () => {
     // Always include page
     params.append('page', page);
 
-    // If trending mode — only include trending flag
-    if (orderByTrending && pathname === '/') {
-      params.append('trending', 'true');
-    } else {
-      // Regular sorting mode
-      params.append('column', orderBy.column);
-      params.append('direction', orderBy.direction);
+    // Regular sorting mode
+    params.append('column', orderBy.column);
+    params.append('direction', orderBy.direction);
 
-      if (topicIdParam !== undefined)
-        params.append('filteredTopics', topicIdParam);
-      if (searchParam !== undefined) params.append('search', searchParam);
-      if (categoryIdParam !== undefined)
-        params.append('filteredCategories', categoryIdParam);
-      if (searchTermIdParam !== undefined)
-        params.append('searchTerm', searchTermIdParam);
-      if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
+    if (topicIdParam !== undefined)
+      params.append('filteredTopics', topicIdParam);
+    if (searchParam !== undefined) params.append('search', searchParam);
+    if (categoryIdParam !== undefined)
+      params.append('filteredCategories', categoryIdParam);
+    if (searchTermIdParam !== undefined)
+      params.append('searchTerm', searchTermIdParam);
+    if (appIdParam !== undefined) params.append('filteredApps', appIdParam);
 
-      if (filtersSubmitted && filteredPricing.length > 0)
-        params.append('filteredPricing', JSON.stringify(filteredPricing));
-      if (filtersSubmitted && filteredDetails.length > 0)
-        params.append('filteredDetails', JSON.stringify(filteredDetails));
-    }
+    if (filtersSubmitted && filteredPricing.length > 0)
+      params.append('filteredPricing', JSON.stringify(filteredPricing));
+    if (filtersSubmitted && filteredDetails.length > 0)
+      params.append('filteredDetails', JSON.stringify(filteredDetails));
 
     // Build final URL
     // url.search = params.toString();
@@ -491,116 +480,6 @@ export const Deals = () => {
 
     setPage((prev) => prev + 1);
   };
-
-  const fetchAppsTrending = async () => {
-    setLoading(true);
-    setError(null);
-
-    // const response = await fetch(`${apiURL()}/deals`);
-    // const allDeals = await response.json();
-    // const responseAnalytics = await fetch(`${apiURL()}/analytics`);
-    // const dealsAnalytics = await responseAnalytics.json();
-
-    // const dealsWithAnalytics = allDeals
-    //   .map((deal) => ({
-    //     ...deal,
-    //     activeUsers: dealsAnalytics?.some(
-    //       (e) => e.dealId.toString() === deal.id.toString(),
-    //     )
-    //       ? dealsAnalytics
-    //           .filter((item) => item.dealId.toString() === deal.id.toString())
-    //           .map((item) => item.activeUsers)
-    //           .toString()
-    //       : null,
-    //   }))
-    //   .filter((item) => item.activeUsers)
-    //   .sort((a, b) => {
-    //     return b.activeUsers - a.activeUsers;
-    //   });
-    // console.log('dealsAnalytics1', dealsAnalytics);
-    // console.log('dealsWithAnalytics1', dealsWithAnalytics);
-    const dealsWithPage = dealsTrending.deals.slice(page * 10, page * 10 + 10);
-    const { lastItem } = dealsTrending;
-
-    let hasMore = true;
-    if (dealsWithPage.some((item) => item.id === lastItem.id)) {
-      hasMore = false;
-    }
-
-    const arrayWithAppleIds = dealsWithPage
-      .map((deal) => deal.appAppleId)
-      .filter((deal) => deal !== null)
-      .join(',');
-    let appIcons;
-    if (arrayWithAppleIds) {
-      const responseAppIcons = await fetch(
-        `${apiURL()}/appsAppStore/${arrayWithAppleIds}`,
-      );
-      const jsonAppIcons = await responseAppIcons.json();
-      appIcons = jsonAppIcons.results;
-    } else {
-      appIcons = [];
-    }
-
-    const arrayWithIcons = dealsWithPage.map((deal) => ({
-      ...deal,
-      iconUrl: appIcons?.some((e) => e.trackId.toString() === deal.appAppleId)
-        ? appIcons
-            .filter((appleId) => appleId.trackId.toString() === deal.appAppleId)
-            .map((item) => item.artworkUrl512)[0]
-            .toString()
-        : null,
-    }));
-
-    setApps((prevItems) => {
-      return {
-        data: [...prevItems.data, ...arrayWithIcons],
-        lastItem,
-        hasMore,
-      };
-    });
-    setPage((prevPage) => prevPage + 1);
-  };
-
-  // const fetchApps = useCallback(async () => {
-  //   try {
-  //     await setLoading(true);
-  //     await setError(false);
-  //     console.log('pagetest', page);
-  //     let url;
-  //     if (topicIdParam) {
-  //       url = `${apiURL()}/apps?filteredTopics=${topicIdParam}&page=${page}`;
-  //     } else if (categoryIdParam) {
-  //       url = `${apiURL()}/apps?filteredCategories=${categoryIdParam}&page=${page}`;
-  //     } else {
-  //       url = `${apiURL()}/apps?page=${page}`;
-  //     }
-  //     const response = await fetch(url);
-  //     const appsResponse = await response.json();
-
-  //     console.log('appsResponse', appsResponse);
-  //     setApps(appsResponse);
-
-  //     console.log('apps', apps);
-
-  //     //  else {
-  //     //   setApps((prevItems) => [...prevItems, ...appsResponse]);
-  //     // }
-
-  //     // setApps((prevItems) => [...prevItems, ...appsResponse]);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError(err);
-  //   }
-  // }, [page, categoryIdParam, topicIdParam]);
-
-  // useEffect(() => {
-  //   fetchApps();
-  // }, [fetchApps]);
-
-  // useEffect(() => {
-  //   setApps([]);
-  // }, [location]);
 
   const setupUrlFilters = useCallback(async () => {
     let urlFilters = '';
@@ -885,41 +764,26 @@ export const Deals = () => {
     );
   });
 
-  let sortOptions;
-  if (
-    !appIdParam &&
-    !categoryIdParam &&
-    !searchTermIdParam &&
-    !topicIdParam &&
-    !searchParam
-  ) {
-    sortOptions = ['Recent', 'Trending', 'A-Z', 'Z-A'];
-  } else {
-    sortOptions = ['Recent', 'A-Z', 'Z-A'];
-  }
-
   // replace with function
 
   useEffect(() => {
     let column;
     let direction;
     if (sortOrder === 'Trending') {
-      setOrderByTrending(true);
-      setOrderBy({ column: 'id', direction: 'desc' });
+      column = 'active_users_with_codes';
+      direction = 'desc';
+      setOrderBy({ column, direction });
     } else if (sortOrder === 'A-Z') {
       column = 'title';
       direction = 'asc';
-      setOrderByTrending(false);
       setOrderBy({ column, direction });
     } else if (sortOrder === 'Z-A') {
       column = 'title';
       direction = 'desc';
-      setOrderByTrending(false);
       setOrderBy({ column, direction });
     } else if (sortOrder === 'Recent') {
       column = 'id';
       direction = 'desc';
-      setOrderByTrending(false);
       setOrderBy({ column, direction });
     }
   }, [sortOrder]);
